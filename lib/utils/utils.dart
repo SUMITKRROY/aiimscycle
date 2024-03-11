@@ -7,6 +7,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Utils {
+  //dialog
+  static showLoadingProgress(BuildContext context) {
+      return showDialog(
+        context: context,
+      barrierDismissible: false,
+      builder: (context) => SpinKitCubeGrid(
+          color: Theme.of(context).secondaryHeaderColor,
+          size: 50,
+      ),
+    );
+  }
+
+  static   showDialogBox(BuildContext context, String label, String content) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) =>
+          AlertDialog(
+            title: Text(label),
+            content: Text(content),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // To close the dialog
+                },
+                child: Text('Close'),
+              ),
+            ],
+          ),
+    );
+  }
+  //validator
   static Function employeeIdValidator() {
     return (String? value) {
       RegExp regex = RegExp(r'^[A-Z]\d{7}$');
@@ -20,31 +52,6 @@ class Utils {
       return null;
     };
   }
-
-  static showLoadingProgress(BuildContext context) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => SpinKitCubeGrid(
-          color: Theme.of(context).secondaryHeaderColor,
-          size: 50,
-      ),
-    );
-  }
-
-  static String convertToMD5(String data) {
-    // Convert the input string to bytes
-    List<int> bytes = utf8.encode(data);
-
-    // Generate the MD5 hash
-    Digest md5Result = md5.convert(bytes);
-
-    // Convert the result to a hexadecimal string
-    String md5String = md5Result.toString();
-log("md5String : $md5String");
-    return md5String;
-  }
-
   static Function passwordValidator() {
     return (String? value) {
       RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -88,6 +95,23 @@ log("md5String : $md5String");
     };
   }
 
+  //converter
+  static String convertToMD5(String data) {
+    // Convert the input string to bytes
+    List<int> bytes = utf8.encode(data);
+
+    // Generate the MD5 hash
+    Digest md5Result = md5.convert(bytes);
+
+    // Convert the result to a hexadecimal string
+    String md5String = md5Result.toString();
+    log("md5String : $md5String");
+    return md5String;
+  }
+  static String convertToBase64(String data) {
+    String base64String = base64.encode(utf8.encode(data));
+    return base64String;
+  }
 
 
   static Size getScreenSize(BuildContext context) {

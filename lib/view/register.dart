@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:aiimscycle/components/captchaForm.dart';
 import 'package:aiimscycle/components/custome_image.dart';
+import 'package:aiimscycle/view/login.dart';
 import 'package:aiimscycle/view/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _employeeID = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _cnfPassword = TextEditingController();
+  TextEditingController captchaController = TextEditingController();
   bool passwordVisible = false;
   bool onTap = false;
   late List<FocusNode> _otpFocusNodes;
@@ -45,9 +47,9 @@ class _RegisterPageState extends State<RegisterPage> {
   var isLoading = false;
   int selectedIndex = 0;
   int? imageLenth;
-  File? _image;
-  String _selectedItem = 'Option 1';
   File? _profileImage;
+  File? _IdFrontImage;
+  File? _IdBackImage;
   bool _isChecked = false;
   @override
   void initState() {
@@ -58,11 +60,23 @@ class _RegisterPageState extends State<RegisterPage> {
     _otpFocusNodes = List.generate(6, (index) => FocusNode());
   }
 
+  void _handleIdFrontImageSelection(File image) {
+    setState(() {
+      _IdFrontImage = image;
+    });
+  }
+  void _handleIdBackImageSelection(File image) {
+    setState(() {
+      _IdBackImage = image;
+    });
+  }
+
   void _handleProfileImageSelection(File image) {
     setState(() {
       _profileImage = image;
     });
   }
+
 
   @override
   void dispose() {
@@ -89,11 +103,33 @@ class _RegisterPageState extends State<RegisterPage> {
                 if (state is RegisterLoading) {
                      Utils.showLoadingProgress(context);
                 } else if (state is RegisterSuccess) {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfileScreen()));
-                } else if (state is RegisterError) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: const Text('You are registered successfully'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  // Delayed navigation after 5 seconds
+                  Future.delayed(const Duration(seconds: 5), () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginPage())
+                    );
+                  });
+                }
+
+                else if (state is RegisterError) {
                  var msg = state.error;
                  Navigator.of(context).pop();
                   Fluttertoast.showToast(
@@ -122,7 +158,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       onChanged: (val) => {},
                       controller: _name,
                       keyboardType: TextInputType.text,
-                      validatorLabel: 'Full name',
                       validatorFunc: Utils.validateUserName(),
                       validator: true,
                     ),
@@ -136,7 +171,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       onChanged: (val) => {},
                       controller: _employeeID,
                       keyboardType: TextInputType.text,
-                      validatorLabel: 'Employee ID',
                       validator: true,
                     ),
                     sizedBox,
@@ -148,13 +182,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       onChanged: (val) => {},
                       controller: _phoneController,
                       keyboardType: const TextInputType.numberWithOptions(),
-                      validatorLabel: 'Contact No.',
                       validatorFunc: Utils.phoneValidator(),
                       validator: true,
                     ),
                     sizedBox,
-                    // NameWithImage(label: "Employee id(Front)"),
-                    // NameWithImage(label: "Employee id(Back)"),
+                     NameWithImage(label: "Employee id(Front)", onImageSelected: (image) {
+                       _handleIdFrontImageSelection(image);
+                     },),
+                     NameWithImage(label: "Employee id(Back)", onImageSelected: (image) {
+                       _handleIdBackImageSelection(image);
+                     },),
                     NameWithImage(
                       label: "Profile",
                       onImageSelected: (image) {
@@ -170,7 +207,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       validatorFunc: Utils.passwordValidator(),
                       controller: _password,
                       keyboardType: TextInputType.text,
-                      validatorLabel: 'password',
                       obscured: false,
                       validator: true,
                       maxline: 1,
@@ -193,7 +229,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         return null;
                       },
                       keyboardType: TextInputType.text,
-                      validatorLabel: 'password',
                       suffixIcon: IconButton(
                         color: Colors.grey,
                         icon: Icon(passwordVisible
@@ -211,7 +246,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: true,
                       maxline: 1,
                     ),
-                    CaptchaForm(),
+                    CaptchaForm(captchaController: captchaController,),
                     Row(
                       children: [
                         Checkbox(
@@ -222,14 +257,14 @@ class _RegisterPageState extends State<RegisterPage> {
                             });
                           },
                         ),
-                        Text("I agree to the"),
-                        SizedBox(
+                        const Text("I agree to the"),
+                        const SizedBox(
                           width: 05,
                         ),
                         Expanded(
                           child: InkWell(
                             onTap: () {},
-                            child: Text(
+                            child: const Text(
                               'terms and conditions',
                               style: TextStyle(
                                   fontSize: 16.0, color: Colors.lightBlue),
@@ -244,14 +279,14 @@ class _RegisterPageState extends State<RegisterPage> {
                           ElevatedButton(
                             onPressed: () {
                               bool isValid = _formKey.currentState!.validate();
-                              if (isValid) {
+                              if (isValid && _isChecked) {
                                 BlocProvider.of<RegisterBloc>(context)
                                   ..add(RegisterSuccessEvent(
                                       _name.text,
                                       _employeeID.text,
                                       _phoneController.text,
-                                      "front image",
-                                      "idBack",
+                                      _IdFrontImage.toString(),
+                                      _IdBackImage.toString(),
                                       _profileImage.toString(),
                                       _password.text));
                               }
@@ -264,13 +299,11 @@ class _RegisterPageState extends State<RegisterPage> {
                               const Text("already have account? "),
                               InkWell(
                                 onTap: () {
-                                  // Add your Register logic here
-                                  // For example, you can navigate to the Register screen
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const RegisterPage()),
+                                            const LoginPage()),
                                   );
                                 },
                                 child: const Text(

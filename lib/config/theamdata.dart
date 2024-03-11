@@ -20,6 +20,7 @@ ThemeData themeData = ThemeData(
   colorScheme: myColorScheme,
   appBarTheme: AppBarTheme(
     toolbarHeight: 70,
+
     elevation: 0,
     iconTheme: IconThemeData(
       color: myColorScheme.primary, // Color of the icons in the app bar

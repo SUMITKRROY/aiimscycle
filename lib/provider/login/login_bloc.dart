@@ -16,7 +16,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<GetPhoneNo>((event, emit) async {
       // fetch all the event data from event object
 var mobileNo = event.phone;
-var password = event.phone;
+var password = event.password;
       // convert password to md5
 
 
@@ -30,13 +30,13 @@ var password = event.phone;
       if(response is bool){
         // response is bool
         // emit success
-
+emit(LoginSuccess());
       }else{
         // response is string
         // typecast response in string
         var resmsg = response as String;
         // emit failure
-
+emit(LoginError(resmsg));
       }
 
     });

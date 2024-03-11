@@ -1,9 +1,11 @@
 import 'package:aiimscycle/view/register.dart';
+import 'package:aiimscycle/view/scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aiimscycle/components/appbar.dart';
 import 'package:aiimscycle/components/cutom_text.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../components/captcha.dart';
 import '../components/custom_TextFeild.dart';
@@ -22,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>(); // Add a GlobalKey for the Form
 
   final TextEditingController _employeeID = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _password = TextEditingController();
   bool passwordVisible = false;
   bool onTap = false;
   late List<FocusNode> _otpFocusNodes;
@@ -38,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     _employeeID.dispose();
-    _passwordController.dispose();
+    _password.dispose();
     for (var node in _otpFocusNodes) {
       node.dispose();
     }
@@ -50,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
     Widget sizedBox = Utils.getSizedBoxHeight(8.0);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const CustomAppBar(),
       ),
       body: Form(
@@ -57,14 +60,21 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state is LoginLoading) {
-            //  Utils.showLoadingProgress(context);
+              Utils.showLoadingProgress(context);
             } else if (state is LoginSuccess) {
-              // Navigator.pushReplacement(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => const Grievancescreen()));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ScannerScreen()));
             } else if (state is LoginError) {
-              // Show error message
+              var msg = state.error;
+              Navigator.of(context).pop();
+              Fluttertoast.showToast(
+                  msg: msg,
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
             }
           },
             child: Padding(
@@ -73,22 +83,22 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomText(lable: "Enter your mobile no."),
+                  CustomText(lable: "Enter your Employee Id"),
                   sizedBox,
                   CustomTextField(
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(10),
+                      LengthLimitingTextInputFormatter(8),
                     ],
-                    label: 'EOOOOOOO',
+                    label: 'Employee Id',
                     onChanged: (val) => {},
                     controller: _employeeID,
                     keyboardType: TextInputType.text,
-                    validatorLabel: 'Employee ID',
+                    validatorLabel: 'employee id',
+                    validatorFunc: Utils.employeeIdValidator(),
                     validator: true,
                   ),
                   Utils.getSizedBoxHeight(16.0),
-                  onTap == false
-                      ? Column(
+                Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -100,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                         label: 'Password',
                         onChanged: (val) => {},
-                        controller: _passwordController,
+                        controller: _password,
                         keyboardType: TextInputType.text,
                         validatorLabel: 'password',
                         suffixIcon: IconButton(
@@ -121,62 +131,6 @@ class _LoginPageState extends State<LoginPage> {
                         maxline: 1,
                       ),
                     ],
-                  )
-                      : Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: List.generate(
-                          4,
-                              (index) => Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: TextFormField(
-                                focusNode: _otpFocusNodes[index],
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                maxLength: 1,
-                                decoration: const InputDecoration(
-                                  counterText: "",
-                                  border: InputBorder.none,
-                                ),
-                                onChanged: (value) {
-                                  if (value.isNotEmpty) {
-                                    if (index <
-                                        _otpFocusNodes.length - 1) {
-                                      FocusScope.of(context).requestFocus(
-                                          _otpFocusNodes[index + 1]);
-                                    } else {
-                                      // Focus on last OTP field
-                                      FocusScope.of(context).unfocus();
-                                    }
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      sizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const Text("Timer: 30"),
-                          InkWell(
-                            onTap: () {},
-                            child: const Text(
-                              "Resend OTP",
-                              style: TextStyle(color: Colors.blueAccent),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
                   ),
                   sizedBox,
                   Center(
@@ -186,9 +140,10 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () {
                             bool isValid = _formKey.currentState!.validate();
                             if (isValid) {
-                              BlocProvider.of<LoginBloc>(context)
-                                ..add(
-                                    GetPhoneNo(phone: _employeeID.text));
+                              BlocProvider.of<LoginBloc>(context)..add(GetPhoneNo(phone: _employeeID.text, password: _password.text));
+                              // Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute(builder: (context) => const ScannerScreen()),);
                             }
                           },
                           child: const Text("Login"),

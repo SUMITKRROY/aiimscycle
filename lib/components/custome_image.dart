@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:aiimscycle/components/photo_view.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -52,32 +53,8 @@ class _NameWithImageState extends State<NameWithImage> {
             Visibility(
               visible: _image != null,
               child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("Image Preview"),
-                        content: Image.file(_image!), // Show the selected image in the dialog
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              // Implement logic to delete the image
-                              _removeImage();
-                              Navigator.of(context).pop(); // Close the dialog
-                            },
-                            child: Text('Delete'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(); // Close the dialog
-                            },
-                            child: Text('Close'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> FullScreenImage(imageUrl: _image!)));
                 },
                 child: Icon(Icons.remove_red_eye_outlined),
               ),

@@ -7,6 +7,7 @@ class Service{
   static int timeout = 20;
 
   static var dio = Dio();
+
   static get(url,headers) async {
     var response = await dio.request(
       url,
@@ -20,14 +21,12 @@ class Service{
 
   }
 
-  static post(url,headers,body) async {
-
+  static post({required dynamic url, required dynamic headers,}) async {
     var response = await dio.request(
       url,
       options: Options(
         method: 'POST',
-        headers: headers,
-        extra: body
+       // headers: headers,
       ),
     ).timeout(Duration(seconds: timeout));
     return response;
@@ -35,6 +34,7 @@ class Service{
 
  static Future<dynamic> postWithBody({required dynamic url, required dynamic headers, required dynamic body}) async {
     var headerBody = headers ?? {
+      'accept': '*/*',
       'Content-Type': 'application/json',
     };
     //var data = json.encode(body);
@@ -43,20 +43,17 @@ class Service{
       print("body: ${convert.jsonEncode(body)}");
     }
 
-
     var response = await dio.request(
       url,
       options: Options(
         method: 'POST',
         followRedirects: false,
-        // will not throw errors
-        //validateStatus: (status) => true,
         headers: headers,
+
       ),
       data: body,
     ).timeout(Duration(seconds: timeout));
     return response;
-
   }
 
 }

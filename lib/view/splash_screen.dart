@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:aiimscycle/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:aiimscycle/utils/helper_text.dart';
 import 'package:aiimscycle/utils/image.dart';
@@ -68,7 +69,7 @@ try{
     if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const RegisterPage()),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     }
 

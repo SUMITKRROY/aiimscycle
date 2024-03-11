@@ -6,7 +6,7 @@ class CustomTextField extends StatefulWidget {
   final String? initialValue;
   final void Function(String) onChanged;
   final String label;
-  final String validatorLabel;
+  final dynamic validatorLabel;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
@@ -20,7 +20,7 @@ class CustomTextField extends StatefulWidget {
       {super.key,
       required this.label,
       this.inputFormatters,
-      required this.validatorLabel,
+      this.validatorLabel,
       this.initialValue,
       required this.onChanged,
       this.controller,
@@ -60,10 +60,13 @@ class _CustomTextField extends State<CustomTextField> {
       maxLines: widget.maxline,
       style: const TextStyle(fontSize: 18, color: ColorsData.darkGrayColor),
       inputFormatters: widget.inputFormatters,
-      validator: widget.validator != false
-      ? widget.validatorFunc
-         : (val) {
-        // If widget.validator is null, return null indicating no error
+      validator: widget.validatorFunc
+         ?? (val) {
+        if(widget.validator != false){
+          if (val == null || val.isEmpty) {
+            return "Enter valid ${widget.validatorLabel}";
+          }
+        }
         return null;
       },
       controller: widget.controller ?? _controller,

@@ -4,12 +4,18 @@ import 'package:aiimscycle/provider/register/register_bloc.dart';
 import 'package:aiimscycle/utils/helper_text.dart';
 import 'package:aiimscycle/view/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 import 'config/theamdata.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   Configuration config = Configuration();
 
   runApp(MyApp(config:config));
