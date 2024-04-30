@@ -37,29 +37,32 @@ class _NameWithImageState extends State<NameWithImage> {
                 children: [
                   Icon(
                     Icons.add_circle,
-                    color: Colors.white,
+                    color: Color.fromARGB(221, 49, 45, 45),
                   ),
                   SizedBox(
                     width: 5,
                   ),
                   Text(
                     "Attach",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Color.fromARGB(66, 65, 57, 57)),
                   )
                 ],
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Visibility(
               visible: _image != null,
               child: GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> FullScreenImage(imageUrl: _image!)));
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              FullScreenImage(imageUrl: _image!)));
                 },
-                child: Icon(Icons.remove_red_eye_outlined),
+                child: const Icon(Icons.remove_red_eye_outlined),
               ),
             ),
-
           ],
         )
       ],
@@ -76,7 +79,8 @@ class _NameWithImageState extends State<NameWithImage> {
             padding: const EdgeInsets.all(20.0),
             child: Wrap(
               children: [
-                const Text('Select any one ', textScaleFactor: 1.0, textAlign: TextAlign.start),
+                const Text('Select any one ',
+                    textScaleFactor: 1.0, textAlign: TextAlign.start),
                 const SizedBox(
                   height: 50,
                 ),
@@ -86,7 +90,8 @@ class _NameWithImageState extends State<NameWithImage> {
                       onTap: () {
                         _imgFromCamera().then((image) {
                           if (image != null) {
-                            widget.onImageSelected(image); // Call the callback function
+                            widget.onImageSelected(
+                                image); // Call the callback function
                             setState(() {
                               _image = image;
                             });
@@ -117,7 +122,8 @@ class _NameWithImageState extends State<NameWithImage> {
                       onTap: () {
                         _imgFromGallery().then((image) {
                           if (image != null) {
-                            widget.onImageSelected(image); // Call the callback function
+                            widget.onImageSelected(
+                                image); // Call the callback function
                             setState(() {
                               _image = image;
                             });
@@ -125,7 +131,7 @@ class _NameWithImageState extends State<NameWithImage> {
                         });
                         Navigator.of(context).pop();
                       },
-                      child: SizedBox(
+                      child: const SizedBox(
                         width: 50,
                         child: Wrap(
                           children: [
@@ -133,7 +139,7 @@ class _NameWithImageState extends State<NameWithImage> {
                               width: 50,
                               child: Icon(Icons.photo_library),
                             ),
-                            const Text('Gallery')
+                            Text('Gallery')
                           ],
                         ),
                       ),
@@ -160,8 +166,6 @@ class _NameWithImageState extends State<NameWithImage> {
       log('Error deleting image: $e');
     }
   }
-
-
 
   Future<File?> _imgFromCamera() async {
     final image = await _imagePicker.pickImage(source: ImageSource.camera);

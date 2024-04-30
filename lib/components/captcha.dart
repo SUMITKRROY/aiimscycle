@@ -13,7 +13,4 @@ String generateCaptcha({int length = 6}) {
   return captcha;
 }
 
-void main() {
-  String captcha = generateCaptcha();
-  print('Generated CAPTCHA: $captcha');
-}
+

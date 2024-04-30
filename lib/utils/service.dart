@@ -9,7 +9,7 @@ class Service{
   static var dio = Dio();
 
   static get(url,headers) async {
-    var response = await dio.request(
+    var response = await dio.get(
       url,
       options: Options(
         method: 'GET',

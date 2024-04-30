@@ -1,12 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
- import 'package:image_picker/image_picker.dart';
-
 import '../components/appbar.dart';
-import '../components/custom_TextFeild.dart';
-import '../components/custom_listtile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,38 +9,31 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
-
-
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(
-          titleSpacing: 0,
-          title: CustomAppBar()
-        ),
+        appBar: AppBar(titleSpacing: 0, title: CustomAppBar()),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(left: 25, right: 25),
             child: Column(
-             // crossAxisAlignment:CrossAxisAlignment.start,
+              // crossAxisAlignment:CrossAxisAlignment.start,
               children: [
                 Center(
                   child: Padding(
                       padding: const EdgeInsets.only(
-                          top: 20.0,
-                          right: 20,
-                          left: 20,
-                          bottom: 10),
+                          top: 20.0, right: 20, left: 20, bottom: 10),
                       child: CircleAvatar(
-                          radius: width * 0.25,
-                          backgroundColor: Colors.grey,
-                         // backgroundImage: const NetworkImage("")
+                        radius: width * 0.25,
+                        backgroundColor: Colors.grey,
+                        // backgroundImage: const NetworkImage("")
                       )),
                 ),
-                const SizedBox(height: 08,),
+                const SizedBox(
+                  height: 08,
+                ),
                 ListTile(
                   leading: Icon(Icons.person),
                   title: Text("Sumit Kumar Roy"),
@@ -60,16 +46,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   leading: Icon(Icons.credit_card),
                   title: Text("E9999999"),
                 ),
-                Center(child: ElevatedButton(
-                  onPressed: () {  },
-                  child: Text("Update"),
-                ),)
-
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text("Update"),
+                  ),
+                )
               ],
             ),
           ),
         ));
   }
-
-
 }

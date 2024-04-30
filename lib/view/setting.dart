@@ -1,5 +1,6 @@
 import 'package:aiimscycle/components/appbar.dart';
 import 'package:aiimscycle/components/button.dart';
+import 'package:aiimscycle/view/about_info/about.dart';
 import 'package:aiimscycle/view/profile.dart';
 import 'package:aiimscycle/view/resetpassword.dart';
 import 'package:aiimscycle/view/version.dart';
@@ -26,20 +27,20 @@ class SettingScreen extends StatelessWidget {
           const SizedBox(
             height: 08,
           ),
-          CustomListTile(
-            leadingIcon: const Icon(Icons.security),
-            label: 'Change Password',
-            screen: ResetPasswordScreen(),
-          ),
+            CustomListTile(
+              leadingIcon: const Icon(Icons.security),
+              label: 'Change Password',
+              screen: ResetPasswordScreen(),
+            ),
           const CustomListTile(
             leadingIcon: Icon(Icons.info_outlined),
             label: 'Version',
             screen: VersionScreen(),
           ),
           CustomListTile(
-            leadingIcon: const Icon(Icons.security),
-            label: 'Change Password',
-            screen: ResetPasswordScreen(),
+            leadingIcon: const Icon(Icons.account_box_outlined),
+            label: 'About',
+            screen: About(),
           ),
         ],
       ),

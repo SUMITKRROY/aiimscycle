@@ -2,14 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-
 import 'captcha.dart';
 import 'custom_TextFeild.dart';
 
 class CaptchaForm extends StatefulWidget {
   TextEditingController captchaController;
 
-  CaptchaForm({required this.captchaController});
+  CaptchaForm({super.key, required this.captchaController});
 
   @override
   _CaptchaFormState createState() => _CaptchaFormState();
@@ -18,29 +17,36 @@ class CaptchaForm extends StatefulWidget {
 class _CaptchaFormState extends State<CaptchaForm> {
   String captcha = generateCaptcha();
 
-
   void refreshCaptcha() {
     setState(() {
       captcha = generateCaptcha();
       widget.captchaController.clear(); // Clear the text field
     });
   }
-
+  final TextEditingController captchaText = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           GestureDetector(
             onTap: refreshCaptcha, // Call refreshCaptcha function on tap
-            child: Text(
-              captcha,
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all()
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  captcha,
+                  style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Expanded(
             child: CustomTextField(
               inputFormatters: [
@@ -64,6 +70,7 @@ class _CaptchaFormState extends State<CaptchaForm> {
               maxline: 1,
             ),
           ),
+
 
         ],
       ),

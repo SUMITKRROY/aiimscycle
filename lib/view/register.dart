@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:aiimscycle/components/captchaForm.dart';
 import 'package:aiimscycle/components/custome_image.dart';
 import 'package:aiimscycle/view/login.dart';
-import 'package:aiimscycle/view/profile/profile.dart';
+import 'package:aiimscycle/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -9,8 +9,4 @@ class GetPhoneNo extends LoginEvent{
 
   GetPhoneNo({ required this.phone, required this.password,});
 }
-class SentOtp extends LoginEvent{
-  String phone;
-
-  SentOtp(this.phone);
-}
+class GetUserDetails extends LoginEvent{}
