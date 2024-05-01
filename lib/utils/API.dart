@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:aiimscycle/utils/service.dart' as myService;
 import 'dart:async';
 
-import 'package:aiimscycle/config/route.dart' ;
+import 'package:aiimscycle/config/api_route.dart';
 import 'package:dio/dio.dart';
 
 class API {
-  final Route route = Route();
+  final ApiRoute route = ApiRoute();
 
   API();
 
@@ -15,10 +15,7 @@ class API {
     try {
       var url = '${route.login}?username=$userId&password=$password';
 
-      var headers = {
-        "cookies": 'local data',
-        "Content-Type":"application/x-www-form-urlencoded"
-      };
+      var headers = {"cookies": 'local data', "Content-Type": "application/x-www-form-urlencoded"};
       var response = await myService.Service.post(url: url, headers: headers);
       print("url ${response.statusCode}");
       if (response.statusCode == 200) {
@@ -48,8 +45,7 @@ class API {
         }
 
         return true;
-      }
-      else {
+      } else {
         log("response.statusMessage");
         return response.statusMessage;
       }
@@ -67,8 +63,7 @@ class API {
         //final msg = data["message"];
         log("$data");
         return "$data";
-      }
-      else {
+      } else {
         log("something terrible happened");
         log("${e.message}");
         return e.message;
@@ -80,8 +75,8 @@ class API {
     }
   }
 
-  Future<dynamic> register(String fName, String employee, String contact,
-      String idFront, String idBack, String profile, String password) async {
+  Future<dynamic> register(String fName, String employee, String contact, String idFront,
+      String idBack, String profile, String password) async {
     try {
       var url = route.register;
       var headers = {
@@ -95,9 +90,7 @@ class API {
         "password": password
       };
       log("$body");
-      var response = await myService.Service.postWithBody(
-          url: url, headers: headers, body: body);
-
+      var response = await myService.Service.postWithBody(url: url, headers: headers, body: body);
 
       log("Status code : ${response.statusCode}");
 
@@ -105,8 +98,7 @@ class API {
         log(json.encode(response.data));
         log("response.data${json.encode(response.data)}");
         return true;
-      }
-      else {
+      } else {
         log("${response.statusMessage}");
         return response.statusMessage;
       }
@@ -118,8 +110,7 @@ class API {
         final msg = data["message"];
         log("$msg");
         return msg;
-      }
-      else {
+      } else {
         log("something terrible happened");
         log("${e.message}");
         return e.message;
@@ -130,19 +121,15 @@ class API {
       return "$e";
     }
 
-
     // You can return some response indicating the success or failure of the registration process
     // For now, let's return a success message
-
   }
 
   Future<dynamic> getDetail() async {
     try {
       var url = route.getUser;
 
-      var headers = {
-        'Cookie': 'JSESSIONID=E3BED20A6FA74E3AC38F4F6787383C60'
-      };
+      var headers = {'Cookie': 'JSESSIONID=E3BED20A6FA74E3AC38F4F6787383C60'};
       var response = await myService.Service.post(url: url, headers: headers);
       print("url ${response.statusCode}");
       if (response.statusCode == 200) {
@@ -166,23 +153,19 @@ class API {
     }
   }
 
-Future<dynamic> admin() async{
-    try{
+  Future<dynamic> admin() async {
+    try {
       var url = route.admin;
-      var headers = {
-      };
+      var headers = {};
       var response = await myService.Service.post(url: url, headers: headers);
       print("url ${response.statusCode}");
       if (response.statusCode == 200) {
         log(json.encode(response.data));
         return true;
-      }
-      else {
+      } else {
         log("response.statusMessage");
         return response.statusMessage;
       }
-    }catch(e){
-
-    }
-}
+    } catch (e) {}
+  }
 }

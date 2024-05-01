@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'captcha.dart';
 import 'custom_TextFeild.dart';
 
@@ -23,32 +24,38 @@ class _CaptchaFormState extends State<CaptchaForm> {
       widget.captchaController.clear(); // Clear the text field
     });
   }
+
   final TextEditingController captchaText = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.h),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          GestureDetector(
-            onTap: refreshCaptcha, // Call refreshCaptcha function on tap
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all()
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  captcha,
-                  style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+          Expanded(
+            flex: 3,
+            child: GestureDetector(
+              onTap: refreshCaptcha, // Call refreshCaptcha function on tap
+              child: Container(
+                decoration: BoxDecoration(border: Border.all()),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    captcha,
+                    style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 15.sp),
           Expanded(
+            flex: 4,
             child: CustomTextField(
+              labelFontSize: 16.sp,
               inputFormatters: [
                 LengthLimitingTextInputFormatter(16),
               ],
@@ -70,8 +77,6 @@ class _CaptchaFormState extends State<CaptchaForm> {
               maxline: 1,
             ),
           ),
-
-
         ],
       ),
     );

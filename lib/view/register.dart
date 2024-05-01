@@ -1,22 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:aiimscycle/components/captchaForm.dart';
 import 'package:aiimscycle/components/custome_image.dart';
+import 'package:aiimscycle/route/route_generater.dart';
 import 'package:aiimscycle/view/login.dart';
-import 'package:aiimscycle/view/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aiimscycle/components/appbar.dart';
-import 'package:aiimscycle/components/cutom_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../components/button.dart';
 import '../components/captcha.dart';
 import '../components/custom_TextFeild.dart';
-import '../config/theamdata.dart';
 import '../provider/register/register_bloc.dart';
 import '../utils/utils.dart';
 
@@ -51,6 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
   File? _IdFrontImage;
   File? _IdBackImage;
   bool _isChecked = false;
+
   @override
   void initState() {
     String captcha = generateCaptcha();
@@ -65,6 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _IdFrontImage = image;
     });
   }
+
   void _handleIdBackImageSelection(File image) {
     setState(() {
       _IdBackImage = image;
@@ -76,7 +73,6 @@ class _RegisterPageState extends State<RegisterPage> {
       _profileImage = image;
     });
   }
-
 
   @override
   void dispose() {
@@ -101,7 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
                 if (state is RegisterLoading) {
-                     Utils.showLoadingProgress(context);
+                  Utils.showLoadingProgress(context);
                 } else if (state is RegisterSuccess) {
                   showDialog(
                     context: context,
@@ -123,15 +119,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   // Delayed navigation after 5 seconds
                   Future.delayed(const Duration(seconds: 5), () {
                     Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const LoginPage())
-                    );
+                        context, MaterialPageRoute(builder: (context) => const LoginPage()));
                   });
-                }
-
-                else if (state is RegisterError) {
-                 var msg = state.error;
-                 Navigator.of(context).pop();
+                } else if (state is RegisterError) {
+                  var msg = state.error;
+                  Navigator.of(context).pop();
                   Fluttertoast.showToast(
                       msg: msg,
                       toastLength: Toast.LENGTH_LONG,
@@ -186,12 +178,18 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: true,
                     ),
                     sizedBox,
-                     NameWithImage(label: "Employee id(Front)", onImageSelected: (image) {
-                       _handleIdFrontImageSelection(image);
-                     },),
-                     NameWithImage(label: "Employee id(Back)", onImageSelected: (image) {
-                       _handleIdBackImageSelection(image);
-                     },),
+                    NameWithImage(
+                      label: "Employee id(Front)",
+                      onImageSelected: (image) {
+                        _handleIdFrontImageSelection(image);
+                      },
+                    ),
+                    NameWithImage(
+                      label: "Employee id(Back)",
+                      onImageSelected: (image) {
+                        _handleIdBackImageSelection(image);
+                      },
+                    ),
                     NameWithImage(
                       label: "Profile",
                       onImageSelected: (image) {
@@ -231,12 +229,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       keyboardType: TextInputType.text,
                       suffixIcon: IconButton(
                         color: Colors.grey,
-                        icon: Icon(passwordVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility),
+                        icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility),
                         onPressed: () {
                           setState(
-                            () {
+                                () {
                               passwordVisible = !passwordVisible;
                             },
                           );
@@ -246,7 +242,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: true,
                       maxline: 1,
                     ),
-                    CaptchaForm(captchaController: captchaController,),
+                    CaptchaForm(
+                      captchaController: captchaController,
+                    ),
                     Row(
                       children: [
                         Checkbox(
@@ -263,11 +261,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         Expanded(
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              MyRoutes.navigateToTermsScreen(context);
+                            },
                             child: const Text(
                               'terms and conditions',
-                              style: TextStyle(
-                                  fontSize: 16.0, color: Colors.lightBlue),
+                              style: TextStyle(fontSize: 16.0, color: Colors.lightBlue),
                             ),
                           ),
                         ),
@@ -301,9 +300,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 onTap: () {
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginPage()),
+                                    MaterialPageRoute(builder: (context) => const LoginPage()),
                                   );
                                 },
                                 child: const Text(
@@ -327,12 +324,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  List<String> productAngelList = [
-    'Option 1',
-    'Option 2',
-    'Option 3',
-    'Option 4'
-  ];
+  List<String> productAngelList = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
 
   void _removeImage(int index) {
     setState(() {

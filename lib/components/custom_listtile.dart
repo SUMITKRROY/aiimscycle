@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 
 class CustomListTile extends StatelessWidget {
   final Widget leadingIcon;
+  final VoidCallback onTap;
   final String label;
-  final dynamic screen;
+  // final dynamic screen;
   final Widget trailingIcon;
 
   const CustomListTile({
     Key? key,
     required this.leadingIcon,
     required this.label,
-    this.screen,
-    this.trailingIcon = const Icon(Icons.arrow_forward_ios),
+    // this.screen,
+    this.trailingIcon = const Icon(Icons.arrow_forward_ios), required this.onTap,
   }) : super(key: key);
 
   @override
@@ -20,14 +21,7 @@ class CustomListTile extends StatelessWidget {
       leading: leadingIcon,
       trailing: trailingIcon,
       title: Text(label),
-      onTap: screen != null
-          ? () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => screen),
-        );
-      }
-          : null,
+      onTap: onTap
     );
   }
 }

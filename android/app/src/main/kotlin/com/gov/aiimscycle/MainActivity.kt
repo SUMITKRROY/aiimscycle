@@ -1,4 +1,4 @@
-package com.aiims.aiimscycle
+package com.gov.aiimscycle
 
 import io.flutter.embedding.android.FlutterActivity
 

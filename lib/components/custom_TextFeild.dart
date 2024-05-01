@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:aiimscycle/config/theamdata.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatefulWidget {
   final String? initialValue;
   final void Function(String) onChanged;
   final String label;
+  final double? labelFontSize;
   final dynamic validatorLabel;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
@@ -28,7 +30,9 @@ class CustomTextField extends StatefulWidget {
       this.suffixIcon,
       this.keyboardType,
       this.maxline,
-      required this.validator, this.validatorFunc});
+      required this.validator,
+      this.validatorFunc,
+      this.labelFontSize});
 
   @override
   @override
@@ -58,25 +62,29 @@ class _CustomTextField extends State<CustomTextField> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: widget.maxline,
-      style: const TextStyle(fontSize: 18, color: ColorsData.darkGrayColor),
+      style: TextStyle(fontSize: 20.sp, color: ColorsData.darkGrayColor),
       inputFormatters: widget.inputFormatters,
-      validator: widget.validatorFunc
-         ?? (val) {
-        if(widget.validator != false){
-          if (val == null || val.isEmpty) {
-            return "Enter valid ${widget.validatorLabel}";
-          }
-        }
-        return null;
-      },
+      validator: widget.validatorFunc ??
+          (val) {
+            if (widget.validator != false) {
+              if (val == null || val.isEmpty) {
+                return "Enter valid ${widget.validatorLabel}";
+              }
+            }
+            return null;
+          },
       controller: widget.controller ?? _controller,
       onChanged: widget.onChanged,
       keyboardType: widget.keyboardType,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(16),
+          contentPadding: EdgeInsets.all(20.h),
           suffixIcon: widget.suffixIcon,
           labelText: widget.label,
+          labelStyle: TextStyle(fontSize: widget.labelFontSize ?? 20.sp),
+          errorMaxLines: 2,
+          hintStyle: TextStyle(fontSize: 10.sp),
+          errorStyle: TextStyle(fontSize: 16.sp),
           filled: true),
       obscureText: widget.obscured,
     );
