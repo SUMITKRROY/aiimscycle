@@ -1,4 +1,4 @@
-import 'package:aiimscycle/provider/config_cubit/config_cubit.dart';
+import 'package:aiimscycle/bloc/config_cubit/config_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

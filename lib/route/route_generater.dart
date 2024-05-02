@@ -7,8 +7,8 @@ import '../view/about_info/open_source_libraries.dart';
 import '../view/about_info/privacy_policy.dart';
 import '../view/about_info/terms_of_use.dart';
 import '../view/login.dart';
-import '../view/profile.dart';
 import '../view/profile/edit_profile.dart';
+import '../view/profile/profile.dart';
 import '../view/setting.dart';
 import '../view/version_screen.dart';
 import 'pageroute.dart';
@@ -132,6 +132,10 @@ class MyRoutes {
 
   static void navigateToPolicyScreen(BuildContext context) {
     Navigator.pushNamed(context, RoutePath.privacyPolicyScreen);
+  }
+
+  static void navigateToProfileScreen(BuildContext context) {
+    Navigator.pushNamed(context, RoutePath.profile);
   }
 
   static void navigateToProfileEditScreen(BuildContext context) {

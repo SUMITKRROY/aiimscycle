@@ -1,26 +1,25 @@
-
 import 'package:sqflite/sqflite.dart';
 import '../database_helper.dart';
 
 class LoggerListTable {
   static const String LOGGER_TABLE = "logger";
   static const String id = "Id";
+  static const String clientId = "ClientId";
   static const String description = "Description";
   static const String screenName = "ScreenName";
   static const String date = "Date";
   static const String time = "Time";
 
-
   static const String CREATE = '''
     CREATE TABLE IF NOT EXISTS $LOGGER_TABLE (
     $id TEXT PRIMARY KEY,
+    $clientId TEXT PRIMARY KEY,
     $description TEXT DEFAULT '',
     $screenName TEXT DEFAULT '',  
     $date TEXT DEFAULT '',       
     $time TEXT DEFAULT ''
     )
   ''';
-
 
   // Define a function that inserts notes into the database
   Future<void> insert(Map<String, dynamic> map) async {
@@ -41,6 +40,7 @@ class LoggerListTable {
     final db = await databaseHelper.database;
     return await db.query(LOGGER_TABLE);
   }
+
   //filter out data 15 day or 30 day
 
   // Method to delete a note from the database
@@ -50,10 +50,9 @@ class LoggerListTable {
     return await db.delete(
       LOGGER_TABLE,
       where: '$id = ?',
-     // whereArgs: [noteId],
+      // whereArgs: [noteId],
     );
   }
-
 
   // Method to get note details by ID
   Future<Map<String, dynamic>> getLoggerById(int noteId) async {
@@ -63,7 +62,7 @@ class LoggerListTable {
     List<Map<String, dynamic>> result = await db.query(
       LOGGER_TABLE,
       where: '$id = ?',
-     // whereArgs: [noteId],
+      // whereArgs: [noteId],
     );
 
     // If the query returns a result, return the first (and only) row

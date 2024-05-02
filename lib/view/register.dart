@@ -8,11 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aiimscycle/components/appbar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import '../components/captcha.dart';
 import '../components/custom_TextFeild.dart';
-import '../provider/register/register_bloc.dart';
+import '../bloc/register/register_bloc.dart';
 import '../utils/utils.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -141,7 +142,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     // Center(child: CustomText(lable: "User Register.")),
                     // CustomText(lable: "Enter your name"),
-                    sizedBox,
+                    Center(
+                      child: Text(
+                        "REGISTER",
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    SizedBox(height: 15.h),
+
                     CustomTextField(
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(20),
@@ -153,7 +161,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       validatorFunc: Utils.validateUserName(),
                       validator: true,
                     ),
-                    sizedBox,
+                    SizedBox(height: 15.h),
+
                     CustomTextField(
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(8),
@@ -165,7 +174,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       keyboardType: TextInputType.text,
                       validator: true,
                     ),
-                    sizedBox,
+                    SizedBox(height: 15.h),
+
                     CustomTextField(
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(10),
@@ -177,7 +187,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       validatorFunc: Utils.phoneValidator(),
                       validator: true,
                     ),
-                    sizedBox,
+                    SizedBox(height: 15.h),
+
                     NameWithImage(
                       label: "Employee id(Front)",
                       onImageSelected: (image) {
@@ -209,7 +220,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: true,
                       maxline: 1,
                     ),
-                    sizedBox,
+                    SizedBox(height: 15.h),
+
                     CustomTextField(
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
@@ -232,7 +244,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility),
                         onPressed: () {
                           setState(
-                                () {
+                            () {
                               passwordVisible = !passwordVisible;
                             },
                           );
@@ -242,9 +254,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: true,
                       maxline: 1,
                     ),
-                    CaptchaForm(
-                      captchaController: captchaController,
-                    ),
+                    SizedBox(height: 15.h),
+                    CaptchaForm(captchaController: captchaController),
                     Row(
                       children: [
                         Checkbox(
@@ -272,6 +283,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 5.h),
                     Center(
                       child: Column(
                         children: [
@@ -279,19 +291,19 @@ class _RegisterPageState extends State<RegisterPage> {
                             onPressed: () {
                               bool isValid = _formKey.currentState!.validate();
                               if (isValid && _isChecked) {
-                                BlocProvider.of<RegisterBloc>(context)
-                                  ..add(RegisterSuccessEvent(
-                                      _name.text,
-                                      _employeeID.text,
-                                      _phoneController.text,
-                                      _IdFrontImage.toString(),
-                                      _IdBackImage.toString(),
-                                      _profileImage.toString(),
-                                      _password.text));
+                                BlocProvider.of<RegisterBloc>(context).add(RegisterSuccessEvent(
+                                    _name.text,
+                                    _employeeID.text,
+                                    _phoneController.text,
+                                    _IdFrontImage.toString(),
+                                    _IdBackImage.toString(),
+                                    _profileImage.toString(),
+                                    _password.text));
                               }
                             },
                             child: const Text("Register"),
                           ),
+                          SizedBox(height: 15.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

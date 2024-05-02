@@ -1,242 +1,71 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
- import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../components/custom_TextFeild.dart';
+import '../../components/appbar.dart';
+import '../../route/route_generater.dart';
+import '../../utils/image.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  final TextEditingController _name = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  var isLoading = false;
-  File? _image;
-  final imagePicker = ImagePicker();
-  String? userImage = '';
-  var isRemarkEnabled = true;
-  var selfiImgBase64 = '';
-  var selfiImg = '';
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Edit Profile",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                SizedBox(
-                  height: height,
-                  width: width,
-                  child: ListView(
-                    children: [
-                      SizedBox(
-                        width: width,
-                        child: Column(
-                          children: [
-                            _image == null
-                                ? GestureDetector(
-                                    onTap: () {
-                                      _showPicker(context);
-                                    },
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 20.0,
-                                            right: 20,
-                                            left: 20,
-                                            bottom: 10),
-                                        child: CircleAvatar(
-                                            radius: width * 0.25,
-                                            backgroundColor:
-                                                Colors.grey,
-                                            child:
-                                                const Text("Tap to select image"))))
-                                : GestureDetector(
-                                    onTap: () {
-                                      _showPicker(context);
-                                    },
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 20.0,
-                                            right: 20,
-                                            left: 20,
-                                            bottom: 10),
-                                        child: CircleAvatar(
-                                            radius: width * 0.25,
-                                            backgroundColor: Colors.transparent,
-                                            backgroundImage: FileImage(
-                                              _image!,
-                                            ))),
-                                  ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                        label: 'Name',
-                        onChanged: (val) => {},
-                        controller: _name,
-                        keyboardType: TextInputType.text,
-                        validatorLabel: 'Login Id ',
-                        validator: false,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                        label: 'New Password',
-                        onChanged: (val) => {},
-                        controller: _passwordController,
-                        keyboardType: TextInputType.text,
-                        validatorLabel: 'New Password ',
-                        validator: false,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                        label: 'Conform Password',
-                        onChanged: (val) => {},
-                        controller: _passwordController,
-                        keyboardType: TextInputType.numberWithOptions(),
-                        validatorLabel: 'Conform Password',
-                        validator: false,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: _image == null
-                                      ? MaterialStateProperty.all(Colors.grey)
-                                      : MaterialStateProperty.all(
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .primaryContainer),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    // side: BorderSide(color: Colors.red)
-                                  ))),
-                              onPressed: () {
-                                if (_image != null) {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                }
-                              },
-                              child: const Text("Next",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'inter',
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(),
-                    ],
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: const CustomAppBar(),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            CircleAvatar(
+              radius: 85.r,
+              backgroundImage: AssetImage(ImagePath.profile),
+            ),
+            itemProfile('Name', 'UserName', CupertinoIcons.person),
+            itemProfile('Phone', '03107085816', CupertinoIcons.phone),
+            itemProfile('Employee', 'E9999999', CupertinoIcons.location),
+            itemProfile('Email', 'aiims@gmail.com', CupertinoIcons.mail),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                  onPressed: () {
+                    MyRoutes.navigateToProfileEditScreen(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(15),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ));
-  }
-
-  void _showPicker(context) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25), topRight: Radius.circular(25))),
-        // backgroundColor: Colors.black38,
-        context: context,
-        builder: (BuildContext) {
-          return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Wrap(children: [
-                const Text('Upload Selfie',
-                    textScaleFactor: 1.0, textAlign: TextAlign.start),
-                const SizedBox(
-                  height: 50,
-                ),
-                Row(
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        _imgFromCamera();
-                        Navigator.of(context).pop();
-                      },
-                      child: const SizedBox(
-                        width: 60,
-                        child: Wrap(
-                          children: [
-                            SizedBox(
-                                width: 50,
-                                child: Icon(Icons.camera_alt_outlined)),
-                            Text('Camera')
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ]),
-            ),
-          );
-        });
-  }
-
-  _imgFromCamera() async {
-    final image = await imagePicker.pickImage(source: ImageSource.camera);
-
-    if (image != null) {
-      setState(() {
-        _image = File(image.path);
-
-        final bytes = _image?.readAsBytesSync();
-        selfiImgBase64 = base64Encode(bytes!);
-      });
-    }
-  }
-
-  _imgFromGallery() async {
-    PickedFile? image = await ImagePicker.platform.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 50,
+                  child: const Text('Edit Profile')),
+            )
+          ],
+        ),
+      ),
     );
+  }
 
-    if (image != null) {
-      setState(() {
-        _image = File(image.path);
-      });
-    }
+  itemProfile(String title, String subtitle, IconData iconData) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(0, 5),
+                color: Colors.grey.withOpacity(.2),
+                spreadRadius: 2,
+                blurRadius: 10)
+          ]),
+      child: ListTile(
+        title: Text(title),
+        subtitle: Text(subtitle),
+        leading: Icon(iconData),
+        // trailing: Icon(Icons.arrow_forward, color: Colors.grey.shade400),
+        tileColor: Colors.white,
+      ),
+    );
   }
 }

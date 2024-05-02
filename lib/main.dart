@@ -1,10 +1,11 @@
+import 'package:aiimscycle/bloc/splash_cubit.dart';
 import 'package:aiimscycle/configuration.dart';
-import 'package:aiimscycle/provider/app_settings_cubit/app_settings_cubit.dart';
-import 'package:aiimscycle/provider/config_cubit/config_cubit.dart';
-import 'package:aiimscycle/provider/device_safety_cubit/device_safety_cubit.dart';
-import 'package:aiimscycle/provider/logger_db_cubit/logger_db_cubit.dart';
-import 'package:aiimscycle/provider/login/login_bloc.dart';
-import 'package:aiimscycle/provider/register/register_bloc.dart';
+import 'package:aiimscycle/bloc/app_settings_cubit/app_settings_cubit.dart';
+import 'package:aiimscycle/bloc/config_cubit/config_cubit.dart';
+import 'package:aiimscycle/bloc/device_safety_cubit/device_safety_cubit.dart';
+import 'package:aiimscycle/bloc/logger_db_cubit/logger_db_cubit.dart';
+import 'package:aiimscycle/bloc/login/login_bloc.dart';
+import 'package:aiimscycle/bloc/register/register_bloc.dart';
 import 'package:aiimscycle/route/pageroute.dart';
 import 'package:aiimscycle/route/route_generater.dart';
 import 'package:aiimscycle/utils/helper_text.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<SettingsCubit>(create: (_) => SettingsCubit()),
         BlocProvider<ConfigCubit>(create: (_) => ConfigCubit(configuration: config)),
         BlocProvider<DeviceSafetyCubit>(create: (_) => DeviceSafetyCubit()),
+        BlocProvider<SplashCubit>(create: (_) => SplashCubit()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(414, 896),

@@ -36,23 +36,6 @@ class _CaptchaFormState extends State<CaptchaForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
-            flex: 3,
-            child: GestureDetector(
-              onTap: refreshCaptcha, // Call refreshCaptcha function on tap
-              child: Container(
-                decoration: BoxDecoration(border: Border.all()),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    captcha,
-                    style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 15.sp),
-          Expanded(
             flex: 4,
             child: CustomTextField(
               labelFontSize: 16.sp,
@@ -75,6 +58,23 @@ class _CaptchaFormState extends State<CaptchaForm> {
               obscured: false,
               validator: true,
               maxline: 1,
+            ),
+          ),
+          SizedBox(width: 15.w),
+          Expanded(
+            flex: 3,
+            child: GestureDetector(
+              onTap: refreshCaptcha, // Call refreshCaptcha function on tap
+              child: Container(
+                decoration: BoxDecoration(border: Border.all()),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    captcha,
+                    style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
             ),
           ),
         ],

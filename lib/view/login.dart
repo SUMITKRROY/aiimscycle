@@ -9,10 +9,10 @@ import 'package:aiimscycle/components/cutom_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer';
+import '../bloc/login/login_bloc.dart';
 import '../components/captcha.dart';
 import '../components/captchaForm.dart';
 import '../components/custom_TextFeild.dart';
-import '../provider/login/login_bloc.dart';
 import '../utils/utils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -83,15 +83,15 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Center(
+                  const Center(
                     child: Text(
-                      "Login",
+                      "LOGIN",
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                     ),
                   ),
-                  sizedBox,
+                  SizedBox(height: 15.h),
                   CustomText(lable: "Enter your Employee Id"),
-                  sizedBox,
+                  SizedBox(height: 15.h),
                   CustomTextField(
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(8),
@@ -137,34 +137,33 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  CaptchaForm(
-                    captchaController: captchaController,
-                  ),
-                  SizedBox(width: 15.h),
+                  SizedBox(height: 15.h),
+                  CaptchaForm(captchaController: captchaController),
+                  SizedBox(height: 15.h),
                   Center(
                     child: Column(
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            bool isValid = _formKey.currentState!.validate();
-                            if (isValid) {
-                              // ignore: avoid_single_cascade_in_expression_statements
-                              BlocProvider.of<LoginBloc>(context)
-                                ..add(
-                                    GetPhoneNo(phone: _employeeID.text, password: _password.text));
-                              //  MyRoutes.navigateToHome(context);
-                            }
+                            // bool isValid = _formKey.currentState!.validate();
+                            // if (isValid) {
+                            //   // ignore: avoid_single_cascade_in_expression_statements
+                            //   BlocProvider.of<LoginBloc>(context)
+                            //     ..add(
+                            //         GetPhoneNo(phone: _employeeID.text, password: _password.text));
+                            //   //  MyRoutes.navigateToHome(context);
+                            // }
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) => const HomeScreen()));
                           },
                           child: const Text("Login"),
                         ),
-                        SizedBox(width: 15.sp),
+                        SizedBox(height: 15.sp),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text("Don't have any account?"),
-                            const SizedBox(
-                              height: 05,
-                            ),
+                            SizedBox(width: 15.h),
                             InkWell(
                               onTap: () {
                                 Navigator.pushReplacement(
@@ -172,11 +171,11 @@ class _LoginPageState extends State<LoginPage> {
                                   MaterialPageRoute(builder: (context) => const RegisterPage()),
                                 );
                               },
-                              child: const Text(
+                              child: Text(
                                 'click here',
                                 style: TextStyle(
                                   color: Colors.blueAccent,
-                                  fontSize: 16.0,
+                                  fontSize: 16.sp,
                                 ),
                               ),
                             ),
@@ -190,6 +189,12 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.settings),
+        onPressed: () {
+          MyRoutes.navigateToSettingsScreen(context);
+        },
       ),
     );
   }

@@ -53,23 +53,23 @@ class API {
       log("$e");
       final response = e.response;
       if (response != null) {
-        if (response.statusCode == 302) {
-          // call api for getting user details
-          log("${response.headers["set-cookie"]}");
-
-          return true;
-        }
         final data = response.data;
-        //final msg = data["message"];
-        log("$data");
-        return "$data";
+
+        if (response.statusCode == 401) {
+          log("$data");
+          return data["error"];
+        } else {
+          log("something happened");
+          log("${e.message}");
+          return e.message;
+        }
       } else {
         log("something terrible happened");
         log("${e.message}");
         return e.message;
       }
     } catch (e) {
-      log("something terrible happened");
+      log("something terrible happened again");
       log("$e");
       return "$e";
     }
