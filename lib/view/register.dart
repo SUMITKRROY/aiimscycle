@@ -11,10 +11,14 @@ import 'package:aiimscycle/components/appbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import '../bloc/logger_db_cubit/logger_db_cubit.dart';
 import '../components/captcha.dart';
 import '../components/custom_TextFeild.dart';
 import '../bloc/register/register_bloc.dart';
+import '../config/theamdata.dart';
+import '../utils/helper_text.dart';
 import '../utils/utils.dart';
+import 'exception_screen.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -24,6 +28,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final String screenName = 'Register Screen';
   final _formKey = GlobalKey<FormState>(); // Add a GlobalKey for the Form
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _name = TextEditingController();
@@ -88,252 +93,284 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     Widget sizedBox = Utils.getSizedBoxHeight(8.0);
-    return Scaffold(
-      appBar: AppBar(
-        title: const CustomAppBar(),
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: BlocListener<RegisterBloc, RegisterState>(
-              listener: (context, state) {
-                if (state is RegisterLoading) {
-                  Utils.showLoadingProgress(context);
-                } else if (state is RegisterSuccess) {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: const Text('You are registered successfully'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-
-                  // Delayed navigation after 5 seconds
-                  Future.delayed(const Duration(seconds: 5), () {
-                    Navigator.pushReplacement(
-                        context, MaterialPageRoute(builder: (context) => const LoginPage()));
-                  });
-                } else if (state is RegisterError) {
-                  var msg = state.error;
-                  Navigator.of(context).pop();
-                  Fluttertoast.showToast(
-                      msg: msg,
-                      toastLength: Toast.LENGTH_LONG,
-                      gravity: ToastGravity.BOTTOM,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                }
+    try {
+      return Scaffold(
+        appBar: AppBar(
+          title: const CustomAppBar(),
+          actions: [
+            IconButton(
+              onPressed: () {
+                MyRoutes.navigateToSettingsScreen(context);
               },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Flex(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  direction: Axis.vertical,
-                  children: [
-                    // Center(child: CustomText(lable: "User Register.")),
-                    // CustomText(lable: "Enter your name"),
-                    Center(
-                      child: Text(
-                        "REGISTER",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              icon: Icon(
+                Icons.settings,
+                // color: ColorsData.,
+                size: 40.sp,
+              ),
+            )
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: BlocListener<RegisterBloc, RegisterState>(
+                listener: (context, state) {
+                  if (state is RegisterLoading) {
+                    Utils.showLoadingProgress(context);
+                  } else if (state is RegisterSuccess) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content: const Text('You are registered successfully'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                    // Delayed navigation after 5 seconds
+                    Future.delayed(const Duration(seconds: 5), () {
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                    });
+                  } else if (state is RegisterError) {
+                    var msg = state.error;
+                    Navigator.of(context).pop();
+                    Fluttertoast.showToast(
+                        msg: msg,
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.BOTTOM,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Flex(
+                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    direction: Axis.vertical,
+                    children: [
+                      // Center(child: CustomText(lable: "User Register.")),
+                      // CustomText(lable: "Enter your name"),
+                      Center(
+                        child: Text(
+                          "REGISTER",
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 15.h),
+                      SizedBox(height: 15.h),
 
-                    CustomTextField(
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(20),
-                      ],
-                      label: 'Full Name',
-                      onChanged: (val) => {},
-                      controller: _name,
-                      keyboardType: TextInputType.text,
-                      validatorFunc: Utils.validateUserName(),
-                      validator: true,
-                    ),
-                    SizedBox(height: 15.h),
+                      CustomTextField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(20),
+                        ],
+                        label: 'Full Name',
+                        onChanged: (val) => {},
+                        controller: _name,
+                        keyboardType: TextInputType.text,
+                        validatorFunc: Utils.validateUserName(),
+                        validator: true,
+                      ),
+                      SizedBox(height: 15.h),
 
-                    CustomTextField(
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(8),
-                      ],
-                      validatorFunc: Utils.employeeIdValidator(),
-                      label: 'Employee id',
-                      onChanged: (val) => {},
-                      controller: _employeeID,
-                      keyboardType: TextInputType.text,
-                      validator: true,
-                    ),
-                    SizedBox(height: 15.h),
+                      CustomTextField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(8),
+                        ],
+                        validatorFunc: Utils.employeeIdValidator(),
+                        label: 'Employee id',
+                        onChanged: (val) => {},
+                        controller: _employeeID,
+                        keyboardType: TextInputType.text,
+                        validator: true,
+                      ),
+                      SizedBox(height: 15.h),
 
-                    CustomTextField(
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(10),
-                      ],
-                      label: 'Contact No.',
-                      onChanged: (val) => {},
-                      controller: _phoneController,
-                      keyboardType: const TextInputType.numberWithOptions(),
-                      validatorFunc: Utils.phoneValidator(),
-                      validator: true,
-                    ),
-                    SizedBox(height: 15.h),
+                      CustomTextField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                        ],
+                        label: 'Contact No.',
+                        onChanged: (val) => {},
+                        controller: _phoneController,
+                        keyboardType: const TextInputType.numberWithOptions(),
+                        validatorFunc: Utils.phoneValidator(),
+                        validator: true,
+                      ),
+                      SizedBox(height: 15.h),
 
-                    NameWithImage(
-                      label: "Employee id(Front)",
-                      onImageSelected: (image) {
-                        _handleIdFrontImageSelection(image);
-                      },
-                    ),
-                    NameWithImage(
-                      label: "Employee id(Back)",
-                      onImageSelected: (image) {
-                        _handleIdBackImageSelection(image);
-                      },
-                    ),
-                    NameWithImage(
-                      label: "Profile",
-                      onImageSelected: (image) {
-                        _handleProfileImageSelection(image);
-                      },
-                    ),
-                    CustomTextField(
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(16),
-                      ],
-                      label: 'Password',
-                      onChanged: (val) => {},
-                      validatorFunc: Utils.passwordValidator(),
-                      controller: _password,
-                      keyboardType: TextInputType.text,
-                      obscured: false,
-                      validator: true,
-                      maxline: 1,
-                    ),
-                    SizedBox(height: 15.h),
-
-                    CustomTextField(
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(16),
-                      ],
-                      label: 'Conform Password',
-                      onChanged: (val) => {},
-                      controller: _cnfPassword,
-                      validatorFunc: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter conform password';
-                        }
-                        if (value != _password.text) {
-                          return ("Password must be same");
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.text,
-                      suffixIcon: IconButton(
-                        color: Colors.grey,
-                        icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility),
-                        onPressed: () {
-                          setState(
-                            () {
-                              passwordVisible = !passwordVisible;
-                            },
-                          );
+                      NameWithImage(
+                        label: "Employee id(Front)",
+                        onImageSelected: (image) {
+                          _handleIdFrontImageSelection(image);
                         },
                       ),
-                      obscured: passwordVisible,
-                      validator: true,
-                      maxline: 1,
-                    ),
-                    SizedBox(height: 15.h),
-                    CaptchaForm(captchaController: captchaController),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: _isChecked,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _isChecked = value!;
-                            });
+                      NameWithImage(
+                        label: "Employee id(Back)",
+                        onImageSelected: (image) {
+                          _handleIdBackImageSelection(image);
+                        },
+                      ),
+                      NameWithImage(
+                        label: "Profile",
+                        onImageSelected: (image) {
+                          _handleProfileImageSelection(image);
+                        },
+                      ),
+                      CustomTextField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(16),
+                        ],
+                        label: 'Password',
+                        onChanged: (val) => {},
+                        validatorFunc: Utils.passwordValidator(),
+                        controller: _password,
+                        keyboardType: TextInputType.text,
+                        obscured: false,
+                        validator: true,
+                        maxline: 1,
+                      ),
+                      SizedBox(height: 15.h),
+
+                      CustomTextField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(16),
+                        ],
+                        label: 'Conform Password',
+                        onChanged: (val) => {},
+                        controller: _cnfPassword,
+                        validatorFunc: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter conform password';
+                          }
+                          if (value != _password.text) {
+                            return ("Password must be same");
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.text,
+                        suffixIcon: IconButton(
+                          color: Colors.grey,
+                          icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility),
+                          onPressed: () {
+                            setState(
+                              () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
                           },
                         ),
-                        const Text("I agree to the"),
-                        const SizedBox(
-                          width: 05,
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              MyRoutes.navigateToTermsScreen(context);
-                            },
-                            child: const Text(
-                              'terms and conditions',
-                              style: TextStyle(fontSize: 16.0, color: Colors.lightBlue),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5.h),
-                    Center(
-                      child: Column(
+                        obscured: passwordVisible,
+                        validator: true,
+                        maxline: 1,
+                      ),
+                      SizedBox(height: 15.h),
+                      CaptchaForm(captchaController: captchaController),
+                      Row(
                         children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              bool isValid = _formKey.currentState!.validate();
-                              if (isValid && _isChecked) {
-                                BlocProvider.of<RegisterBloc>(context).add(RegisterSuccessEvent(
-                                    _name.text,
-                                    _employeeID.text,
-                                    _phoneController.text,
-                                    _IdFrontImage.toString(),
-                                    _IdBackImage.toString(),
-                                    _profileImage.toString(),
-                                    _password.text));
-                              }
+                          Checkbox(
+                            value: _isChecked,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isChecked = value!;
+                              });
                             },
-                            child: const Text("Register"),
                           ),
-                          SizedBox(height: 15.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("already have account? "),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const LoginPage()),
-                                  );
-                                },
-                                child: const Text(
-                                  'Log In',
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontSize: 16.0,
-                                  ),
-                                ),
+                          const Text("I agree to the"),
+                          const SizedBox(
+                            width: 05,
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                MyRoutes.navigateToTermsScreen(context);
+                              },
+                              child: const Text(
+                                'terms and conditions',
+                                style: TextStyle(fontSize: 16.0, color: Colors.lightBlue),
                               ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
-                    )
-                  ],
-                ),
-              )),
+                      SizedBox(height: 5.h),
+                      Center(
+                        child: Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                bool isValid = _formKey.currentState!.validate();
+                                if (isValid && _isChecked) {
+                                  BlocProvider.of<RegisterBloc>(context).add(RegisterSuccessEvent(
+                                      _name.text,
+                                      _employeeID.text,
+                                      _phoneController.text,
+                                      _IdFrontImage.toString(),
+                                      _IdBackImage.toString(),
+                                      _profileImage.toString(),
+                                      _password.text));
+                                }
+                              },
+                              child: const Text("Register"),
+                            ),
+                            SizedBox(height: 15.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text("already have account? "),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Log In',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+          ),
         ),
-      ),
-    );
+        // floatingActionButton: FloatingActionButton(
+        //   elevation: 0,
+        //   backgroundColor: Colors.transparent,
+        //   child: Icon(
+        //     Icons.settings,
+        //     color: ColorsData.primaryColor,
+        //     size: 40.sp,
+        //   ),
+        //   onPressed: () {
+        //     MyRoutes.navigateToSettingsScreen(context);
+        //   },
+        // ),
+      );
+    } catch (e) {
+      BlocProvider.of<LoggerDbCubit>(context).setLogData(
+        description: CommonText.widgetExceptionText,
+        screenName: screenName,
+      );
+      return ExceptionScreen();
+    }
   }
 
   List<String> productAngelList = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];

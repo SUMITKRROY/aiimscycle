@@ -35,7 +35,7 @@ class LoggerListTable {
   }
 
   // Method to retrieve all notes from the database
-  Future<List<Map<String, dynamic>>> getPlayList() async {
+  Future<List<Map<String, dynamic>>> getLogger() async {
     DatabaseHelper databaseHelper = DatabaseHelper();
     final db = await databaseHelper.database;
     return await db.query(LOGGER_TABLE);
@@ -44,7 +44,7 @@ class LoggerListTable {
   //filter out data 15 day or 30 day
 
   // Method to delete a note from the database
-  Future<int> deleteNote(int noteId) async {
+  Future<int> deleteLogger() async {
     DatabaseHelper databaseHelper = DatabaseHelper();
     final db = await databaseHelper.database;
     return await db.delete(
@@ -54,23 +54,23 @@ class LoggerListTable {
     );
   }
 
-  // Method to get note details by ID
-  Future<Map<String, dynamic>> getLoggerById(int noteId) async {
-    DatabaseHelper databaseHelper = DatabaseHelper();
-    final db = await databaseHelper.database;
-
-    List<Map<String, dynamic>> result = await db.query(
-      LOGGER_TABLE,
-      where: '$id = ?',
-      // whereArgs: [noteId],
-    );
-
-    // If the query returns a result, return the first (and only) row
-    if (result.isNotEmpty) {
-      return result.first;
-    } else {
-      // If no result is found, return an empty map or handle it as needed
-      return {};
-    }
-  }
+// // Method to get note details by ID
+// Future<Map<String, dynamic>> getLoggerById(int noteId) async {
+//   DatabaseHelper databaseHelper = DatabaseHelper();
+//   final db = await databaseHelper.database;
+//
+//   List<Map<String, dynamic>> result = await db.query(
+//     LOGGER_TABLE,
+//     where: '$id = ?',
+//     // whereArgs: [noteId],
+//   );
+//
+//   // If the query returns a result, return the first (and only) row
+//   if (result.isNotEmpty) {
+//     return result.first;
+//   } else {
+//     // If no result is found, return an empty map or handle it as needed
+//     return {};
+//   }
+// }
 }

@@ -81,7 +81,7 @@ class MyRoutes {
       /// Legal Screen
       case RoutePath.legalScreen:
         return MaterialPageRoute(
-          builder: (_) => legalScreen(),
+          builder: (_) => LegalScreen(),
         );
 
       /// PrivacyPolicy Screen

@@ -6,45 +6,50 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/appbar.dart';
 import '../../route/route_generater.dart';
 import '../../utils/image.dart';
+import '../exception_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: const CustomAppBar(),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            CircleAvatar(
-              radius: 85.r,
-              backgroundImage: AssetImage(ImagePath.profile),
-            ),
-            itemProfile('Name', 'UserName', CupertinoIcons.person),
-            itemProfile('Phone', '03107085816', CupertinoIcons.phone),
-            itemProfile('Employee', 'E9999999', CupertinoIcons.location),
-            itemProfile('Email', 'aiims@gmail.com', CupertinoIcons.mail),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () {
-                    MyRoutes.navigateToProfileEditScreen(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(15),
-                  ),
-                  child: const Text('Edit Profile')),
-            )
-          ],
+    try {
+      return Scaffold(
+        appBar: AppBar(
+          titleSpacing: 0,
+          title: const CustomAppBar(),
         ),
-      ),
-    );
+        body: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              CircleAvatar(
+                radius: 85.r,
+                backgroundImage: AssetImage(ImagePath.profile),
+              ),
+              itemProfile('Name', 'UserName', CupertinoIcons.person),
+              itemProfile('Phone', '03107085816', CupertinoIcons.phone),
+              itemProfile('Employee', 'E9999999', CupertinoIcons.location),
+              itemProfile('Email', 'aiims@gmail.com', CupertinoIcons.mail),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {
+                      MyRoutes.navigateToProfileEditScreen(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(15),
+                    ),
+                    child: const Text('Edit Profile')),
+              )
+            ],
+          ),
+        ),
+      );
+    } catch (e) {
+      return ExceptionScreen();
+    }
   }
 
   itemProfile(String title, String subtitle, IconData iconData) {

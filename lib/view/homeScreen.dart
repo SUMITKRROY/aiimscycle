@@ -8,6 +8,7 @@ import 'package:flutter_camera_qrcode_scanner/flutter_camera_qrcode_scanner.dart
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../components/appbar.dart';
 import 'drawer_screen.dart';
+import 'exception_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,38 +20,42 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          titleSpacing: 0,
-          title: const CustomAppBar(),
-        ),
-        drawer: DrawerWidget(),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => ScannerScreen()));
-                  },
-                  child: Image.asset(
-                    width: 600.h,
-                    height: 600.h,
-                    ImagePath.qrScan,
-                  )),
-              Transform.translate(
-                offset: Offset(0, -100.h),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => ScannerScreen()));
-                  },
-                  child: Text("Scan Your Cycle"),
-                ),
-              ),
-            ],
+    try {
+      return Scaffold(
+          appBar: AppBar(
+            titleSpacing: 0,
+            title: const CustomAppBar(),
           ),
-        ));
+          drawer: DrawerWidget(),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => ScannerScreen()));
+                    },
+                    child: Image.asset(
+                      width: 600.h,
+                      height: 600.h,
+                      ImagePath.qrScan,
+                    )),
+                Transform.translate(
+                  offset: Offset(0, -100.h),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => ScannerScreen()));
+                    },
+                    child: Text("Scan Your Cycle"),
+                  ),
+                ),
+              ],
+            ),
+          ));
+    } catch (e) {
+      return ExceptionScreen();
+    }
   }
 }

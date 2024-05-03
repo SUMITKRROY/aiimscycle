@@ -37,7 +37,7 @@ class LoggerDbCubit extends Cubit<LoggerDbState> {
       // Call insert function to insert data into the table
       LoggerListTable().insert(data);
       print("data ${data}");
-      emit(LoggerDbInsert());
+      // emit(LoggerDbInsert());
     } catch (e) {
       emit(LoggerDbError());
       print('error');
@@ -51,7 +51,7 @@ class LoggerDbCubit extends Cubit<LoggerDbState> {
 
     try {
       // List<LogDataClass> logDataClass = [];
-      List<Map<String, dynamic>> loadedPlayList = await LoggerListTable().getPlayList();
+      List<Map<String, dynamic>> loadedPlayList = await LoggerListTable().getLogger();
 
       // for (var i in loadedPlayList) {
       //   logDataClass.add(LogDataClass(
@@ -72,11 +72,11 @@ class LoggerDbCubit extends Cubit<LoggerDbState> {
     }
   }
 
-  Future<void> deleteLogData({required int id}) async {
+  Future<void> deleteLogData() async {
     emit(LoggerDbLoading());
 
     try {
-      await LoggerListTable().deleteNote(id);
+      await LoggerListTable().deleteLogger();
     } catch (e) {
       emit(LoggerDbError());
 

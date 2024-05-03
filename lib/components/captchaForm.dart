@@ -66,12 +66,13 @@ class _CaptchaFormState extends State<CaptchaForm> {
             child: GestureDetector(
               onTap: refreshCaptcha, // Call refreshCaptcha function on tap
               child: Container(
+                width: double.maxFinite,
+                padding: EdgeInsets.symmetric(vertical: 11.h),
                 decoration: BoxDecoration(border: Border.all()),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: Center(
                   child: Text(
                     captcha,
-                    style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 29.sp, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

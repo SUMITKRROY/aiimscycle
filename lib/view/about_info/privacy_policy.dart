@@ -1,37 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../bloc/logger_db_cubit/logger_db_cubit.dart';
 import '../../components/appbar.dart';
+import '../../utils/helper_text.dart';
+import '../exception_screen.dart';
 
 class PrivacyPolicy extends StatelessWidget {
   const PrivacyPolicy({super.key});
 
+  final String screenName = 'Privacy Policy';
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: const CustomAppBar(),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.h),
-        child: RichText(
-          text: TextSpan(
-            style: TextStyle(
-              fontSize: 20.sp,
-              color: Colors.black,
-            ),
-            children: [
-              TextSpan(
-                text: 'Privacy Policy\n\n',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26.sp,
-                ),
+    try {
+      return Scaffold(
+        appBar: AppBar(
+          titleSpacing: 0,
+          title: const CustomAppBar(),
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(20.h),
+          child: RichText(
+            text: TextSpan(
+              style: TextStyle(
+                fontSize: 20.sp,
+                color: Colors.black,
               ),
-              TextSpan(
-                text:
-                    '''1. Introduction\nOur privacy policy will help you understand what information we collect at AiimsCycle, how AiimsCycle uses it, and what choices you have.
+              children: [
+                TextSpan(
+                  text: 'Privacy Policy\n\n',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26.sp,
+                  ),
+                ),
+                TextSpan(
+                  text:
+                      '''1. Introduction\nOur privacy policy will help you understand what information we collect at AiimsCycle, how AiimsCycle uses it, and what choices you have.
 AiimsCycle built the AiimsCycle app as a free app. This SERVICE is provided by AiimsCycle at no cost and is intended for use as is.
 If you choose to use our Service, then you agree to the collection and use of information in  relation with this policy. The Personal Information that we collect are used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible in our website, unless otherwise  defined in this Privacy Policy.\n\n 2. Information \nCollection and Use For a better experience while using our Service, we may require you to provide us with certain personally identifiable information, including but not limited to users name, email address, gender, location, pictures. The information that we request will be retained by us and used as described in this privacy policy.  
 The app does use third party services that may collect information used to identify you. \n 3.Cookies \nCookies are files with small amount of data that is commonly used an anonymous unique identifier. These are sent to your browser from the website that you visit and are stored on your devices’s internal memory.  
@@ -50,11 +57,18 @@ We may update our Privacy Policy from time to time. Thus, you are advised to rev
 If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.  
 Contact Information:  
 Email: aiims@.com''',
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      BlocProvider.of<LoggerDbCubit>(context).setLogData(
+        description: CommonText.widgetExceptionText,
+        screenName: screenName,
+      );
+      return ExceptionScreen();
+    }
   }
 }

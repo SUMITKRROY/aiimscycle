@@ -38,10 +38,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: CustomAppBar()
-      ),
+      appBar: AppBar(titleSpacing: 0, title: CustomAppBar()),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -61,7 +58,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 validator: true,
                 maxline: 1,
               ),
-              SizedBox(height: 08,),
+              SizedBox(
+                height: 08,
+              ),
               CustomTextField(
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(16),
@@ -83,7 +82,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 validator: true,
                 maxline: 1,
               ),
-              SizedBox(height: 08,),
+              SizedBox(
+                height: 08,
+              ),
               CustomTextField(
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(16),
@@ -103,12 +104,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 keyboardType: TextInputType.text,
                 suffixIcon: IconButton(
                   color: Colors.grey,
-                  icon: Icon(passwordVisible
-                      ? Icons.visibility_off
-                      : Icons.visibility),
+                  icon: Icon(passwordVisible ? Icons.visibility_off : Icons.visibility),
                   onPressed: () {
                     setState(
-                          () {
+                      () {
                         passwordVisible = !passwordVisible;
                       },
                     );
@@ -118,14 +117,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 validator: true,
                 maxline: 1,
               ),
-              SizedBox(height: 08,),
-              CaptchaForm(captchaController: captchaController,),
-              SizedBox(height: 08,),
+              SizedBox(
+                height: 08,
+              ),
+              CaptchaForm(
+                captchaController: captchaController,
+              ),
+              SizedBox(
+                height: 08,
+              ),
               ElevatedButton(
                 onPressed: _submit,
                 child: Text(
                   'Submit',
-                  style: Theme.of(context).textTheme.headline6,
+                  // style: Theme.of(context).textTheme.headline6,
                 ),
               ),
             ],

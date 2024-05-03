@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_camera_qrcode_scanner/dynamsoft_barcode.dart';
 import 'package:flutter_camera_qrcode_scanner/flutter_camera_qrcode_scanner.dart';
 
+import '../bloc/logger_db_cubit/logger_db_cubit.dart';
 import '../components/appbar.dart';
+import '../utils/helper_text.dart';
+import 'exception_screen.dart';
 
 class ScannerScreen extends StatefulWidget {
   const ScannerScreen({super.key});
@@ -13,54 +17,63 @@ class ScannerScreen extends StatefulWidget {
 }
 
 class _ScannerScreenState extends State<ScannerScreen> {
+  final String screenName = 'ScannerScreen';
   ScannerViewController? controller;
 
   String _barcodeResults = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: const CustomAppBar(),
-      ),
-      // drawer: DrawerWidget(),
-      body: Stack(children: <Widget>[
-        ScannerView(onScannerViewCreated: onScannerViewCreated),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              height: 100,
-              child: SingleChildScrollView(
-                child: Text(
-                  _barcodeResults,
-                  style: const TextStyle(fontSize: 14, color: Colors.white),
+    try {
+      return Scaffold(
+        appBar: AppBar(
+          titleSpacing: 0,
+          title: const CustomAppBar(),
+        ),
+        // drawer: DrawerWidget(),
+        body: Stack(children: <Widget>[
+          ScannerView(onScannerViewCreated: onScannerViewCreated),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 100,
+                child: SingleChildScrollView(
+                  child: Text(
+                    _barcodeResults,
+                    style: const TextStyle(fontSize: 14, color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 100,
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-                ElevatedButton(
-                  onPressed: () async {
-                    controller!.startScanning();
-                  },
-                  child: const Text("Start Scan"),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    controller!.stopScanning();
-                  },
-                  child: const Text("Stop Scan"),
-                ),
-              ]),
-            ),
-          ],
-        )
-      ]),
-    );
+              SizedBox(
+                height: 100,
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
+                  ElevatedButton(
+                    onPressed: () async {
+                      controller!.startScanning();
+                    },
+                    child: const Text("Start Scan"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      controller!.stopScanning();
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Stop Scan"),
+                  ),
+                ]),
+              ),
+            ],
+          )
+        ]),
+      );
+    } catch (e) {
+      BlocProvider.of<LoggerDbCubit>(context).setLogData(
+        description: CommonText.widgetExceptionText,
+        screenName: screenName,
+      );
+      return ExceptionScreen();
+    }
   }
 
   void onScannerViewCreated(ScannerViewController controller) async {

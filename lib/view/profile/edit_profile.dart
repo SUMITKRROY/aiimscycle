@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../components/custom_TextFeild.dart';
+import '../exception_screen.dart';
 
 class ProfileEditScreen extends StatefulWidget {
   const ProfileEditScreen({super.key});
@@ -28,134 +29,138 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Edit Profile",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                SizedBox(
-                  height: height,
-                  width: width,
-                  child: ListView(
-                    children: [
-                      SizedBox(
-                        width: width,
-                        child: Column(
-                          children: [
-                            _image == null
-                                ? GestureDetector(
-                                    onTap: () {
-                                      _showPicker(context);
-                                    },
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 20.0, right: 20, left: 20, bottom: 10),
-                                        child: CircleAvatar(
-                                            radius: width * 0.25,
-                                            backgroundColor: Colors.grey,
-                                            child: const Text("Tap to select image"))))
-                                : GestureDetector(
-                                    onTap: () {
-                                      _showPicker(context);
-                                    },
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 20.0, right: 20, left: 20, bottom: 10),
-                                        child: CircleAvatar(
-                                            radius: width * 0.25,
-                                            backgroundColor: Colors.transparent,
-                                            backgroundImage: FileImage(
-                                              _image!,
-                                            ))),
-                                  ),
-                          ],
+    try {
+      return Scaffold(
+          appBar: AppBar(
+            title: const Text("Edit Profile",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 25, right: 25),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  SizedBox(
+                    height: height,
+                    width: width,
+                    child: ListView(
+                      children: [
+                        SizedBox(
+                          width: width,
+                          child: Column(
+                            children: [
+                              _image == null
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        _showPicker(context);
+                                      },
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 20.0, right: 20, left: 20, bottom: 10),
+                                          child: CircleAvatar(
+                                              radius: width * 0.25,
+                                              backgroundColor: Colors.grey,
+                                              child: const Text("Tap to select image"))))
+                                  : GestureDetector(
+                                      onTap: () {
+                                        _showPicker(context);
+                                      },
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 20.0, right: 20, left: 20, bottom: 10),
+                                          child: CircleAvatar(
+                                              radius: width * 0.25,
+                                              backgroundColor: Colors.transparent,
+                                              backgroundImage: FileImage(
+                                                _image!,
+                                              ))),
+                                    ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                        label: 'Name',
-                        onChanged: (val) => {},
-                        controller: _name,
-                        keyboardType: TextInputType.text,
-                        validatorLabel: 'Login Id ',
-                        validator: false,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                        label: 'New Password',
-                        onChanged: (val) => {},
-                        controller: _passwordController,
-                        keyboardType: TextInputType.text,
-                        validatorLabel: 'New Password ',
-                        validator: false,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                        label: 'Conform Password',
-                        onChanged: (val) => {},
-                        controller: _cnfpasswordController,
-                        keyboardType: TextInputType.numberWithOptions(),
-                        validatorLabel: 'Conform Password',
-                        validator: false,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: _image == null
-                                      ? MaterialStateProperty.all(Colors.grey)
-                                      : MaterialStateProperty.all(
-                                          Theme.of(context).colorScheme.primaryContainer),
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    // side: BorderSide(color: Colors.red)
-                                  ))),
-                              onPressed: () {
-                                if (_image != null) {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                }
-                              },
-                              child: const Text("Next",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'inter',
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CustomTextField(
+                          label: 'Name',
+                          onChanged: (val) => {},
+                          controller: _name,
+                          keyboardType: TextInputType.text,
+                          validatorLabel: 'Login Id ',
+                          validator: false,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CustomTextField(
+                          label: 'New Password',
+                          onChanged: (val) => {},
+                          controller: _passwordController,
+                          keyboardType: TextInputType.text,
+                          validatorLabel: 'New Password ',
+                          validator: false,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CustomTextField(
+                          label: 'Conform Password',
+                          onChanged: (val) => {},
+                          controller: _cnfpasswordController,
+                          keyboardType: TextInputType.numberWithOptions(),
+                          validatorLabel: 'Conform Password',
+                          validator: false,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            alignment: Alignment.bottomCenter,
+                            child: SizedBox(
+                              height: 50,
+                              width: 150,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor: _image == null
+                                        ? MaterialStateProperty.all(Colors.grey)
+                                        : MaterialStateProperty.all(
+                                            Theme.of(context).colorScheme.primaryContainer),
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      // side: BorderSide(color: Colors.red)
+                                    ))),
+                                onPressed: () {
+                                  if (_image != null) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                  }
+                                },
+                                child: const Text("Next",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'inter',
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white)),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(),
-                    ],
+                        const SizedBox(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ));
+          ));
+    } catch (e) {
+      return ExceptionScreen();
+    }
   }
 
   void _showPicker(context) {

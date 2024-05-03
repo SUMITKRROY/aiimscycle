@@ -31,4 +31,20 @@ class AppTable {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
+  // Method to retrieve all notes from the database
+  Future<List<Map<String, dynamic>>> getAppTable() async {
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    final db = await databaseHelper.database;
+    return await db.query(App_Table);
+  }
+
+  // Method to delete a note from the database
+  Future<int> deleteAppTable() async {
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    final db = await databaseHelper.database;
+    return await db.delete(
+      App_Table,
+    );
+  }
 }

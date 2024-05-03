@@ -41,4 +41,24 @@ class UserTable {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
+  // Method to retrieve all notes from the database
+  Future<List<Map<String, dynamic>>> getUserData() async {
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    final db = await databaseHelper.database;
+    return await db.query(USER_TABLE);
+  }
+
+  //filter out data 15 day or 30 day
+
+  // Method to delete a note from the database
+  Future<int> deleteUserData() async {
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    final db = await databaseHelper.database;
+    return await db.delete(
+      USER_TABLE,
+      //  where: '$id = ?',
+      // whereArgs: [noteId],
+    );
+  }
 }
