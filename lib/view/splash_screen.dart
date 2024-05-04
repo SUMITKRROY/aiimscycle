@@ -1,4 +1,5 @@
 import 'package:aiimscycle/bloc/splash_cubit.dart';
+import 'package:aiimscycle/components/appbar.dart';
 import 'package:aiimscycle/route/route_generater.dart';
 import 'package:flutter/material.dart';
 import 'package:aiimscycle/utils/helper_text.dart';
@@ -6,8 +7,10 @@ import 'package:aiimscycle/utils/image.dart';
 import 'package:aiimscycle/config/theamdata.dart';
 import 'package:aiimscycle/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../bloc/logger_db_cubit/logger_db_cubit.dart';
+import '../components/logo_image.dart';
 import 'exception_screen.dart';
 import 'login.dart';
 
@@ -37,9 +40,9 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  ImagePath.logo,
-                  height: Utils.getScreenHeight(context) / 3,
+                LogoImageWidget(
+                  height: 200.h,
+                  width: 200.w,
                 ),
                 Utils.getSizedBoxHeight(8.0),
                 const Align(

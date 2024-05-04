@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
-
 class FullScreenImage extends StatelessWidget {
   final File imageUrl;
 
@@ -21,16 +20,16 @@ class FullScreenImage extends StatelessWidget {
           color: Colors.black,
           child: Center(
             child: PhotoView(
-          imageProvider: Image.file(imageUrl).image,
-    minScale: PhotoViewComputedScale.contained,
-    maxScale: PhotoViewComputedScale.covered * 2,
-    enableRotation: true,
-    backgroundDecoration: BoxDecoration(
-    color: Colors.black,
-    ),
-    ),
+              imageProvider: Image.file(imageUrl).image,
+              minScale: PhotoViewComputedScale.contained,
+              maxScale: PhotoViewComputedScale.covered * 2,
+              enableRotation: true,
+              backgroundDecoration: BoxDecoration(
+                color: Colors.black,
+              ),
+            ),
           ),
-    ),
+        ),
       ),
     );
   }

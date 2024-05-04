@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'bloc/theme_cubit/theme.dart';
 import 'config/theamdata.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -45,22 +46,40 @@ class MyApp extends StatelessWidget {
         BlocProvider<ConfigCubit>(create: (_) => ConfigCubit(configuration: config)),
         BlocProvider<DeviceSafetyCubit>(create: (_) => DeviceSafetyCubit()),
         BlocProvider<SplashCubit>(create: (_) => SplashCubit()),
+        BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(414, 896),
         minTextAdapt: true,
         splitScreenMode: true,
-        child: MaterialApp(
-          initialRoute: RoutePath.splashScreenPage,
-          onGenerateRoute: MyRoutes.generateRoute,
-          debugShowCheckedModeBanner: false,
-          title: '${CommonText.cycle}',
-          // themeMode: ThemeMode.system,
-          // darkTheme: darkMode,
-          theme: lightMode,
-          //  home: HomeScreen(),
+        child: BlocBuilder<ThemeCubit, ThemeModeOption>(
+          builder: (context, themeMode) {
+            return MaterialApp(
+              initialRoute: RoutePath.splashScreenPage,
+              onGenerateRoute: MyRoutes.generateRoute,
+              debugShowCheckedModeBanner: false,
+              title: CommonText.cycle,
+              themeMode: _getThemeMode(themeModeOption: themeMode, context: context),
+              darkTheme: darkMode,
+              theme: lightMode,
+              //  home: HomeScreen(),
+            );
+          },
         ),
       ),
     );
+  }
+
+  ThemeMode _getThemeMode(
+      {required ThemeModeOption themeModeOption, required BuildContext context}) {
+    if (themeModeOption == ThemeModeOption.System) {
+      return MediaQuery.of(context).platformBrightness == Brightness.dark
+          ? ThemeMode.dark
+          : ThemeMode.light;
+    } else if (themeModeOption == ThemeModeOption.Light) {
+      return ThemeMode.light;
+    } else {
+      return ThemeMode.dark;
+    }
   }
 }

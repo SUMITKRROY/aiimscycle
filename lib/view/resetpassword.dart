@@ -1,9 +1,11 @@
 import 'package:aiimscycle/components/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../components/captchaForm.dart';
 import '../components/custom_TextFeild.dart';
+import '../route/route_generater.dart';
 import '../utils/utils.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -38,7 +40,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(titleSpacing: 0, title: CustomAppBar()),
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: CustomAppBar(),
+        actions: [
+          IconButton(
+            onPressed: () {
+              MyRoutes.navigateToSettingsScreen(context);
+            },
+            icon: Icon(
+              Icons.settings,
+              // color: ColorsData.,
+              size: 40.sp,
+            ),
+          )
+        ],
+      ),
       body: Form(
         key: _formKey,
         child: Padding(

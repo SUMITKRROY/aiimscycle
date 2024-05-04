@@ -8,8 +8,7 @@ class NameWithImage extends StatefulWidget {
   final String label;
   final Function(File) onImageSelected;
 
-  NameWithImage({Key? key, required this.label, required this.onImageSelected})
-      : super(key: key);
+  NameWithImage({Key? key, required this.label, required this.onImageSelected}) : super(key: key);
 
   @override
   State<NameWithImage> createState() => _NameWithImageState();
@@ -54,11 +53,8 @@ class _NameWithImageState extends State<NameWithImage> {
               visible: _image != null,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              FullScreenImage(imageUrl: _image!)));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: _image!)));
                 },
                 child: const Icon(Icons.remove_red_eye_outlined),
               ),
@@ -79,8 +75,7 @@ class _NameWithImageState extends State<NameWithImage> {
             padding: const EdgeInsets.all(20.0),
             child: Wrap(
               children: [
-                const Text('Select any one ',
-                    textScaleFactor: 1.0, textAlign: TextAlign.start),
+                const Text('Select any one ', textScaleFactor: 1.0, textAlign: TextAlign.start),
                 const SizedBox(
                   height: 50,
                 ),
@@ -90,8 +85,7 @@ class _NameWithImageState extends State<NameWithImage> {
                       onTap: () {
                         _imgFromCamera().then((image) {
                           if (image != null) {
-                            widget.onImageSelected(
-                                image); // Call the callback function
+                            widget.onImageSelected(image); // Call the callback function
                             setState(() {
                               _image = image;
                             });
@@ -122,8 +116,7 @@ class _NameWithImageState extends State<NameWithImage> {
                       onTap: () {
                         _imgFromGallery().then((image) {
                           if (image != null) {
-                            widget.onImageSelected(
-                                image); // Call the callback function
+                            widget.onImageSelected(image); // Call the callback function
                             setState(() {
                               _image = image;
                             });

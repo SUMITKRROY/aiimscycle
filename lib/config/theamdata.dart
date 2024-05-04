@@ -49,7 +49,13 @@ ColorScheme myDarkColorScheme = const ColorScheme.dark(
   brightness: Brightness.dark, // Specifying dark theme
 );
 
-ThemeData darkMode = ThemeData(brightness: Brightness.dark);
+ThemeData darkMode = ThemeData(
+  brightness: Brightness.dark,
+  textTheme: const TextTheme(
+      titleLarge:
+          TextStyle(fontSize: 20, color: ColorsData.whiteColor, fontWeight: FontWeight.bold),
+      bodySmall: TextStyle(fontSize: 16, color: ColorsData.darkGrayColor)),
+);
 
 ThemeData lightMode = ThemeData(
   brightness: Brightness.light,
@@ -61,22 +67,19 @@ ThemeData lightMode = ThemeData(
   //   ),
   // ),
   colorScheme: myColorScheme,
-  appBarTheme: AppBarTheme(
-    toolbarHeight: 70,
-    elevation: 0,
-    iconTheme: IconThemeData(
-      color: myColorScheme.primary, // Color of the icons in the app bar
-    ),
-  ),
+  // appBarTheme: AppBarTheme(
+  //   toolbarHeight: 70,
+  //   elevation: 0,
+  //   iconTheme: IconThemeData(
+  //     color: myColorScheme.primary, // Color of the icons in the app bar
+  //   ),
+  // ),
   // buttonTheme: ButtonThemeData(
   //   buttonColor: myColorScheme.primaryContainer, // Button color
   //   textTheme: ButtonTextTheme.accent, // Button text color
   // ),
   textTheme: const TextTheme(
-      titleLarge: TextStyle(
-          fontSize: 20,
-          color: ColorsData.whiteColor,
-          fontWeight: FontWeight.bold),
+      titleLarge: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
       bodySmall: TextStyle(fontSize: 16, color: ColorsData.darkGrayColor)),
   inputDecorationTheme: const InputDecorationTheme(
     enabledBorder: OutlineInputBorder(

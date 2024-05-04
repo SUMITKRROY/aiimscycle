@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../bloc/app_settings_cubit/app_settings_cubit.dart';
 import '../bloc/config_cubit/config_cubit.dart';
 import '../bloc/logger_db_cubit/logger_db_cubit.dart';
+import '../bloc/theme_cubit/theme.dart';
 import '../components/appbar.dart';
 import '../route/route_generater.dart';
 import '../utils/helper_text.dart';
@@ -38,22 +39,31 @@ class SettingsScreen extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
                       ),
                     ),
-                    ListTile(
-                      title: const Text('Theme'),
-                      trailing: DropdownButton<ThemeOption>(
-                        value: state.theme,
-                        onChanged: (ThemeOption? newValue) {
-                          if (newValue != null) {
-                            context.read<SettingsCubit>().setTheme(newValue);
-                          }
-                        },
-                        items: ThemeOption.values.map((ThemeOption option) {
-                          return DropdownMenuItem<ThemeOption>(
-                            value: option,
-                            child: Text(option.toString().split('.').last),
-                          );
-                        }).toList(),
-                      ),
+                    BlocBuilder<ThemeCubit, ThemeModeOption>(
+                      builder: (context, themeMode) {
+                        return ListTile(
+                            title: const Text('Theme'),
+                            trailing: DropdownButton<ThemeModeOption>(
+                              value: themeMode,
+                              onChanged: (newThemeMode) {
+                                BlocProvider.of<ThemeCubit>(context).setTheme(newThemeMode!);
+                              },
+                              items: [
+                                DropdownMenuItem(
+                                  value: ThemeModeOption.System,
+                                  child: Text('System Default'),
+                                ),
+                                DropdownMenuItem(
+                                  value: ThemeModeOption.Light,
+                                  child: Text('Light'),
+                                ),
+                                DropdownMenuItem(
+                                  value: ThemeModeOption.Dark,
+                                  child: Text('Dark'),
+                                ),
+                              ],
+                            ));
+                      },
                     ),
                     ListTile(
                       title: const Text('Language'),

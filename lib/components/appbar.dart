@@ -1,3 +1,4 @@
+import 'package:aiimscycle/components/logo_image.dart';
 import 'package:flutter/material.dart';
 import 'package:aiimscycle/utils/helper_text.dart';
 import 'package:aiimscycle/utils/image.dart';
@@ -16,10 +17,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: Image.asset(
-        ImagePath.logo,
-        height: 100.h,
-      ),
+      leading: LogoImageWidget(),
       title: Text(
         CommonText.cycle,
         style: TextStyle(fontSize: 20.sp),

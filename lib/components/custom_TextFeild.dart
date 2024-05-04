@@ -62,7 +62,7 @@ class _CustomTextField extends State<CustomTextField> {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: widget.maxline,
-      style: TextStyle(fontSize: 20.sp, color: ColorsData.darkGrayColor),
+      // style: TextStyle(fontSize: 20.sp, color: ColorsData.darkGrayColor),
       inputFormatters: widget.inputFormatters,
       validator: widget.validatorFunc ??
           (val) {
@@ -78,7 +78,7 @@ class _CustomTextField extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(20.h),
+          // contentPadding: EdgeInsets.all(20.h),
           suffixIcon: widget.suffixIcon,
           labelText: widget.label,
           labelStyle: TextStyle(fontSize: widget.labelFontSize ?? 20.sp),
