@@ -18,7 +18,7 @@ import '../bloc/register/register_bloc.dart';
 import '../config/theamdata.dart';
 import '../utils/helper_text.dart';
 import '../utils/utils.dart';
-import 'exception_screen.dart';
+import 'user/exception_screen.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -153,13 +153,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Flex(
+                  child: Column(
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.center,
-                    direction: Axis.vertical,
+                    // direction: Axis.vertical,
                     children: [
                       // Center(child: CustomText(lable: "User Register.")),
                       // CustomText(lable: "Enter your name"),
+                      SizedBox(height: 15.h),
                       Center(
                         child: Text(
                           "REGISTER",

@@ -1,20 +1,26 @@
+import 'package:aiimscycle/bloc/filter_log_cubit/filter_log_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../bloc/app_settings_cubit/app_settings_cubit.dart';
-import '../bloc/config_cubit/config_cubit.dart';
-import '../bloc/logger_db_cubit/logger_db_cubit.dart';
-import '../bloc/theme_cubit/theme.dart';
-import '../components/appbar.dart';
-import '../route/route_generater.dart';
-import '../utils/helper_text.dart';
+import '../../bloc/app_settings_cubit/app_settings_cubit.dart';
+import '../../bloc/config_cubit/config_cubit.dart';
+import '../../bloc/logger_db_cubit/logger_db_cubit.dart';
+import '../../bloc/theme_cubit/theme.dart';
+import '../../components/appbar.dart';
+import '../../route/route_generater.dart';
+import '../../utils/helper_text.dart';
 import 'exception_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   final String screenName = 'SettingsScreen';
+  int logFilterValue = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +57,7 @@ class SettingsScreen extends StatelessWidget {
                               items: [
                                 DropdownMenuItem(
                                   value: ThemeModeOption.System,
-                                  child: Text('System Default'),
+                                  child: Text('Default'),
                                 ),
                                 DropdownMenuItem(
                                   value: ThemeModeOption.Light,
@@ -106,22 +112,45 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                     ListTile(
-                      title: const Text('Auto Clear Log'),
-                      trailing: DropdownButton<LogOption>(
-                        value: state.logOption,
-                        onChanged: (LogOption? newValue) {
-                          if (newValue != null) {
-                            context.read<SettingsCubit>().setLogOption(newValue);
-                          }
-                        },
-                        items: LogOption.values.map((LogOption option) {
-                          return DropdownMenuItem<LogOption>(
-                            value: option,
-                            child: Text(option.toString().split('.').last),
-                          );
-                        }).toList(),
-                      ),
-                    ),
+                        title: const Text('Auto Log Filter'),
+                        trailing: DropdownButton<int>(
+                          value: logFilterValue,
+                          onChanged: (days) {
+                            logFilterValue = days!;
+                            setState(() {});
+                            BlocProvider.of<FilterLogCubit>(context).getFilterDates(days);
+                          },
+                          items: const [
+                            DropdownMenuItem(
+                              value: 1,
+                              child: Text('1 Days'),
+                            ),
+                            DropdownMenuItem(
+                              value: 3,
+                              child: Text('3 Days'),
+                            ),
+                            DropdownMenuItem(
+                              value: 7,
+                              child: Text('7 Days'),
+                            ),
+                            DropdownMenuItem(
+                              value: 15,
+                              child: Text('15 Days'),
+                            ),
+                            DropdownMenuItem(
+                              value: 30,
+                              child: Text('30 days'),
+                            ),
+                            DropdownMenuItem(
+                              value: 60,
+                              child: Text('60 days'),
+                            ),
+                            DropdownMenuItem(
+                              value: 0,
+                              child: Text('Never'),
+                            ),
+                          ],
+                        )),
                     Container(
                       width: double.maxFinite,
                       height: 60.h,
@@ -130,7 +159,7 @@ class SettingsScreen extends StatelessWidget {
                           Expanded(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  shape: StadiumBorder(side: BorderSide())),
+                                  shape: StadiumBorder(side: BorderSide(color: Colors.lightBlue))),
                               onPressed: () {},
                               child: Text('Send Logs'),
                             ),
@@ -139,7 +168,7 @@ class SettingsScreen extends StatelessWidget {
                           Expanded(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  shape: StadiumBorder(side: BorderSide())),
+                                  shape: StadiumBorder(side: BorderSide(color: Colors.lightBlue))),
                               onPressed: () {},
                               child: Text('Clear Logs'),
                             ),

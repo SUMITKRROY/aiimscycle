@@ -1,12 +1,12 @@
 import 'package:aiimscycle/bloc/config_cubit/config_cubit.dart';
+import 'package:aiimscycle/components/logo_image.dart';
 import 'package:aiimscycle/utils/helper_text.dart';
-import 'package:aiimscycle/view/exception_screen.dart';
+import 'package:aiimscycle/view/user/exception_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../components/appbar.dart';
-import '../../utils/image.dart';
-import '../bloc/logger_db_cubit/logger_db_cubit.dart';
+import '../../../components/appbar.dart';
+import '../../bloc/logger_db_cubit/logger_db_cubit.dart';
 
 class VersionScreen extends StatefulWidget {
   const VersionScreen({super.key});
@@ -44,9 +44,9 @@ class _VersionScreenState extends State<VersionScreen> {
                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16.sp),
                     );
                   } else {
-                    return Text(
+                    return const Text(
                       ' No Version Specified',
-                      style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
                     );
                   }
                 },
@@ -54,14 +54,14 @@ class _VersionScreenState extends State<VersionScreen> {
               const SizedBox(
                 height: 8,
               ),
-              Image.asset(
-                ImagePath.logo,
-                height: 150,
+              LogoImageWidget(
+                height: 250.h,
+                width: 250.h,
               ),
               const SizedBox(
                 height: 8,
               ),
-              const Text("GRIEVANCE PORTAL",
+              const Text("AIIMS CYCLE",
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24)),
               const Padding(
                 padding: EdgeInsets.all(8.0),

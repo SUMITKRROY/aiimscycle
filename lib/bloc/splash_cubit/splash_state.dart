@@ -6,7 +6,9 @@ abstract class SplashState {}
 class SplashInitialState extends SplashState {}
 
 class SplashLoadedState extends SplashState {
-  SplashLoadedState();
+  final String? checkRole;
+
+  SplashLoadedState({this.checkRole});
 }
 
 class SplashErrorState extends SplashState {

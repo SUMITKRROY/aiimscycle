@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../database/table/loger_table.dart';
+import '../../modal/log_data_modal.dart';
 
 part 'logger_db_state.dart';
 
@@ -29,6 +30,7 @@ class LoggerDbCubit extends Cubit<LoggerDbState> {
       // );
       Map<String, dynamic> data = {
         'id': uuid.v4(),
+        'clientId': "",
         'description': description,
         'screenName': screenName,
         'date': formattedDate.toString(),
@@ -36,7 +38,6 @@ class LoggerDbCubit extends Cubit<LoggerDbState> {
       };
       // Call insert function to insert data into the table
       LoggerListTable().insert(data);
-      print("data ${data}");
       // emit(LoggerDbInsert());
     } catch (e) {
       emit(LoggerDbError());
@@ -50,21 +51,23 @@ class LoggerDbCubit extends Cubit<LoggerDbState> {
     emit(LoggerDbLoading());
 
     try {
-      // List<LogDataClass> logDataClass = [];
-      List<Map<String, dynamic>> loadedPlayList = await LoggerListTable().getLogger();
+      List<LogDataClass> logDataClass = [];
+      List<Map<String, dynamic>> localData = await LoggerListTable().getLogger();
+      logDataClass.clear();
+      for (int i = 0; i < localData.length; i++) {
+        logDataClass.add(LogDataClass(
+          id: localData[i]['Id'],
+          clientId: localData[i]['ClientId'],
+          description: localData[i]['Description'],
+          screenName: localData[i]['ScreenName'],
+          date: localData[i]['Date'],
+          time: localData[i]['Time'],
+        ));
+      }
 
-      // for (var i in loadedPlayList) {
-      //   logDataClass.add(LogDataClass(
-      //       id:,
-      //
-      //       date: loadedPlayList[i].,
-      //       description:,
-      //
-      //       screenName:,
-      //       time:))
-      // }
+      print(localData.first['Id']);
 
-      emit(LoggerDbLoaded(loadedPlayList: loadedPlayList));
+      emit(LoggerDbLoaded(loadedData: localData, logDataClass: logDataClass));
     } catch (e) {
       emit(LoggerDbError());
 

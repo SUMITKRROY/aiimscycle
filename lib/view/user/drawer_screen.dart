@@ -1,14 +1,17 @@
+import 'package:aiimscycle/bloc/login_db_cubit/login_db_cubit.dart';
+import 'package:aiimscycle/database/table/login_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../components/custom_listtile.dart';
-import '../route/route_generater.dart';
-import '../config/theamdata.dart';
-import '../components/appbar.dart';
-import '../utils/image.dart';
-import 'login.dart';
+import '../../components/custom_listtile.dart';
+import '../../route/route_generater.dart';
+import '../../config/theamdata.dart';
+import '../../components/appbar.dart';
+import '../../utils/image.dart';
+import '../login.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override
@@ -161,21 +164,32 @@ class DrawerWidget extends StatelessWidget {
               margin: EdgeInsets.only(bottom: 10.h),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    side:
-                        BorderSide(color: ColorsData.contactFormErrorMessageBackground, width: 2)),
-                child: const Row(
+                    side: const BorderSide(
+                        color: ColorsData.contactFormErrorMessageBackground, width: 2)),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(Icons.exit_to_app, color: ColorsData.contactFormErrorMessageBackground),
-                    Text(
-                      'Logout',
-                      style: TextStyle(color: Colors.black),
+                    const Icon(Icons.exit_to_app,
+                        color: ColorsData.contactFormErrorMessageBackground),
+                    BlocListener<LoginDbCubit, LoginDbState>(
+                      listener: (context, state) {
+                        if (state is LoginDbDeleted) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => const LoginPage()),
+                              (route) => false);
+                        }
+                      },
+                      child: const Text(
+                        'Logout',
+                        // style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ],
                 ),
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()), (route) => false);
+                onPressed: () async {
+                  BlocProvider.of<LoginDbCubit>(context).deleteUserData();
+                  // await LoginTable().deleteUserData();
                 },
               ),
             ),

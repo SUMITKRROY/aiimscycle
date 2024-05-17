@@ -1,4 +1,4 @@
-import 'package:aiimscycle/view/homeScreen.dart';
+import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../view/about_info/about.dart';
@@ -9,10 +9,10 @@ import '../view/about_info/terms_of_use.dart';
 import '../view/login.dart';
 import '../view/profile/edit_profile.dart';
 import '../view/profile/profile.dart';
-import '../view/setting.dart';
-import '../view/version_screen.dart';
+import '../view/user/setting.dart';
+import '../view/user/version_screen.dart';
 import 'pageroute.dart';
-import '../view/splash_screen.dart';
+import '../view/user/splash_screen.dart';
 
 class MyRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {

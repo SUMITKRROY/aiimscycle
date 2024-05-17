@@ -36,14 +36,13 @@ class _NameWithImageState extends State<NameWithImage> {
                 children: [
                   Icon(
                     Icons.add_circle,
-                    color: Color.fromARGB(221, 49, 45, 45),
                   ),
                   SizedBox(
                     width: 5,
                   ),
                   Text(
                     "Attach",
-                    style: TextStyle(color: Color.fromARGB(66, 65, 57, 57)),
+                    // style: TextStyle(color: Color.fromARGB(66, 65, 57, 57)),
                   )
                 ],
               ),

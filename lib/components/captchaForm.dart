@@ -68,7 +68,7 @@ class _CaptchaFormState extends State<CaptchaForm> {
               child: Container(
                 width: double.maxFinite,
                 padding: EdgeInsets.symmetric(vertical: 11.h),
-                decoration: BoxDecoration(border: Border.all()),
+                decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                 child: Center(
                   child: Text(
                     captcha,
@@ -81,11 +81,5 @@ class _CaptchaFormState extends State<CaptchaForm> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    widget.captchaController.dispose();
-    super.dispose();
   }
 }

@@ -1,17 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:aiimscycle/database/table/login_table.dart';
 import 'package:aiimscycle/utils/service.dart' as myService;
 import 'dart:async';
 
 import 'package:aiimscycle/config/api_route.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/login_db_cubit/login_db_cubit.dart';
 
 class API {
   final ApiRoute route = ApiRoute();
 
   API();
 
-  Future<dynamic> login(String userId, String password) async {
+  Future<Response?> login(String userId, String password) async {
     try {
       var url = '${route.login}?username=$userId&password=$password';
 
@@ -23,7 +27,8 @@ class API {
 
         // Get cookies from response headers
         List<String> cookies = response.headers.map['set-cookie'];
-
+        Map<String, dynamic> userInfo = {};
+        String sessionId = "";
         // Extract values from cookies
         for (String cookie in cookies) {
           // Split cookie string to extract key-value pairs
@@ -40,38 +45,25 @@ class API {
           }
 
           // Extract value based on cookie name
-          String sessionId = cookieMap['JSESSIONID'] ?? "N.A.";
+          sessionId = cookieMap['JSESSIONID'] ?? "N.A.";
           print('JSESSION ID: $sessionId');
+          //BlocProvider.of<LoginDbCubit>(context).setAppData(userId: state.username!, password: password, sessionId: sessionId)
         }
+        // userInfo[LoginTable.userId] = userId;
+        // userInfo[LoginTable.password] = password;
+        // userInfo[LoginTable.sessionId] = sessionId;
+        // LoginTable().insert(userInfo);
 
-        return true;
+        return response;
       } else {
         log("response.statusMessage");
         return response.statusMessage;
       }
     } on DioException catch (e) {
-      log("$e");
-      final response = e.response;
-      if (response != null) {
-        final data = response.data;
-
-        if (response.statusCode == 401) {
-          log("$data");
-          return data["error"];
-        } else {
-          log("something happened");
-          log("${e.message}");
-          return e.message;
-        }
-      } else {
-        log("something terrible happened");
-        log("${e.message}");
-        return e.message;
-      }
     } catch (e) {
       log("something terrible happened again");
       log("$e");
-      return "$e";
+      return null;
     }
   }
 

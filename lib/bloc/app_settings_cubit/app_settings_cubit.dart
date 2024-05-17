@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum ThemeOption { system, light, dark }
 
-enum LanguageOption { system, english, hindi }
+enum LanguageOption { Default, English, Hindi }
 
 enum LogOption { one, three, week, month }
 
@@ -44,7 +44,7 @@ class SettingsState {
     this.debug = false,
     this.logger = false,
     this.theme = ThemeOption.system,
-    this.language = LanguageOption.system,
+    this.language = LanguageOption.Default,
     this.logOption = LogOption.one, // Default to English
   });
 

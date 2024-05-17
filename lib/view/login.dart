@@ -1,8 +1,12 @@
+import 'package:aiimscycle/bloc/login_cubit/login_cubit.dart';
+import 'package:aiimscycle/bloc/login_db_cubit/login_db_cubit.dart';
 import 'package:aiimscycle/config/theamdata.dart';
 import 'package:aiimscycle/route/route_generater.dart';
+import 'package:aiimscycle/view/Admin/admin_home_page.dart';
 import 'package:aiimscycle/view/register.dart';
-import 'package:aiimscycle/view/homeScreen.dart';
-import 'package:aiimscycle/view/resetpassword.dart';
+import 'package:aiimscycle/view/user/homeScreen.dart';
+import 'package:aiimscycle/view/user/resetpassword.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +20,7 @@ import '../components/captcha.dart';
 import '../components/captchaForm.dart';
 import '../components/custom_TextFeild.dart';
 import '../utils/utils.dart';
-import 'exception_screen.dart';
+import 'user/exception_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -71,17 +75,47 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
         body: SingleChildScrollView(
-          // Wrap with SingleChildScrollView
           child: Form(
             key: _formKey,
-            child: BlocListener<LoginBloc, LoginState>(
+            child: BlocListener<LoginCubit, LoginState>(
               listener: (context, state) {
                 if (state is LoginLoading) {
                   Utils.showLoadingProgress(context);
-                } else if (state is LoginSuccess) {
+                } else if (state is LoginLoaded) {
+                  BlocProvider.of<LoginDbCubit>(context).setAppData(
+                      userId: _employeeID.text.trim(),
+                      password: Utils.convertToMD5(_password.text.trim()),
+                      sessionId: state.loginModal.authenticate?.details.toString() ?? '',
+                      userRole:
+                          state.loginModal.authenticate?.authorities?.first.authority.toString() ??
+                              '');
+
                   Navigator.of(context);
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+
+                  print(
+                      '----------${state.loginModal.authenticate?.authorities?.first.authority.toString()}');
+
+                  if (state.loginModal.authenticate?.authorities?.first.authority.toString() ==
+                          'ROLE_SuperAdmin' ||
+                      state.loginModal.authenticate?.authorities?.first.authority.toString() ==
+                          'ROLE_Admin') {
+                    Navigator.pushAndRemoveUntil(context,
+                        MaterialPageRoute(builder: (context) => AdminHomePage()), (route) => false);
+
+                    // Navigator.pushReplacement(
+                    //     context, MaterialPageRoute(builder: (context) => const AdminHomePage()));
+                  } else if (state.loginModal.authenticate?.authorities?.first.authority
+                          .toString() ==
+                      'ROLE_User') {
+                    Navigator.pushAndRemoveUntil(context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
+
+                    // Navigator.pushReplacement(
+                    //     context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                  } else {
+                    Navigator.pop(context);
+                    Utils.snackbarToast('Please Define Your Role');
+                  }
                 } else if (state is LoginError) {
                   var msg = state.error;
                   Navigator.of(context).pop();
@@ -99,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 15.h),
                     const Center(
                       child: Text(
                         "LOGIN",
@@ -161,16 +196,13 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              // bool isValid = _formKey.currentState!.validate();
-                              // if (isValid) {
-                              //   // ignore: avoid_single_cascade_in_expression_statements
-                              //   BlocProvider.of<LoginBloc>(context)
-                              //     ..add(
-                              //         GetPhoneNo(phone: _employeeID.text, password: _password.text));
-                              //   //  MyRoutes.navigateToHome(context);
-                              // }
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+                              bool isValid = _formKey.currentState!.validate();
+                              if (isValid) {
+                                BlocProvider.of<LoginCubit>(context)
+                                    .getLogin(_employeeID.text.trim(), _password.text.trim());
+                              }
+                              // Navigator.pushReplacement(context,
+                              //     MaterialPageRoute(builder: (context) => const HomeScreen()));
                             },
                             child: const Text("Login"),
                           ),

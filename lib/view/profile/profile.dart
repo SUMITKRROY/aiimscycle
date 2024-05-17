@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/appbar.dart';
 import '../../route/route_generater.dart';
 import '../../utils/image.dart';
-import '../exception_screen.dart';
+import '../user/exception_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -55,21 +55,22 @@ class ProfileScreen extends StatelessWidget {
   itemProfile(String title, String subtitle, IconData iconData) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-                offset: Offset(0, 5),
-                color: Colors.grey.withOpacity(.2),
-                spreadRadius: 2,
-                blurRadius: 10)
-          ]),
+        // color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        // boxShadow: [
+        //   BoxShadow(
+        //       offset: Offset(0, 5),
+        //       // color: Colors.grey.withOpacity(.2),
+        //       spreadRadius: 2,
+        //       blurRadius: 10)
+        // ]
+      ),
       child: ListTile(
         title: Text(title),
         subtitle: Text(subtitle),
         leading: Icon(iconData),
         // trailing: Icon(Icons.arrow_forward, color: Colors.grey.shade400),
-        tileColor: Colors.white,
+        // tileColor: Colors.white,
       ),
     );
   }

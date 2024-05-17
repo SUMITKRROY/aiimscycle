@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ColorScheme myColorScheme = const ColorScheme.light(
   primary: Color(0xFF333333),
@@ -55,6 +56,17 @@ ThemeData darkMode = ThemeData(
       titleLarge:
           TextStyle(fontSize: 20, color: ColorsData.whiteColor, fontWeight: FontWeight.bold),
       bodySmall: TextStyle(fontSize: 16, color: ColorsData.darkGrayColor)),
+  inputDecorationTheme: const InputDecorationTheme(
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: ColorsData.primaryColor),
+      ),
+      contentPadding: EdgeInsets.all(16),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      )),
 );
 
 ThemeData lightMode = ThemeData(
@@ -67,17 +79,15 @@ ThemeData lightMode = ThemeData(
   //   ),
   // ),
   colorScheme: myColorScheme,
-  // appBarTheme: AppBarTheme(
-  //   toolbarHeight: 70,
-  //   elevation: 0,
-  //   iconTheme: IconThemeData(
-  //     color: myColorScheme.primary, // Color of the icons in the app bar
-  //   ),
-  // ),
-  // buttonTheme: ButtonThemeData(
-  //   buttonColor: myColorScheme.primaryContainer, // Button color
-  //   textTheme: ButtonTextTheme.accent, // Button text color
-  // ),
+  appBarTheme: AppBarTheme(
+    surfaceTintColor: Colors.transparent,
+    // toolbarHeight: 80.h,
+    elevation: 0,
+  ),
+  buttonTheme: ButtonThemeData(
+    buttonColor: myColorScheme.primaryContainer, // Button color
+    textTheme: ButtonTextTheme.accent, // Button text color
+  ),
   textTheme: const TextTheme(
       titleLarge: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
       bodySmall: TextStyle(fontSize: 16, color: ColorsData.darkGrayColor)),
@@ -86,7 +96,7 @@ ThemeData lightMode = ThemeData(
       borderSide: BorderSide(color: ColorsData.darkGrayColor),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: ColorsData.darkGrayColor),
+      borderSide: BorderSide(color: ColorsData.primaryColor),
     ),
     contentPadding: EdgeInsets.all(16),
     border: OutlineInputBorder(

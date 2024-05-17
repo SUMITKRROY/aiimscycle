@@ -1,43 +1,44 @@
 import 'dart:convert';
 import 'dart:developer';
 
-
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
   //dialog
   static showLoadingProgress(BuildContext context) {
-      return showDialog(
-        context: context,
+    return showDialog(
+      context: context,
       barrierDismissible: false,
       builder: (context) => SpinKitCubeGrid(
-          color: Theme.of(context).secondaryHeaderColor,
-          size: 50,
+        color: Theme.of(context).secondaryHeaderColor,
+        size: 50,
       ),
     );
   }
 
-  static   showDialogBox(BuildContext context, String label, String content) {
+  static showDialogBox(BuildContext context, String label, String content) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) =>
-          AlertDialog(
-            title: Text(label),
-            content: Text(content),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // To close the dialog
-                },
-                child: Text('Close'),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: Text(label),
+        content: Text(content),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // To close the dialog
+            },
+            child: Text('Close'),
           ),
+        ],
+      ),
     );
   }
+
   //validator
   static Function employeeIdValidator() {
     return (String? value) {
@@ -52,6 +53,7 @@ class Utils {
       return null;
     };
   }
+
   static Function passwordValidator() {
     return (String? value) {
       RegExp regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -64,8 +66,8 @@ class Utils {
       }
       return null;
     };
+  }
 
-}
   static Function validateUserName() {
     return (String? value) {
       RegExp regex = RegExp(r'^[a-zA-Z]');
@@ -81,7 +83,8 @@ class Utils {
       return null;
     };
   }
- static Function phoneValidator() {
+
+  static Function phoneValidator() {
     return (String? value) {
       RegExp regex = RegExp(r'^[0-9]{10}$'); // Assuming a 10-digit phone number format
 
@@ -108,11 +111,11 @@ class Utils {
     log("md5String : $md5String");
     return md5String;
   }
+
   static String convertToBase64(String data) {
     String base64String = base64.encode(utf8.encode(data));
     return base64String;
   }
-
 
   static Size getScreenSize(BuildContext context) {
     return MediaQuery.of(context).size;
@@ -128,5 +131,14 @@ class Utils {
 
   static Widget getSizedBoxHeight(double height) {
     return SizedBox(height: height);
+  }
+
+  static snackbarToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        textColor: Colors.white,
+        fontSize: 20.sp);
   }
 }

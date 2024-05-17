@@ -1,4 +1,7 @@
+import 'package:aiimscycle/database/table/app_table.dart';
 import 'package:aiimscycle/database/table/loger_table.dart';
+import 'package:aiimscycle/database/table/login_table.dart';
+import 'package:aiimscycle/database/table/user_table.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -53,6 +56,9 @@ class DatabaseHelper {
   Future<void> _onCreate(Database db, int version) async {
     // Run the CREATE {DeviceInfoTable} TABLE statement on the database.
     await db.execute(LoggerListTable.CREATE);
+    await db.execute(AppTable.CREATE);
+    await db.execute(UserTable.CREATE);
+    await db.execute(LoginTable.CREATE);
   }
 
   // UPGRADE DATABASE TABLES

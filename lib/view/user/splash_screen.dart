@@ -1,18 +1,16 @@
-import 'package:aiimscycle/bloc/splash_cubit.dart';
-import 'package:aiimscycle/components/appbar.dart';
-import 'package:aiimscycle/route/route_generater.dart';
+import 'package:aiimscycle/bloc/splash_cubit/splash_cubit.dart';
+import 'package:aiimscycle/view/Admin/admin_home_page.dart';
+import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:aiimscycle/utils/helper_text.dart';
-import 'package:aiimscycle/utils/image.dart';
 import 'package:aiimscycle/config/theamdata.dart';
 import 'package:aiimscycle/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../bloc/logger_db_cubit/logger_db_cubit.dart';
-import '../components/logo_image.dart';
+import '../../bloc/logger_db_cubit/logger_db_cubit.dart';
+import '../../components/logo_image.dart';
 import 'exception_screen.dart';
-import 'login.dart';
+import '../login.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -25,13 +23,35 @@ class _SplashScreenState extends State<SplashScreen> {
   final String screenName = 'SplashScreen';
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     try {
       return BlocListener<SplashCubit, SplashState>(
         listener: (context, state) {
           if (state is SplashLoadedState) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => LoginPage()));
+            // print(state.checkRole);
+            if (state.checkRole == 'ROLE_SuperAdmin' || state.checkRole == 'ROLE_Admin') {
+              Navigator.pushAndRemoveUntil(context,
+                  MaterialPageRoute(builder: (context) => AdminHomePage()), (route) => false);
+              // Navigator.pushReplacement(
+              //     context, MaterialPageRoute(builder: (context) => AdminHomePage()));
+            } else if (state.checkRole == 'ROLE_User') {
+              Navigator.pushAndRemoveUntil(
+                  context, MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
+              // Navigator.pushReplacement(
+              //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
+            } else {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => LoginPage()));
+            }
+          }
+          if (state is SplashErrorState) {
+            // Utils.snackbarToast('Please Define Your Role');
           }
         },
         child: Scaffold(

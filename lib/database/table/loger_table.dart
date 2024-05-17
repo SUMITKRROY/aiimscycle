@@ -13,7 +13,7 @@ class LoggerListTable {
   static const String CREATE = '''
     CREATE TABLE IF NOT EXISTS $LOGGER_TABLE (
     $id TEXT PRIMARY KEY,
-    $clientId TEXT PRIMARY KEY,
+    $clientId TEXT DEFAULT '',
     $description TEXT DEFAULT '',
     $screenName TEXT DEFAULT '',  
     $date TEXT DEFAULT '',       
@@ -54,23 +54,23 @@ class LoggerListTable {
     );
   }
 
-// // Method to get note details by ID
-// Future<Map<String, dynamic>> getLoggerById(int noteId) async {
-//   DatabaseHelper databaseHelper = DatabaseHelper();
-//   final db = await databaseHelper.database;
-//
-//   List<Map<String, dynamic>> result = await db.query(
-//     LOGGER_TABLE,
-//     where: '$id = ?',
-//     // whereArgs: [noteId],
-//   );
-//
-//   // If the query returns a result, return the first (and only) row
-//   if (result.isNotEmpty) {
-//     return result.first;
-//   } else {
-//     // If no result is found, return an empty map or handle it as needed
-//     return {};
-//   }
-// }
+// Method to get note details by ID
+  Future<Map<String, dynamic>> getLoggerById(int id) async {
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    final db = await databaseHelper.database;
+
+    List<Map<String, dynamic>> result = await db.query(
+      LOGGER_TABLE,
+      where: '$id = ?',
+      // whereArgs: [noteId],
+    );
+
+    // If the query returns a result, return the first (and only) row
+    if (result.isNotEmpty) {
+      return result.first;
+    } else {
+      // If no result is found, return an empty map or handle it as needed
+      return {};
+    }
+  }
 }

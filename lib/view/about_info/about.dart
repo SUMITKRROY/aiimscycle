@@ -5,7 +5,7 @@ import '../../components/appbar.dart';
 import '../../components/custom_listtile.dart';
 import '../../route/route_generater.dart';
 import '../../utils/helper_text.dart';
-import '../exception_screen.dart';
+import '../user/exception_screen.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({super.key});

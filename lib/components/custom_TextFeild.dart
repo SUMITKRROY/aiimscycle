@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:aiimscycle/config/theamdata.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -60,6 +59,9 @@ class _CustomTextField extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTapOutside: (PointerDownEvent event) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: widget.maxline,
       // style: TextStyle(fontSize: 20.sp, color: ColorsData.darkGrayColor),
@@ -78,7 +80,7 @@ class _CustomTextField extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-          // contentPadding: EdgeInsets.all(20.h),
+          contentPadding: EdgeInsets.all(22.h),
           suffixIcon: widget.suffixIcon,
           labelText: widget.label,
           labelStyle: TextStyle(fontSize: widget.labelFontSize ?? 20.sp),

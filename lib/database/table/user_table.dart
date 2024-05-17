@@ -8,11 +8,10 @@ class UserTable {
   static const String userId = "USER_ID";
   static const String password = "PASSWORD";
   static const String mobileNo = "MOBILE_NO";
-  static const String email = "EMAIL";
+  static const String email = "Email";
   static const String idFront = "ID_FRONT";
   static const String idBack = "ID_BACK";
-  static const String profilePicture = "PROFILE_PICTURE";
-  static const String sessionId = "SESSION_ID";
+  static const String profilePicture = "ProfilePicture";
 
   static const String CREATE = '''
     CREATE TABLE IF NOT EXISTS $USER_TABLE (
@@ -24,8 +23,7 @@ class UserTable {
     $email TEXT DEFAULT '',
     $idFront TEXT DEFAULT '',
     $idBack TEXT DEFAULT '',
-    $profilePicture TEXT DEFAULT '',
-    $sessionId TEXT DEFAULT ''
+    $profilePicture TEXT DEFAULT ''
     )
   ''';
 
