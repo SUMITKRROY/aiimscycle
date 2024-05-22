@@ -1,14 +1,18 @@
 import 'package:aiimscycle/components/appbar.dart';
+import 'package:aiimscycle/database/table/cycle_table.dart';
 import 'package:aiimscycle/utils/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'cycle_page_two.dart';
+import 'drawer_screen.dart';
+import 'homeScreen.dart';
 
 class CycleDetailPage extends StatefulWidget {
   final String cycleId;
+  final bool bookingStatus;
 
-  CycleDetailPage({super.key, required this.cycleId});
+  CycleDetailPage({super.key, required this.cycleId, required this.bookingStatus});
 
   @override
   State<CycleDetailPage> createState() => _CycleDetailPageState();
@@ -18,12 +22,37 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
   bool onTap = true;
   int indexOfImage = 0;
 
+  late CycleModal cycle;
+
+  // final List<String>? imageUrlList = [
+  //   'assets/cycle/4.jpg',
+  //   'assets/cycle/1.jpg',
+  //   'assets/cycle/2.jpg',
+  //   'assets/cycle/3.jpg',
+  // ];
   final List<String>? imageUrlList = [
     ImagePath.cycle,
     ImagePath.logo,
     ImagePath.cycle,
     ImagePath.logo,
   ];
+  Map<String, dynamic> cycleInfo = {};
+
+  @override
+  void initState() {
+    cycle = CycleModal(
+      id: widget.cycleId,
+      name: "Cycle Name",
+      category: "Cycle Category",
+      status: "Available",
+      available: true,
+      reqId: 10113223,
+      requestDate: DateTime.now().toString().substring(0, 10),
+      requestStatus: 'Pending',
+    );
+    // cycle =
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +61,7 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
         titleSpacing: 0,
         title: const CustomAppBar(),
       ),
+      drawer: DrawerWidget(),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 15.w,
@@ -50,7 +80,7 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                     imageUrlList![indexOfImage],
                     height: 300.h,
                     width: 400.w,
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.cover,
                   ),
                   imageUrlList!.length > 1
                       ? Padding(
@@ -106,7 +136,7 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                 children: [
                   // Product Name
                   Text(
-                    'Cycle Id :- ${widget.cycleId}',
+                    'Cycle Id :- ${cycle.id}',
                     style: TextStyle(
                       fontSize: 22.sp,
                       fontWeight: FontWeight.bold,
@@ -115,7 +145,7 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                   SizedBox(height: 10.h),
                   // Product Title
                   Text(
-                    'Cycle Name',
+                    '${cycle.name}',
                     style: TextStyle(
                       fontSize: 16.sp,
                     ),
@@ -123,7 +153,7 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                   SizedBox(height: 10.h),
                   // Product Description
                   Text(
-                    'Categories',
+                    '${cycle.category}',
                     style: TextStyle(
                       fontSize: 14.sp,
                     ),
@@ -142,12 +172,12 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                     ),
                   ),
                   trailing: Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+                    padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 18.w),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.green),
                         borderRadius: BorderRadius.all(Radius.circular(30.r))),
                     child: Text(
-                      'Available',
+                      '${cycle.status}',
                       style: TextStyle(fontSize: 16.sp, color: Colors.green),
                     ),
                   ),
@@ -160,12 +190,12 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                     ),
                   ),
                   trailing: Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 38.w),
+                    padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 40.w),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.green),
                         borderRadius: BorderRadius.all(Radius.circular(30.r))),
                     child: Text(
-                      'True',
+                      '${cycle.available}',
                       style: TextStyle(fontSize: 16.sp, color: Colors.green),
                     ),
                   ),
@@ -173,21 +203,113 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
               ],
             ),
             // SizedBox(height: 20.h),
-
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CycleDetailPageTwo(
-                              cycleId: widget.cycleId,
-                            )));
-              },
-              child: const Text('Book Now'),
-            ),
+            widget.bookingStatus
+                ? ElevatedButton(
+                    onPressed: () {
+                      _showSurrenderDialog(context);
+                      CycleTable().deleteAllCycles();
+                    },
+                    child: const Text('Surrender'),
+                  )
+                : ElevatedButton(
+                    onPressed: () {
+                      _showBookingDialog(context);
+                      cycleInfo[CycleTable.cycleId] = cycle.id;
+                      cycleInfo[CycleTable.name] = cycle.name;
+                      cycleInfo[CycleTable.category] = cycle.category;
+                      cycleInfo[CycleTable.status] = cycle.status;
+                      cycleInfo[CycleTable.requestDate] = cycle.requestDate;
+                      cycleInfo[CycleTable.reqId] = cycle.reqId;
+                      cycleInfo[CycleTable.requestStatus] = cycle.requestStatus;
+                    },
+                    child: const Text('Book Now'),
+                  ),
           ],
         ),
       ),
     );
   }
+
+  void _showSurrenderDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Surrender'),
+          content: Text('Are you sure you want to surrender?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showBookingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Book'),
+          content: Text('Are you sure you want to Book a cycle?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.pop(context);
+                CycleTable().insert(cycleInfo);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CycleDetailPageTwo(
+                              cycle: cycle,
+                              cycleId: widget.cycleId,
+                            )));
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class CycleModal {
+  final String id;
+  final String name;
+  final String category;
+  final String status;
+  final bool available;
+  final int reqId;
+  final String requestDate;
+  final String requestStatus;
+
+  CycleModal({
+    required this.id,
+    required this.name,
+    required this.category,
+    required this.status,
+    required this.available,
+    required this.reqId,
+    required this.requestDate,
+    required this.requestStatus,
+  });
 }

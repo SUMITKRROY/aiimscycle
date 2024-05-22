@@ -1,3 +1,4 @@
+import 'package:aiimscycle/database/table/user_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,8 +9,26 @@ import '../../route/route_generater.dart';
 import '../../utils/image.dart';
 import '../user/exception_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  List<Map<String, dynamic>> ProfileData = [];
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+
+  Future<void> getUserData() async {
+    ProfileData = await ProfileTable().getProfile();
+    print("----------------profile $ProfileData ok --------");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +47,10 @@ class ProfileScreen extends StatelessWidget {
                 radius: 85.r,
                 backgroundImage: AssetImage(ImagePath.profile),
               ),
-              itemProfile('Name', 'UserName', CupertinoIcons.person),
-              itemProfile('Phone', '03107085816', CupertinoIcons.phone),
-              itemProfile('Employee', 'E9999999', CupertinoIcons.location),
-              itemProfile('Email', 'aiims@gmail.com', CupertinoIcons.mail),
+              itemProfile('Name', 'Enter Username', CupertinoIcons.person),
+              itemProfile('Phone', 'Enter Phone Number', CupertinoIcons.phone),
+              itemProfile('Employee', 'Enter EmployeeID', CupertinoIcons.location),
+              itemProfile('Email', 'Enter Email', CupertinoIcons.mail),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(

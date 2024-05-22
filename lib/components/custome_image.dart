@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:aiimscycle/components/photo_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NameWithImage extends StatefulWidget {
@@ -27,6 +28,20 @@ class _NameWithImageState extends State<NameWithImage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Visibility(
+              visible: _image != null,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: _image!)));
+                },
+                child: const Icon(
+                  Icons.remove_red_eye_outlined,
+                  color: Colors.blue,
+                ),
+              ),
+            ),
+            SizedBox(width: 10.w),
             ElevatedButton(
               onPressed: () {
                 _showPicker(context);
@@ -45,17 +60,6 @@ class _NameWithImageState extends State<NameWithImage> {
                     // style: TextStyle(color: Color.fromARGB(66, 65, 57, 57)),
                   )
                 ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            Visibility(
-              visible: _image != null,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: _image!)));
-                },
-                child: const Icon(Icons.remove_red_eye_outlined),
               ),
             ),
           ],

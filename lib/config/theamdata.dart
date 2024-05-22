@@ -1,57 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-ColorScheme myColorScheme = const ColorScheme.light(
-  primary: Color(0xFF333333),
-  // Corresponds to text color in CSS
-  secondary: Color(0xFFF0F0F0),
-  // Corresponds to background color in CSS
-  primaryContainer: Color(0xFF3fbbc0),
-  surface: Color(0xFFF0F0F0),
-  // Corresponds to background color in CSS
-  background: Color(0xFFF0F0F0),
-  // Corresponds to background color in CSS
-  error: Colors.red,
-  // Placeholder color for error
-  onPrimary: Color(0xFFF0F0F0),
-  // Corresponds to background color in CSS
-  onSecondary: Color(0xFF333333),
-  // Corresponds to text color in CSS
-  onSurface: Color(0xFF333333),
-  // Corresponds to text color in CSS
-  onBackground: Color(0xFF333333),
-  // Corresponds to text color in CSS
-  onError: Colors.white,
-  // Text color for error messages
-  brightness: Brightness.light, // Assuming light theme
-);
-ColorScheme myDarkColorScheme = const ColorScheme.dark(
-  primary: Color(0xFFF0F0F0),
-  // Inverted from light theme
-  secondary: Color(0xFF333333),
-  // Inverted from light theme
-  primaryContainer: Color(0xFF3fbbc0),
-  surface: Color(0xFF333333),
-  // Inverted from light theme
-  background: Color(0xFF333333),
-  // Inverted from light theme
-  error: Colors.red,
-  // Placeholder color for error
-  onPrimary: Color(0xFF333333),
-  // Inverted from light theme
-  onSecondary: Color(0xFFF0F0F0),
-  // Inverted from light theme
-  onSurface: Color(0xFFF0F0F0),
-  // Inverted from light theme
-  onBackground: Color(0xFFF0F0F0),
-  // Inverted from light theme
-  onError: Colors.white,
-  // Text color for error messages
-  brightness: Brightness.dark, // Specifying dark theme
-);
+// ColorScheme myColorScheme = const ColorScheme.light(
+//   primary: Color(0xFF333333),
+//   // Corresponds to text color in CSS
+//   secondary: Color(0xFFF0F0F0),
+//   // Corresponds to background color in CSS
+//   primaryContainer: Color(0xFF3fbbc0),
+//   surface: Color(0xFFF0F0F0),
+//   // Corresponds to background color in CSS
+//   background: Color(0xFFF0F0F0),
+//   // Corresponds to background color in CSS
+//   error: Colors.red,
+//   // Placeholder color for error
+//   onPrimary: Color(0xFFF0F0F0),
+//   // Corresponds to background color in CSS
+//   onSecondary: Color(0xFF333333),
+//   // Corresponds to text color in CSS
+//   onSurface: Color(0xFF333333),
+//   // Corresponds to text color in CSS
+//   onBackground: Color(0xFF333333),
+//   // Corresponds to text color in CSS
+//   onError: Colors.white,
+//   // Text color for error messages
+//   brightness: Brightness.light, // Assuming light theme
+// );
+// ColorScheme myDarkColorScheme = const ColorScheme.dark(
+//   primary: Color(0xFFF0F0F0),
+//   // Inverted from light theme
+//   secondary: Color(0xFF333333),
+//   // Inverted from light theme
+//   primaryContainer: Color(0xFF3fbbc0),
+//   surface: Color(0xFF333333),
+//   // Inverted from light theme
+//   background: Color(0xFF333333),
+//   // Inverted from light theme
+//   error: Colors.red,
+//   // Placeholder color for error
+//   onPrimary: Color(0xFF333333),
+//   // Inverted from light theme
+//   onSecondary: Color(0xFFF0F0F0),
+//   // Inverted from light theme
+//   onSurface: Color(0xFFF0F0F0),
+//   // Inverted from light theme
+//   onBackground: Color(0xFFF0F0F0),
+//   // Inverted from light theme
+//   onError: Colors.white,
+//   // Text color for error messages
+//   brightness: Brightness.dark, // Specifying dark theme
+// );
 
 ThemeData darkMode = ThemeData(
   brightness: Brightness.dark,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+        backgroundColor: ColorsData.tealColor, foregroundColor: Colors.white),
+  ),
   textTheme: const TextTheme(
       titleLarge:
           TextStyle(fontSize: 20, color: ColorsData.whiteColor, fontWeight: FontWeight.bold),
@@ -70,22 +74,22 @@ ThemeData darkMode = ThemeData(
 );
 
 ThemeData lightMode = ThemeData(
+  // primaryColor: ColorsData.primaryPurpleColor,
   brightness: Brightness.light,
   useMaterial3: true,
-  secondaryHeaderColor: myColorScheme.primaryContainer,
-  // elevatedButtonTheme: ElevatedButtonThemeData(
-  //   style: ElevatedButton.styleFrom(
-  //     backgroundColor: Colors.orange,foregroundColor: Colors.blue
-  //   ),
-  // ),
-  colorScheme: myColorScheme,
+  // secondaryHeaderColor: myColorScheme.primaryContainer,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+        backgroundColor: ColorsData.tealColor, foregroundColor: ColorsData.whiteColor),
+  ),
+  // colorScheme: myColorScheme,
   appBarTheme: AppBarTheme(
     surfaceTintColor: Colors.transparent,
     // toolbarHeight: 80.h,
     elevation: 0,
   ),
   buttonTheme: ButtonThemeData(
-    buttonColor: myColorScheme.primaryContainer, // Button color
+    // buttonColor: myColorScheme.primaryContainer, // Button color
     textTheme: ButtonTextTheme.accent, // Button text color
   ),
   textTheme: const TextTheme(
@@ -116,6 +120,11 @@ class ColorsData {
   static const Color whiteColor = Colors.white;
   static const Color shadowColor = Color.fromRGBO(0, 0, 0, 0.1);
   static const Color darkGrayColor = Color(0xFF333333);
+
+  // New accent colors
+  static const Color primaryPurpleColor = Color(0xFF6200EE);
+  static const Color secondaryPurpleColor = Color(0xFF3700B3);
+  static const Color tealColor = Color(0xFF03DAC5);
 
   // Color for preloader
   static const Color preloaderBorderColor = primaryColor;

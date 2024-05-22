@@ -25,7 +25,7 @@ class DrawerWidget extends StatelessWidget {
             width: double.maxFinite,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme.of(context).secondaryHeaderColor,
+                color: ColorsData.tealColor,
               ),
               child: Column(
                 children: [
@@ -50,7 +50,7 @@ class DrawerWidget extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.bottomRight,
                             child: CircleAvatar(
-                              backgroundColor: Colors.green,
+                              backgroundColor: ColorsData.topbarBackgroundColor,
                               radius: 15,
                               child: Transform.translate(
                                 offset: Offset(-2, -2),
@@ -163,14 +163,13 @@ class DrawerWidget extends StatelessWidget {
               width: 150.w,
               margin: EdgeInsets.only(bottom: 10.h),
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    side: const BorderSide(
-                        color: ColorsData.contactFormErrorMessageBackground, width: 2)),
+                style: ElevatedButton.styleFrom(side: const BorderSide(width: 2)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Icon(Icons.exit_to_app,
-                        color: ColorsData.contactFormErrorMessageBackground),
+                    const Icon(
+                      Icons.exit_to_app,
+                    ),
                     BlocListener<LoginDbCubit, LoginDbState>(
                       listener: (context, state) {
                         if (state is LoginDbDeleted) {

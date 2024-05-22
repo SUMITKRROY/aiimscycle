@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:aiimscycle/config/theamdata.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../components/custom_TextFeild.dart';
+import '../../database/table/user_profile.dart';
+import '../../utils/utils.dart';
 import '../user/exception_screen.dart';
 
 class ProfileEditScreen extends StatefulWidget {
@@ -15,8 +20,9 @@ class ProfileEditScreen extends StatefulWidget {
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final TextEditingController _name = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _cnfpasswordController = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+  final TextEditingController _employee = TextEditingController();
+  final TextEditingController _email = TextEditingController();
   var isLoading = false;
   File? _image;
   final imagePicker = ImagePicker();
@@ -24,140 +30,162 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   var isRemarkEnabled = true;
   var selfiImgBase64 = '';
   var selfiImg = '';
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     try {
-      return Scaffold(
-          appBar: AppBar(
-            title: const Text("Edit Profile",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 25, right: 25),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  SizedBox(
-                    height: height,
-                    width: width,
-                    child: ListView(
-                      children: [
-                        SizedBox(
-                          width: width,
-                          child: Column(
-                            children: [
-                              _image == null
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        _showPicker(context);
-                                      },
-                                      child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20.0, right: 20, left: 20, bottom: 10),
-                                          child: CircleAvatar(
-                                              radius: width * 0.25,
-                                              backgroundColor: Colors.grey,
-                                              child: const Text("Tap to select image"))))
-                                  : GestureDetector(
-                                      onTap: () {
-                                        _showPicker(context);
-                                      },
-                                      child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20.0, right: 20, left: 20, bottom: 10),
-                                          child: CircleAvatar(
-                                              radius: width * 0.25,
-                                              backgroundColor: Colors.transparent,
-                                              backgroundImage: FileImage(
-                                                _image!,
-                                              ))),
-                                    ),
-                            ],
+      return Form(
+        key: _formKey,
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text("Edit Profile",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 25, right: 25),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: width,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _image == null
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          _showPicker(context);
+                                        },
+                                        child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 20.0, right: 20, left: 20, bottom: 10),
+                                            child: CircleAvatar(
+                                                radius: width * 0.25,
+                                                backgroundColor: Colors.grey,
+                                                child: const Text("Tap to select image"))))
+                                    : GestureDetector(
+                                        onTap: () {
+                                          _showPicker(context);
+                                        },
+                                        child: CircleAvatar(
+                                            radius: width * 0.25,
+                                            backgroundColor: Colors.transparent,
+                                            backgroundImage: FileImage(
+                                              _image!,
+                                            )),
+                                      ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomTextField(
-                          label: 'Name',
-                          onChanged: (val) => {},
-                          controller: _name,
-                          keyboardType: TextInputType.text,
-                          validatorLabel: 'Login Id ',
-                          validator: false,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomTextField(
-                          label: 'New Password',
-                          onChanged: (val) => {},
-                          controller: _passwordController,
-                          keyboardType: TextInputType.text,
-                          validatorLabel: 'New Password ',
-                          validator: false,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomTextField(
-                          label: 'Conform Password',
-                          onChanged: (val) => {},
-                          controller: _cnfpasswordController,
-                          keyboardType: TextInputType.numberWithOptions(),
-                          validatorLabel: 'Conform Password',
-                          validator: false,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            alignment: Alignment.bottomCenter,
-                            child: SizedBox(
-                              height: 50,
-                              width: 150,
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor: _image == null
-                                        ? MaterialStateProperty.all(Colors.grey)
-                                        : MaterialStateProperty.all(
-                                            Theme.of(context).colorScheme.primaryContainer),
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      // side: BorderSide(color: Colors.red)
-                                    ))),
-                                onPressed: () {
-                                  if (_image != null) {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                  }
-                                },
-                                child: const Text("Next",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'inter',
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextField(
+                            label: 'Name',
+                            onChanged: (val) => {},
+                            controller: _name,
+                            keyboardType: TextInputType.text,
+                            validatorLabel: 'Name',
+                            validator: true,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(10),
+                            ],
+                            validatorFunc: Utils.phoneValidator(),
+                            label: 'phone',
+                            onChanged: (val) => {},
+                            controller: _phone,
+                            keyboardType: TextInputType.phone,
+                            validatorLabel: 'phone',
+                            validator: true,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(8),
+                            ],
+                            validatorFunc: Utils.employeeIdValidator(),
+                            label: 'Employee code',
+                            onChanged: (val) => {},
+                            controller: _employee,
+                            keyboardType: TextInputType.text,
+                            validatorLabel: 'Employee code',
+                            validator: true,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextField(
+                            label: 'Email',
+                            onChanged: (val) => {},
+                            controller: _email,
+                            keyboardType: TextInputType.emailAddress,
+                            validatorLabel: 'email',
+                            validator: true,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              alignment: Alignment.bottomCenter,
+                              child: SizedBox(
+                                height: 50,
+                                width: 150,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    bool isValid = _formKey.currentState!.validate();
+                                    Map<String, dynamic> profileData = {
+                                      ProfileTable.name: _name.text,
+                                      ProfileTable.phone: _phone.text,
+                                      ProfileTable.profileImage: _image?.path,
+                                      ProfileTable.employeeId: _employee.text,
+                                      ProfileTable.email: _email.text,
+                                    };
+                                    if (isValid) {
+                                      if (_image != null) {
+                                        await profileTable.insert(profileData);
+                                        Navigator.pop(context);
+                                      } else {
+                                        Utils.snackbarToast('Please Choose a profile Picturevali');
+                                      }
+                                    }
+                                  },
+                                  child: const Text(
+                                    "Save",
+                                    // style: TextStyle(
+                                    //     fontSize: 14,
+                                    //     fontFamily: 'inter',
+                                    //     fontWeight: FontWeight.w600,
+                                    //     color: Colors.white)
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(),
-                      ],
+                          const SizedBox(),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ));
+            )),
+      );
     } catch (e) {
       return ExceptionScreen();
     }
@@ -230,4 +258,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       });
     }
   }
+
+  ProfileTable profileTable = ProfileTable();
+
+// Insert profile data
 }

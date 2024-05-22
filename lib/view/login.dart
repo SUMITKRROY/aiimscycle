@@ -1,10 +1,12 @@
 import 'package:aiimscycle/bloc/login_cubit/login_cubit.dart';
 import 'package:aiimscycle/bloc/login_db_cubit/login_db_cubit.dart';
 import 'package:aiimscycle/config/theamdata.dart';
+import 'package:aiimscycle/database/table/cycle_table.dart';
 import 'package:aiimscycle/route/route_generater.dart';
 import 'package:aiimscycle/view/Admin/admin_home_page.dart';
 import 'package:aiimscycle/view/register.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
+import 'package:aiimscycle/view/user/my_cycle_page.dart';
 import 'package:aiimscycle/view/user/resetpassword.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               },
               icon: Icon(
                 Icons.settings,
-                // color: ColorsData.,
+                color: Colors.blue,
                 size: 40.sp,
               ),
             )
@@ -133,12 +135,20 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 15.h),
-                    const Center(
-                      child: Text(
-                        "LOGIN",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    SizedBox(height: 20.h),
+                    Text(
+                      "Login",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 36.sp,
+                        fontWeight: FontWeight.w400,
                       ),
+                    ),
+                    Text(
+                      "Please Sign In to Continue",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 16.sp, fontWeight: FontWeight.w400, color: Colors.grey),
                     ),
                     SizedBox(height: 15.h),
                     CustomText(lable: "Enter your Employee Id"),
@@ -193,18 +203,46 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 15.h),
                     Center(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               bool isValid = _formKey.currentState!.validate();
+
+                              List<Map<String, dynamic>> hasData =
+                                  await CycleTable().getAllCycles();
                               if (isValid) {
-                                BlocProvider.of<LoginCubit>(context)
-                                    .getLogin(_employeeID.text.trim(), _password.text.trim());
+                                BlocProvider.of<LoginDbCubit>(context).setAppData(
+                                    userId: _employeeID.text.trim(),
+                                    password: Utils.convertToMD5(_password.text.trim()),
+                                    sessionId: 'seisonId',
+                                    userRole: 'ROLE_User');
+                                if (hasData.isNotEmpty) {
+                                  String cycleId = hasData.first[CycleTable.cycleId];
+                                  // bool status = hasData.first[CycleTable.status];
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CycleDetailPage(
+                                              cycleId: cycleId.toString(), bookingStatus: true)));
+                                } else {
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                                }
+
+                                // BlocProvider.of<LoginCubit>(context)
+                                //     .getLogin(_employeeID.text.trim(), _password.text.trim());
                               }
                               // Navigator.pushReplacement(context,
                               //     MaterialPageRoute(builder: (context) => const HomeScreen()));
                             },
-                            child: const Text("Login"),
+                            child: Text(
+                              "LOGIN",
+                              style: TextStyle(
+                                letterSpacing: 1.w,
+                                // color: ColorsData.primaryPurpleColor,
+                              ),
+                            ),
                           ),
                           SizedBox(height: 15.sp),
                           Row(
@@ -220,9 +258,9 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                 },
                                 child: Text(
-                                  'click here',
+                                  'Click Here',
                                   style: TextStyle(
-                                    color: Colors.blueAccent,
+                                    color: Colors.blue,
                                     fontSize: 16.sp,
                                   ),
                                 ),
@@ -239,8 +277,9 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             child: Text(
                               'Forgot Password',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.blueAccent,
+                                color: Colors.blue,
                                 fontSize: 16.sp,
                               ),
                             ),

@@ -1,4 +1,6 @@
 import 'package:aiimscycle/utils/image.dart';
+import 'package:aiimscycle/view/user/homeScreen.dart';
+import 'package:aiimscycle/view/user/my_cycle_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,9 +8,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/appbar.dart';
 
 class CycleDetailPageTwo extends StatefulWidget {
+  final CycleModal cycle;
+
   final String cycleId;
 
-  CycleDetailPageTwo({Key? key, required this.cycleId}) : super(key: key);
+  CycleDetailPageTwo({Key? key, required this.cycleId, required this.cycle}) : super(key: key);
 
   @override
   State<CycleDetailPageTwo> createState() => _CycleDetailPageTwoState();
@@ -16,14 +20,23 @@ class CycleDetailPageTwo extends StatefulWidget {
 
 class _CycleDetailPageTwoState extends State<CycleDetailPageTwo> {
   bool onTap = true;
+  bool status = false;
   int indexOfImage = 0;
 
+  // final List<String>? imageUrlList = [
+  //   'assets/cycle/4.jpg',
+  // ];
   final List<String>? imageUrlList = [
     ImagePath.cycle,
     ImagePath.logo,
     ImagePath.cycle,
     ImagePath.logo,
   ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +128,7 @@ class _CycleDetailPageTwoState extends State<CycleDetailPageTwo> {
                     SizedBox(height: 10.h),
                     // Product Title
                     Text(
-                      'Cycle Name',
+                      '${widget.cycle.name}',
                       style: TextStyle(
                         fontSize: 16.sp,
                       ),
@@ -123,7 +136,7 @@ class _CycleDetailPageTwoState extends State<CycleDetailPageTwo> {
                     SizedBox(height: 10.h),
                     // Product Description
                     Text(
-                      'Cycle Description goes here. Provide detailed information about the product.',
+                      '${widget.cycle.category}',
                       style: TextStyle(
                         fontSize: 14.sp,
                       ),
@@ -147,7 +160,7 @@ class _CycleDetailPageTwoState extends State<CycleDetailPageTwo> {
                           border: Border.all(color: Colors.green),
                           borderRadius: BorderRadius.all(Radius.circular(30.r))),
                       child: Text(
-                        'Available',
+                        '${widget.cycle.status}',
                         style: TextStyle(fontSize: 16.sp, color: Colors.green),
                       ),
                     ),
@@ -160,12 +173,12 @@ class _CycleDetailPageTwoState extends State<CycleDetailPageTwo> {
                       ),
                     ),
                     trailing: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 38.w),
+                      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 40.w),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.green),
                           borderRadius: BorderRadius.all(Radius.circular(30.r))),
                       child: Text(
-                        'True',
+                        '${widget.cycle.available}',
                         style: TextStyle(fontSize: 16.sp, color: Colors.green),
                       ),
                     ),
@@ -181,7 +194,8 @@ class _CycleDetailPageTwoState extends State<CycleDetailPageTwo> {
                           ),
                         ),
                         trailing: Text(
-                          'Value',
+                          // "",
+                          '${widget.cycle.reqId}',
                           style: TextStyle(
                             fontSize: 16.sp,
                           ),
@@ -194,27 +208,35 @@ class _CycleDetailPageTwoState extends State<CycleDetailPageTwo> {
                             fontSize: 20.sp,
                           ),
                         ),
-                        trailing: Text(DateTime.now().toString().substring(0, 10),
+                        trailing: Text("${widget.cycle.requestDate}",
+                            //Text(DateTime.now().toString().substring(0, 10),
                             style: TextStyle(
                               fontSize: 16.sp,
                             )),
                       ),
                       ListTile(
-                        // contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                         title: Text(
                           'Status',
                           style: TextStyle(
                             fontSize: 20.sp,
                           ),
                         ),
-                        trailing: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 38.w),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.yellow),
-                              borderRadius: BorderRadius.all(Radius.circular(30.r))),
-                          child: Text(
-                            'Pending',
-                            style: TextStyle(fontSize: 16.sp, color: Colors.black),
+                        trailing: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              status = !status; // Toggle status on tap
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 24.w),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.amber, width: 2.sp),
+                              borderRadius: BorderRadius.all(Radius.circular(30.r)),
+                            ),
+                            child: Text(
+                              status ? 'Approve' : 'Pending',
+                              style: TextStyle(fontSize: 16.sp, color: Colors.amber),
+                            ),
                           ),
                         ),
                       ),
@@ -222,15 +244,73 @@ class _CycleDetailPageTwoState extends State<CycleDetailPageTwo> {
                   ),
                 ],
               ),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Button'),
-              ),
+
+              status == true
+                  ? ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CycleDetailPage(
+                                      cycleId: widget.cycleId,
+                                      bookingStatus: true,
+                                    )),
+                            (route) => false);
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => CycleDetailPage(
+                        //               cycleId: widget.cycleId,
+                        //               bookingStatus: true,
+                        //             )));
+                      },
+                      child: const Text('Ok'),
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        _showSurrenderDialog(context);
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => CycleDetailPage(cycleId: widget.cycleId)));
+                      },
+                      child: const Text('Cancel'),
+                    ),
               // SizedBox(height: 20.h),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _showSurrenderDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Surrender'),
+          content: Text('Are you sure you want to surrender?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.pop(context);
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => HomeScreen()),
+                // );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

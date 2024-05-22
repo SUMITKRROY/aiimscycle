@@ -9,8 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../bloc/logger_db_cubit/logger_db_cubit.dart';
 import '../../components/logo_image.dart';
+import '../../database/table/cycle_table.dart';
 import 'exception_screen.dart';
 import '../login.dart';
+import 'my_cycle_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -32,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     try {
       return BlocListener<SplashCubit, SplashState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is SplashLoadedState) {
             // print(state.checkRole);
             if (state.checkRole == 'ROLE_SuperAdmin' || state.checkRole == 'ROLE_Admin') {
@@ -41,14 +43,23 @@ class _SplashScreenState extends State<SplashScreen> {
               // Navigator.pushReplacement(
               //     context, MaterialPageRoute(builder: (context) => AdminHomePage()));
             } else if (state.checkRole == 'ROLE_User') {
-              Navigator.pushAndRemoveUntil(
-                  context, MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
-              // Navigator.pushReplacement(
-              //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
-            } else {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => LoginPage()));
+              List<Map<String, dynamic>> hasData = await CycleTable().getAllCycles();
+              if (hasData.isNotEmpty) {
+                String cycleId = hasData.first[CycleTable.cycleId];
+                //bool status = hasData.first[CycleTable.status];
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            CycleDetailPage(cycleId: cycleId.toString(), bookingStatus: true)));
+              } else {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => HomeScreen()));
+              }
             }
+          } else {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => LoginPage()));
           }
           if (state is SplashErrorState) {
             // Utils.snackbarToast('Please Define Your Role');

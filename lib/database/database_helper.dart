@@ -1,6 +1,8 @@
 import 'package:aiimscycle/database/table/app_table.dart';
+import 'package:aiimscycle/database/table/cycle_table.dart';
 import 'package:aiimscycle/database/table/loger_table.dart';
 import 'package:aiimscycle/database/table/login_table.dart';
+import 'package:aiimscycle/database/table/user_profile.dart';
 import 'package:aiimscycle/database/table/user_table.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path/path.dart';
@@ -59,6 +61,8 @@ class DatabaseHelper {
     await db.execute(AppTable.CREATE);
     await db.execute(UserTable.CREATE);
     await db.execute(LoginTable.CREATE);
+    await db.execute(CycleTable.CREATE);
+    await db.execute(ProfileTable.CREATE);
   }
 
   // UPGRADE DATABASE TABLES

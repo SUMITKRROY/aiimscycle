@@ -1,4 +1,5 @@
 import 'package:aiimscycle/bloc/filter_log_cubit/filter_log_cubit.dart';
+import 'package:aiimscycle/config/theamdata.dart';
 import 'package:aiimscycle/utils/image.dart';
 import 'package:aiimscycle/view/user/my_cycle_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,11 +47,12 @@ class _HomeScreenState extends State<HomeScreen> {
         if ((uri.toString().startsWith(baseUrl) && id != null)) {
           print("uri --------- $result");
           print("id------ $id");
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => CycleDetailPage(
                       cycleId: id,
+                      bookingStatus: false,
                     )
                 //WebviewScreen(url: result),
                 ),
@@ -79,13 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     'Book A Cycle Ride',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: Colors.blue,
                       fontSize: 30.sp,
                     ),
                   ),
@@ -104,11 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )),
                   SizedBox(height: 40.h),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await scanQrCode();
-                    },
-                    child: const Text('Open Scanner'),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await scanQrCode();
+                      },
+                      child: const Text('Press to Scan Cycle QR Code'),
+                    ),
                   ),
                 ],
               ),

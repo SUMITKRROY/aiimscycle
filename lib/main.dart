@@ -58,14 +58,14 @@ class MyApp extends StatelessWidget {
         child: BlocBuilder<ThemeCubit, ThemeModeOption>(
           builder: (context, themeMode) {
             return MaterialApp(
-              //  initialRoute: RoutePath.splashScreenPage,
+              initialRoute: RoutePath.splashScreenPage,
               onGenerateRoute: MyRoutes.generateRoute,
               debugShowCheckedModeBanner: false,
               title: CommonText.cycle,
               themeMode: _getThemeMode(themeModeOption: themeMode, context: context),
               darkTheme: darkMode,
               theme: lightMode,
-              home: HomeScreen(),
+              // home: HomeScreen(),
             );
           },
         ),

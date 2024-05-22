@@ -92,7 +92,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget sizedBox = Utils.getSizedBoxHeight(8.0);
     try {
       return Scaffold(
         appBar: AppBar(
@@ -104,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
               },
               icon: Icon(
                 Icons.settings,
-                // color: ColorsData.,
+                color: Colors.blue,
                 size: 40.sp,
               ),
             )
@@ -154,21 +153,26 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
-                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.center,
                     // direction: Axis.vertical,
                     children: [
-                      // Center(child: CustomText(lable: "User Register.")),
-                      // CustomText(lable: "Enter your name"),
                       SizedBox(height: 15.h),
-                      Center(
-                        child: Text(
-                          "REGISTER",
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                      Text(
+                        "Register",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 36.sp,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
+                      Text(
+                        "Please Sign Up to Continue",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 16.sp, fontWeight: FontWeight.w400, color: Colors.grey),
+                      ),
                       SizedBox(height: 15.h),
-
                       CustomTextField(
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(20),
@@ -181,7 +185,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         validator: true,
                       ),
                       SizedBox(height: 15.h),
-
                       CustomTextField(
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(8),
@@ -194,7 +197,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         validator: true,
                       ),
                       SizedBox(height: 15.h),
-
                       CustomTextField(
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(10),
@@ -207,7 +209,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         validator: true,
                       ),
                       SizedBox(height: 15.h),
-
                       NameWithImage(
                         label: "Employee id(Front)",
                         onImageSelected: (image) {
@@ -240,7 +241,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         maxline: 1,
                       ),
                       SizedBox(height: 15.h),
-
                       CustomTextField(
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(16),
@@ -295,7 +295,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 MyRoutes.navigateToTermsScreen(context);
                               },
                               child: const Text(
-                                'terms and conditions',
+                                'Terms and Conditions',
                                 style: TextStyle(fontSize: 16.0, color: Colors.lightBlue),
                               ),
                             ),
@@ -305,6 +305,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       SizedBox(height: 5.h),
                       Center(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             ElevatedButton(
                               onPressed: () {
@@ -326,7 +327,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text("already have account? "),
+                                const Text("Already have account? "),
                                 InkWell(
                                   onTap: () {
                                     Navigator.pushReplacement(
@@ -337,7 +338,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   child: const Text(
                                     'Log In',
                                     style: TextStyle(
-                                      color: Colors.blueAccent,
+                                      color: Colors.blue,
                                       fontSize: 16.0,
                                     ),
                                   ),

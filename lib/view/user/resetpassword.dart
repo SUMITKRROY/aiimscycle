@@ -53,7 +53,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               },
               icon: Icon(
                 Icons.settings,
-                // color: ColorsData.,
+                color: Colors.blue,
                 size: 40.sp,
               ),
             )
@@ -66,7 +66,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  SizedBox(height: 30.h),
                   CustomTextField(
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(16),

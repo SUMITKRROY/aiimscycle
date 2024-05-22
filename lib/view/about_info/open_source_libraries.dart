@@ -30,19 +30,91 @@ class LegalScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 24.sp),
               ),
               SizedBox(height: 10.h),
-              Text('''1. Information We Collect:\n
- - We collect the following information to ensure secure and personalized access to our services:\n- Patient's mobile number for account authentication\n- Patient's email address for communication and updates\n- Unique Hospital Identification (UHID) for patient identity verification\n- Location: With user consent, we may collect location information to provide location-based services and enhance user experience.\n- Camera: We may access the device's camera functionality for specific features such as uploading images or documents, but this access is contingent upon user permission.\n- Gallery: Access to the device's gallery may be requested to allow users to upload images or documents, again, contingent upon user consent.\n- Microphone: We may request access to the device's microphone for certain features such as voice messaging, with user permission.\n- Phone: i want to know about the application info #collect proper data\n\n
-2. Use of Information:\n
-- We utilize the collected information for the following purposes:\n- Secure identity verification of patients\n- Timely communication with patients regarding grievance resolution updates\n - Enhancing and customizing our services to meet user needs\n
-3. Information Sharing:\n
-- Patient information is strictly confidential and will not be shared with any third parties unless required by law or with explicit user consent.\n
-4. Security:\n
-- We employ robust security measures to safeguard all collected information against unauthorized access, alteration, disclosure, or destruction.\n
-5. Changes to Privacy Policy:\n
-- Any updates or modifications to our privacy policy will be promptly communicated to users through the application or via email.\n
-6. Contact Us:\n
-- For any inquiries or concerns regarding our privacy practices, please contact us at privacy[at]santushtapp[dot]com.\n
-              '''),
+              Text('''
+## Open Source Licenses
+
+The AIIMS Cycle mobile application utilizes open source software. We are committed to acknowledging the work of the open source community and providing the necessary information and licenses. Below is a list of the open source libraries and software used in our app, along with their respective licenses.
+
+### Libraries and Licenses
+
+1. *Library Name*: Retrofit
+   - *Description*: A type-safe HTTP client for Android and Java.
+   - *License*: Apache License 2.0
+   - *Link*: [Retrofit License](https://github.com/square/retrofit/blob/master/LICENSE.txt)
+
+2. *Library Name*: OkHttp
+   - *Description*: An HTTP & HTTP/2 client for Android and Java applications.
+   - *License*: Apache License 2.0
+   - *Link*: [OkHttp License](https://github.com/square/okhttp/blob/master/LICENSE.txt)
+
+3. *Library Name*: Glide
+   - *Description*: An image loading and caching library for Android.
+   - *License*: BSD, part MIT, and Apache License 2.0
+   - *Link*: [Glide License](https://github.com/bumptech/glide/blob/master/LICENSE)
+
+4. *Library Name*: Gson
+   - *Description*: A Java library that can be used to convert Java Objects into their JSON representation.
+   - *License*: Apache License 2.0
+   - *Link*: [Gson License](https://github.com/google/gson/blob/master/LICENSE)
+
+5. *Library Name*: Room
+   - *Description*: The Room persistence library provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
+   - *License*: Apache License 2.0
+   - *Link*: [Room License](https://developer.android.com/jetpack/androidx/releases/room#license)
+
+### Full Text of Open Source Licenses
+
+#### Apache License 2.0
+
+text
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+      ...
+
+   [Full license text]
+
+
+#### BSD License
+
+text
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+   ...
+
+   [Full license text]
+
+
+#### MIT License
+
+text
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+   ...
+
+   [Full license text]
+
+
+### Disclaimer
+
+AIIMS Cycle does not claim ownership of any open source libraries listed above. The licenses of these libraries are owned by their respective authors.
+
+### Contact Us
+
+If you have any questions or concerns about our use of open source software, please contact us at:
+
+[Your Contact Information]
+'''),
             ],
           ),
         ),
