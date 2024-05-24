@@ -1,6 +1,10 @@
+import 'package:aiimscycle/database/table/cycle_table.dart';
+import 'package:aiimscycle/database/table/user_profile.dart';
+import 'package:aiimscycle/database/table/user_table.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../database/database_helper.dart';
 import '../../database/table/login_table.dart';
 
 part 'login_db_state.dart';
@@ -71,6 +75,10 @@ class LoginDbCubit extends Cubit<LoginDbState> {
 
     try {
       await LoginTable().deleteUserData();
+      await UserTable().deleteUserData();
+      await ProfileTable().deleteProfile();
+      await CycleTable().deleteAllCycles();
+
       emit(LoginDbDeleted());
     } catch (e) {
       emit(LoginDbError());

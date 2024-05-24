@@ -6,6 +6,6 @@ class ApiRoute {
   String login = "$baseurl/loginProcess";
   String logout = "$baseurl/logout";
   String register = "$baseurl/new_registration";
-  String getUser = "$baseurl/get-my-details";
+  String getUser = "$baseurl/user/get-my-details";
   String admin = "$baseurl/";
 }

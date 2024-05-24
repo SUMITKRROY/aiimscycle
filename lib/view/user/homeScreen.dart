@@ -1,4 +1,5 @@
 import 'package:aiimscycle/bloc/filter_log_cubit/filter_log_cubit.dart';
+import 'package:aiimscycle/bloc/profile_cubit/profile_cubit.dart';
 import 'package:aiimscycle/config/theamdata.dart';
 import 'package:aiimscycle/utils/image.dart';
 import 'package:aiimscycle/view/user/my_cycle_page.dart';
@@ -65,6 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
         Utils.snackbarToast('Improper Scan');
       }
     });
+  }
+
+  @override
+  void initState() {
+    BlocProvider.of<ProfileCubit>(context).getProfile();
+    super.initState();
   }
 
   @override

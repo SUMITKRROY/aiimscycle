@@ -1,12 +1,13 @@
+import 'package:aiimscycle/bloc/log_out_cubit/logout_cubit.dart';
 import 'package:aiimscycle/bloc/login_cubit/login_cubit.dart';
 import 'package:aiimscycle/bloc/login_db_cubit/login_db_cubit.dart';
+import 'package:aiimscycle/bloc/profile_cubit/profile_cubit.dart';
 import 'package:aiimscycle/bloc/splash_cubit/splash_cubit.dart';
 import 'package:aiimscycle/configuration.dart';
 import 'package:aiimscycle/bloc/app_settings_cubit/app_settings_cubit.dart';
 import 'package:aiimscycle/bloc/config_cubit/config_cubit.dart';
 import 'package:aiimscycle/bloc/device_safety_cubit/device_safety_cubit.dart';
 import 'package:aiimscycle/bloc/logger_db_cubit/logger_db_cubit.dart';
-import 'package:aiimscycle/bloc/login/login_bloc.dart';
 import 'package:aiimscycle/bloc/register/register_bloc.dart';
 import 'package:aiimscycle/route/pageroute.dart';
 import 'package:aiimscycle/route/route_generater.dart';
@@ -50,6 +51,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
         BlocProvider<LoginDbCubit>(create: (_) => LoginDbCubit()),
         BlocProvider<FilterLogCubit>(create: (_) => FilterLogCubit()),
+        BlocProvider<ProfileCubit>(create: (_) => ProfileCubit()),
+        BlocProvider<LogoutCubit>(create: (_) => LogoutCubit()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(414, 896),

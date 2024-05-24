@@ -49,13 +49,11 @@ class ProfileTable {
   }
 
   // Delete profile data from the database
-  Future<int> deleteProfile(String userName) async {
+  Future<int> deleteProfile() async {
     DatabaseHelper databaseHelper = DatabaseHelper();
     final db = await databaseHelper.database;
     return await db.delete(
       PROFILE_TABLE,
-      where: '$userName = ?',
-      whereArgs: [userName],
     );
   }
 }

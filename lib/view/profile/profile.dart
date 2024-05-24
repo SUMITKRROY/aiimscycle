@@ -1,7 +1,10 @@
+import 'package:aiimscycle/bloc/profile_cubit/profile_cubit.dart';
+import 'package:aiimscycle/components/loader.dart';
 import 'package:aiimscycle/database/table/user_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../components/appbar.dart';
@@ -20,55 +23,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<Map<String, dynamic>> ProfileData = [];
 
   @override
-  void initState() {
-    getUserData();
-    super.initState();
-  }
-
-  Future<void> getUserData() async {
-    ProfileData = await ProfileTable().getProfile();
-    print("----------------profile $ProfileData ok --------");
-  }
-
-  @override
   Widget build(BuildContext context) {
-    try {
-      return Scaffold(
-        appBar: AppBar(
-          titleSpacing: 0,
-          title: const CustomAppBar(),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              CircleAvatar(
-                radius: 85.r,
-                backgroundImage: AssetImage(ImagePath.profile),
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
+        if (state is ProfileLoading) {
+          return const Loader();
+        }
+        if (state is ProfileLoaded) {
+          return Scaffold(
+            appBar: AppBar(
+              titleSpacing: 0,
+              title: const CustomAppBar(),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  CircleAvatar(
+                    radius: 85.r,
+                    backgroundImage: AssetImage(ImagePath.profile),
+                  ),
+                  itemProfile('Name', state.profileModal.fullname ?? '', CupertinoIcons.person),
+                  itemProfile('Phone', state.profileModal.contactNo ?? '', CupertinoIcons.phone),
+                  itemProfile(
+                      'Employee', state.profileModal.employeeCode ?? '', CupertinoIcons.location),
+                  itemProfile('Email', state.profileModal.email ?? 'N.A.', CupertinoIcons.mail),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          MyRoutes.navigateToProfileEditScreen(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(15),
+                        ),
+                        child: const Text('Edit Profile')),
+                  )
+                ],
               ),
-              itemProfile('Name', 'Enter Username', CupertinoIcons.person),
-              itemProfile('Phone', 'Enter Phone Number', CupertinoIcons.phone),
-              itemProfile('Employee', 'Enter EmployeeID', CupertinoIcons.location),
-              itemProfile('Email', 'Enter Email', CupertinoIcons.mail),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () {
-                      MyRoutes.navigateToProfileEditScreen(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(15),
-                    ),
-                    child: const Text('Edit Profile')),
-              )
-            ],
-          ),
-        ),
-      );
-    } catch (e) {
-      return ExceptionScreen();
-    }
+            ),
+          );
+        } else {
+          return ExceptionScreen();
+        }
+      },
+    );
   }
 
   itemProfile(String title, String subtitle, IconData iconData) {

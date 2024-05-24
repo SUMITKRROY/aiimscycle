@@ -17,7 +17,6 @@ import 'package:aiimscycle/components/cutom_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer';
-import '../bloc/login/login_bloc.dart';
 import '../components/captcha.dart';
 import '../components/captchaForm.dart';
 import '../components/custom_TextFeild.dart';
@@ -87,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                   BlocProvider.of<LoginDbCubit>(context).setAppData(
                       userId: _employeeID.text.trim(),
                       password: Utils.convertToMD5(_password.text.trim()),
-                      sessionId: state.loginModal.authenticate?.details.toString() ?? '',
+                      sessionId: state.jSessionId,
                       userRole:
                           state.loginModal.authenticate?.authorities?.first.authority.toString() ??
                               '');
@@ -208,33 +207,12 @@ class _LoginPageState extends State<LoginPage> {
                           ElevatedButton(
                             onPressed: () async {
                               bool isValid = _formKey.currentState!.validate();
-
-                              List<Map<String, dynamic>> hasData =
-                                  await CycleTable().getAllCycles();
                               if (isValid) {
-                                BlocProvider.of<LoginDbCubit>(context).setAppData(
-                                    userId: _employeeID.text.trim(),
-                                    password: Utils.convertToMD5(_password.text.trim()),
-                                    sessionId: 'seisonId',
-                                    userRole: 'ROLE_User');
-                                if (hasData.isNotEmpty) {
-                                  String cycleId = hasData.first[CycleTable.cycleId];
-                                  // bool status = hasData.first[CycleTable.status];
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CycleDetailPage(
-                                              cycleId: cycleId.toString(), bookingStatus: true)));
-                                } else {
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) => HomeScreen()));
-                                }
-
-                                // BlocProvider.of<LoginCubit>(context)
-                                //     .getLogin(_employeeID.text.trim(), _password.text.trim());
+                                BlocProvider.of<LoginCubit>(context)
+                                    .getLogin(_employeeID.text.trim(), _password.text.trim());
+                              } else {
+                                Utils.snackbarToast("Please fill all the details");
                               }
-                              // Navigator.pushReplacement(context,
-                              //     MaterialPageRoute(builder: (context) => const HomeScreen()));
                             },
                             child: Text(
                               "LOGIN",
