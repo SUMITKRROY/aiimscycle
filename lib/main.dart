@@ -1,8 +1,13 @@
+import 'package:aiimscycle/bloc/cycle_detail/cycle_detail_cubit.dart';
+import 'package:aiimscycle/bloc/get_issue_req/get_issue_req_cubit.dart';
 import 'package:aiimscycle/bloc/log_out_cubit/logout_cubit.dart';
 import 'package:aiimscycle/bloc/login_cubit/login_cubit.dart';
 import 'package:aiimscycle/bloc/login_db_cubit/login_db_cubit.dart';
+import 'package:aiimscycle/bloc/make_issue_req_cubit/make_issue_req_cubit.dart';
+import 'package:aiimscycle/bloc/make_surrender_req/make_surrender_req_cubit.dart';
 import 'package:aiimscycle/bloc/profile_cubit/profile_cubit.dart';
 import 'package:aiimscycle/bloc/splash_cubit/splash_cubit.dart';
+import 'package:aiimscycle/bloc/withdraw-issue-request/withdraw_issue_req_cubit.dart';
 import 'package:aiimscycle/configuration.dart';
 import 'package:aiimscycle/bloc/app_settings_cubit/app_settings_cubit.dart';
 import 'package:aiimscycle/bloc/config_cubit/config_cubit.dart';
@@ -17,7 +22,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'bloc/filter_log_cubit/filter_log_cubit.dart';
+import 'bloc/location_cubit/location_cubit.dart';
+import 'bloc/location_cubit/location_page.dart';
 import 'bloc/theme_cubit/theme.dart';
 import 'config/theamdata.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,6 +36,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  await Geolocator.requestPermission();
   await dotenv.load(fileName: 'assets/.env');
   runApp(MyApp());
 }
@@ -53,6 +62,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<FilterLogCubit>(create: (_) => FilterLogCubit()),
         BlocProvider<ProfileCubit>(create: (_) => ProfileCubit()),
         BlocProvider<LogoutCubit>(create: (_) => LogoutCubit()),
+        BlocProvider<CycleDetailCubit>(create: (_) => CycleDetailCubit()),
+        BlocProvider<MakeIssueReqCubit>(create: (_) => MakeIssueReqCubit()),
+        BlocProvider<LocationCubit>(create: (_) => LocationCubit()),
+        BlocProvider<GetIssueReqCubit>(create: (_) => GetIssueReqCubit()),
+        BlocProvider<WithdrawIssueReqCubit>(create: (_) => WithdrawIssueReqCubit()),
+        BlocProvider<MakeSurrenderReqCubit>(create: (_) => MakeSurrenderReqCubit()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(414, 896),

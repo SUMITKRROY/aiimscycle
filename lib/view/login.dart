@@ -6,7 +6,7 @@ import 'package:aiimscycle/route/route_generater.dart';
 import 'package:aiimscycle/view/Admin/admin_home_page.dart';
 import 'package:aiimscycle/view/register.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
-import 'package:aiimscycle/view/user/my_cycle_page.dart';
+import 'package:aiimscycle/view/user/cycle_detail_screen.dart';
 import 'package:aiimscycle/view/user/resetpassword.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';

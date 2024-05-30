@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../dio_error_helper.dart';
-import '../../modal/modal.dart';
+import 'modal.dart';
 import '../../utils/utils.dart';
 import 'login_repo.dart';
 

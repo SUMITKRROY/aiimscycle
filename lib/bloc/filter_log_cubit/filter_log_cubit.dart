@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../database/table/loger_table.dart';
-import '../../modal/log_data_modal.dart';
+import '../login_db_cubit/log_data_modal.dart';
 
 part 'filter_log_state.dart';
 

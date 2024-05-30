@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,7 +21,13 @@ class Utils {
     );
   }
 
-  static showDialogBox(BuildContext context, String label, String content) {
+  static showDialogBox({
+    required BuildContext context,
+    required String label,
+    required String content,
+    required Function()? onPressedClose,
+    required Function()? onPressedOk,
+  }) {
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -29,10 +36,38 @@ class Utils {
         content: Text(content),
         actions: <Widget>[
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // To close the dialog
-            },
+            onPressed: onPressedClose,
             child: Text('Close'),
+          ),
+          TextButton(
+            onPressed: onPressedOk,
+            child: Text('Ok'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static NotAvailableDialogBox(BuildContext context, String label, String content) {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => AlertDialog(
+        title: Text(
+          label,
+          style: TextStyle(fontSize: 20.sp),
+        ),
+        content: Text(
+          content,
+          style: TextStyle(fontSize: 16.sp),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: Text('Go Back'),
           ),
         ],
       ),

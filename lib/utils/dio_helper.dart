@@ -32,9 +32,9 @@ class DioApi {
   Dio get sendRequest {
     if (isHeader) {
       header = {
+        'Content-Type': 'application/json',
         'Cookie': 'JSESSIONID=${token}',
-        // 'Cookie': 'JSESSIONID=EFA73B670DB4A61CD8B536F464F09A14',
-        "Content-Type": "application/x-www-form-urlencoded",
+        // 'Cookie': 'JSESSIONID=FC19CBD5F92F6B76C546182533156079',
       };
     } else {
       header = null;

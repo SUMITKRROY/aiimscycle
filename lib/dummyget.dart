@@ -1,4 +1,4 @@
-import 'package:aiimscycle/modal/log_data_modal.dart';
+import 'package:aiimscycle/bloc/login_db_cubit/log_data_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';

@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../database/table/loger_table.dart';
-import '../../modal/log_data_modal.dart';
+import '../login_db_cubit/log_data_modal.dart';
 
 part 'logger_db_state.dart';
 

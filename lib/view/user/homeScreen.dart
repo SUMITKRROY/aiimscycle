@@ -2,7 +2,7 @@ import 'package:aiimscycle/bloc/filter_log_cubit/filter_log_cubit.dart';
 import 'package:aiimscycle/bloc/profile_cubit/profile_cubit.dart';
 import 'package:aiimscycle/config/theamdata.dart';
 import 'package:aiimscycle/utils/image.dart';
-import 'package:aiimscycle/view/user/my_cycle_page.dart';
+import 'package:aiimscycle/view/user/cycle_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:simple_barcode_scanner/enum.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+import '../../bloc/cycle_detail/cycle_detail_cubit.dart';
 import '../../components/appbar.dart';
 import '../../utils/utils.dart';
 import 'drawer_screen.dart';
@@ -53,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
             MaterialPageRoute(
                 builder: (context) => CycleDetailPage(
                       cycleId: id,
-                      bookingStatus: false,
                     )
                 //WebviewScreen(url: result),
                 ),
@@ -71,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     BlocProvider.of<ProfileCubit>(context).getProfile();
+
     super.initState();
   }
 
@@ -101,7 +102,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   GestureDetector(
                       onTap: () async {
-                        await scanQrCode();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CycleDetailPage(cycleId: '12313')));
+                        // await scanQrCode();
                         // BlocProvider.of<FilterLogCubit>(context).getFilterDates(1);
                       },
                       child: Transform.scale(

@@ -12,7 +12,7 @@ import '../../components/logo_image.dart';
 import '../../database/table/cycle_table.dart';
 import 'exception_screen.dart';
 import '../login.dart';
-import 'my_cycle_page.dart';
+import 'cycle_detail_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -43,19 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
               // Navigator.pushReplacement(
               //     context, MaterialPageRoute(builder: (context) => AdminHomePage()));
             } else if (state.checkRole == 'ROLE_User') {
-              List<Map<String, dynamic>> hasData = await CycleTable().getAllCycles();
-              if (hasData.isNotEmpty) {
-                String cycleId = hasData.first[CycleTable.cycleId];
-                //bool status = hasData.first[CycleTable.status];
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            CycleDetailPage(cycleId: cycleId.toString(), bookingStatus: true)));
-              } else {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => HomeScreen()));
-              }
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => HomeScreen()));
             }
           } else {
             Navigator.pushReplacement(
