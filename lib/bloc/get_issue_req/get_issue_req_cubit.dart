@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
-import '../../dio_error_helper.dart';
+import '../../utils/dio_error_helper.dart';
 
 part 'get_issue_req_state.dart';
 

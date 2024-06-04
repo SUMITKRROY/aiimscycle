@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../dio_error_helper.dart';
+import '../../utils/dio_error_helper.dart';
 import 'modal.dart';
 import '../../utils/utils.dart';
 import 'login_repo.dart';

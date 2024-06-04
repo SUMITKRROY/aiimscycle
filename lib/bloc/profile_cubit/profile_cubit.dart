@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
-import '../../dio_error_helper.dart';
+import '../../utils/dio_error_helper.dart';
 
 part 'profile_state.dart';
 
@@ -18,7 +18,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       if (response.statusCode == 200) {
         User profileModal = User.fromJson(response.data['user']);
-        emit(ProfileLoaded(profileModal: profileModal));
+        print("object ${profileModal.status}");
+        var allRequestsJson = response.data['allRequest'] as List<dynamic>;
+        final List<AllRequest> allReq = parseAllRequests(allRequestsJson);
+        // print(allReq.last.status);
+
+        emit(ProfileLoaded(profileModal: profileModal, allReq: allReq));
       } else {
         emit(ProfileError(error: response.data['error']));
       }
@@ -27,5 +32,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       emit(ProfileError(error: 'Something Went Wrong'));
     }
+  }
+
+  List<AllRequest> parseAllRequests(List<dynamic> allRequestsJson) {
+    return allRequestsJson.map((json) => AllRequest.fromJson(json)).toList();
   }
 }

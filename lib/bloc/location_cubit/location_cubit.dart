@@ -13,31 +13,19 @@ class LocationState {
 class LocationCubit extends Cubit<LocationState> {
   LocationCubit() : super(LocationState(isLoading: false));
 
-  Future<void> getCurrentLocation() async {
+  Future<void> fetchLocationAndCalculateDistance(
+      double targetLatitude, double targetLongitude) async {
     emit(LocationState(isLoading: true));
     try {
       Position position =
           await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      emit(LocationState(isLoading: false, position: position));
-    } catch (e) {
-      emit(LocationState(isLoading: false, error: e.toString()));
-    }
-  }
-
-  Future<void> calculateDistance(double targetLatitude, double targetLongitude) async {
-    emit(LocationState(isLoading: true, position: state.position));
-    try {
-      if (state.position != null) {
-        double distance = Geolocator.distanceBetween(
-          state.position!.latitude,
-          state.position!.longitude,
-          targetLatitude,
-          targetLongitude,
-        );
-        emit(LocationState(isLoading: false, position: state.position, distance: distance));
-      } else {
-        emit(LocationState(isLoading: false, error: 'Current position is not available.'));
-      }
+      double distance = Geolocator.distanceBetween(
+        position.latitude,
+        position.longitude,
+        targetLatitude,
+        targetLongitude,
+      );
+      emit(LocationState(isLoading: false, position: position, distance: distance));
     } catch (e) {
       emit(LocationState(isLoading: false, error: e.toString()));
     }

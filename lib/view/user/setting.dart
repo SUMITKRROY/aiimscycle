@@ -1,4 +1,6 @@
 import 'package:aiimscycle/bloc/filter_log_cubit/filter_log_cubit.dart';
+import 'package:aiimscycle/view/user/homeScreen.dart';
+import 'package:aiimscycle/view/user/resetpassword.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -176,6 +178,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ],
                       ),
                     ),
+                    SizedBox(height: 10.h),
+                    const Divider(color: Colors.grey),
+                    ListTile(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => ResetPasswordScreen()));
+                      },
+                      title: Text('Change Password'),
+                      trailing: Icon(Icons.arrow_forward_ios),
+                    ),
                     const Divider(color: Colors.grey),
                     GestureDetector(
                       onTap: () {
@@ -199,7 +211,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                         ),
                       ),
-                    )
+                    ),
                   ],
                 );
               },

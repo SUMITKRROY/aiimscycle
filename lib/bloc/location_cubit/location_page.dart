@@ -29,7 +29,9 @@ class GetLocationPage extends StatelessWidget {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        context.read<LocationCubit>().calculateDistance(28.5678414, 77.2114705);
+                        context
+                            .read<LocationCubit>()
+                            .fetchLocationAndCalculateDistance(28.5678414, 77.2114705);
                       },
                       child: Text('Calculate Distance'),
                     ),
@@ -39,9 +41,7 @@ class GetLocationPage extends StatelessWidget {
                 return Text('Error: ${state.error}');
               } else {
                 return ElevatedButton(
-                  onPressed: () {
-                    context.read<LocationCubit>().getCurrentLocation();
-                  },
+                  onPressed: () {},
                   child: Text('Get Location'),
                 );
               }

@@ -15,6 +15,7 @@ import '../bloc/logger_db_cubit/logger_db_cubit.dart';
 import '../components/captcha.dart';
 import '../components/custom_TextFeild.dart';
 import '../bloc/register/register_bloc.dart';
+import '../components/cutom_text.dart';
 import '../config/theamdata.dart';
 import '../utils/helper_text.dart';
 import '../utils/utils.dart';
@@ -173,6 +174,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             fontSize: 16.sp, fontWeight: FontWeight.w400, color: Colors.grey),
                       ),
                       SizedBox(height: 15.h),
+                      CustomText(lable: "Enter your full name"),
+                      SizedBox(height: 15.h),
                       CustomTextField(
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(20),
@@ -185,6 +188,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         validator: true,
                       ),
                       SizedBox(height: 15.h),
+                      CustomText(lable: "Enter your employee id"),
+                      SizedBox(height: 15.h),
                       CustomTextField(
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(8),
@@ -196,6 +201,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         keyboardType: TextInputType.text,
                         validator: true,
                       ),
+                      SizedBox(height: 15.h),
+                      CustomText(lable: "Enter your contact no."),
                       SizedBox(height: 15.h),
                       CustomTextField(
                         inputFormatters: [
@@ -227,6 +234,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           _handleProfileImageSelection(image);
                         },
                       ),
+                      SizedBox(height: 15.h),
+                      CustomText(lable: "Enter your password"),
+                      SizedBox(height: 15.h),
                       CustomTextField(
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(16),
@@ -240,6 +250,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         validator: true,
                         maxline: 1,
                       ),
+                      SizedBox(height: 15.h),
+                      CustomText(lable: "Enter your conform password"),
                       SizedBox(height: 15.h),
                       CustomTextField(
                         inputFormatters: [

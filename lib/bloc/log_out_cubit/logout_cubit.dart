@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 import '../../config/api_route.dart';
 import '../../database/table/login_table.dart';
-import '../../dio_error_helper.dart';
+import '../../utils/dio_error_helper.dart';
 import '../../utils/dio_helper.dart';
 
 part 'logout_state.dart';

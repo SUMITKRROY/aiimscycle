@@ -34,7 +34,7 @@ class DioApi {
       header = {
         'Content-Type': 'application/json',
         'Cookie': 'JSESSIONID=${token}',
-        // 'Cookie': 'JSESSIONID=FC19CBD5F92F6B76C546182533156079',
+        // 'Cookie': 'JSESSIONID=A3BC773F3D78C7BD5CA66E7FD48CC3F7',
       };
     } else {
       header = null;

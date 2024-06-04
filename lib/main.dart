@@ -36,7 +36,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await Geolocator.requestPermission();
+  // await Geolocator.requestPermission();
   await dotenv.load(fileName: 'assets/.env');
   runApp(MyApp());
 }

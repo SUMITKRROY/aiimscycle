@@ -254,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
                               );
                             },
                             child: Text(
-                              'Forgot Password',
+                              'Did you forgot  your password ?',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.blue,

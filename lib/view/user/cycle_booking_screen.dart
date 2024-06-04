@@ -1,16 +1,18 @@
 import 'package:aiimscycle/bloc/get_issue_req/get_issue_req_cubit.dart';
-import 'package:aiimscycle/bloc/make_issue_req_cubit/make_issue_req_cubit.dart';
-import 'package:aiimscycle/bloc/make_surrender_req/make_surrender_req_cubit.dart';
+
 import 'package:aiimscycle/bloc/withdraw-issue-request/withdraw_issue_req_cubit.dart';
 import 'package:aiimscycle/components/loader.dart';
 import 'package:aiimscycle/utils/image.dart';
 import 'package:aiimscycle/utils/utils.dart';
+import 'package:aiimscycle/view/user/cycle_detail_screen.dart';
+import 'package:aiimscycle/view/user/drawer_screen.dart';
 import 'package:aiimscycle/view/user/exception_screen.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/appbar.dart';
+import '../../components/cache_networkImage.dart';
 
 class CycleBookingScreen extends StatefulWidget {
   final String cycleId;
@@ -57,34 +59,24 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
               titleSpacing: 0,
               title: const CustomAppBar(),
             ),
+            drawer: DrawerWidget(),
             body: RefreshIndicator(
               onRefresh: () async {
                 await _refresh();
               },
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 15.w,
-                ),
+                padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 20.h),
                 child: ListView(
                   children: [
-                    SizedBox(
-                      // color: Colors.green,
-                      width: double.maxFinite,
-                      height: 280.h,
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            imageUrlList![indexOfImage],
-                            height: 265.h,
-                            width: 400.w,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ],
-                      ),
+                    Image.network(
+                      GetImageFromUrl.getImage(state.getIssueReqModal.requestedFor?.image1 ?? ''),
+                      height: 300.h,
+                      width: 400.w,
+                      fit: BoxFit.cover,
                     ),
-                    // Product Image and Details
+                    SizedBox(height: 15.h),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -115,7 +107,6 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
                         ],
                       ),
                     ),
-                    // SizedBox(height: 16.h),
                     Column(
                       children: [
                         ListTile(
@@ -199,12 +190,22 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
                               trailing: Container(
                                 padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 24.w),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.amber, width: 2.sp),
+                                  border: Border.all(
+                                      color:
+                                          state.getIssueReqModal.status?.toUpperCase() == 'PENDING'
+                                              ? Colors.amber
+                                              : Colors.green,
+                                      width: 2.sp),
                                   borderRadius: BorderRadius.all(Radius.circular(30.r)),
                                 ),
                                 child: Text(
                                   state.getIssueReqModal.status?.toUpperCase() ?? '',
-                                  style: TextStyle(fontSize: 16.sp, color: Colors.amber),
+                                  style: TextStyle(
+                                      fontSize: 16.sp,
+                                      color:
+                                          state.getIssueReqModal.status?.toUpperCase() == 'PENDING'
+                                              ? Colors.amber
+                                              : Colors.green),
                                 ),
                               ),
                             ),
@@ -260,8 +261,8 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
           onPressed: () {
             Utils.showDialogBox(
                 context: context,
-                label: "Are you sure ?",
-                content: "You want to Withdraw your cycle",
+                label: "Withdraw Request",
+                content: "Are you sure You want to Withdraw the request",
                 onPressedClose: () {
                   Navigator.pop(context);
                 },
@@ -274,18 +275,23 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
       case 'ISSUED':
         return ElevatedButton(
           onPressed: () {
-            Utils.showDialogBox(
-                context: context,
-                label: "Are you sure ?",
-                content: "You want to surrender your cycle",
-                onPressedClose: () {
-                  Navigator.pop(context);
-                },
-                onPressedOk: () {
-                  BlocProvider.of<MakeSurrenderReqCubit>(context).makeSurrenderReq(cycleId);
-                });
+            // Utils.showDialogBox(
+            //     context: context,
+            //     label: "Are you sure ?",
+            //     content: "You want to surrender your cycle",
+            //     onPressedClose: () {
+            //       Navigator.pop(context);
+            //     },
+            //     onPressedOk: () {
+            //       BlocProvider.of<MakeSurrenderReqCubit>(context).makeSurrenderReq(cycleId);
+            //     });
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CycleDetailPage(cycleId: cycleId, Status: true)),
+                (route) => false);
           },
-          child: const Text('Surrender'),
+          child: const Text('ok'),
         );
       // Add more cases if needed
       default:
