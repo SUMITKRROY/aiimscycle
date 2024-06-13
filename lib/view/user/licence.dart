@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'exception_screen.dart';
+import '../extra_screen/exception_screen.dart';
 
 class Licence extends StatelessWidget {
   const Licence({Key? key}) : super(key: key);

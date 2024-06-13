@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../components/appbar.dart';
 import '../../route/route_generater.dart';
 import '../../utils/image.dart';
-import '../user/exception_screen.dart';
+import '../extra_screen/exception_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

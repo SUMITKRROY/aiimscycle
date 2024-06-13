@@ -12,10 +12,11 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
 
-  void getLogin(String userId, String password) async {
+  void getLogin({required String userId, required String password, bool? isNotConvert}) async {
     emit(LoginLoading());
     try {
-      final response = await LoginRepo().getLogin(userId, Utils.convertToMD5(password));
+      final response = await LoginRepo()
+          .getLogin(userId, isNotConvert == true ? password : Utils.convertToMD5(password));
       if (response.statusCode == 200) {
         print("${response.headers["set-cookie"]}");
 

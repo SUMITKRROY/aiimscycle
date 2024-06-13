@@ -1,5 +1,5 @@
 import 'package:aiimscycle/components/appbar.dart';
-import 'package:aiimscycle/view/user/exception_screen.dart';
+import 'package:aiimscycle/view/extra_screen/exception_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

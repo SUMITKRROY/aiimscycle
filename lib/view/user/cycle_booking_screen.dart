@@ -6,7 +6,7 @@ import 'package:aiimscycle/utils/image.dart';
 import 'package:aiimscycle/utils/utils.dart';
 import 'package:aiimscycle/view/user/cycle_detail_screen.dart';
 import 'package:aiimscycle/view/user/drawer_screen.dart';
-import 'package:aiimscycle/view/user/exception_screen.dart';
+import 'package:aiimscycle/view/extra_screen/exception_screen.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

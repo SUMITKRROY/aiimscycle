@@ -6,7 +6,7 @@ import '../view/about_info/notification_screen.dart';
 import '../view/about_info/open_source_libraries.dart';
 import '../view/about_info/privacy_policy.dart';
 import '../view/about_info/terms_of_use.dart';
-import '../view/login.dart';
+import '../view/auth_screen/login.dart';
 import '../view/profile/edit_profile.dart';
 import '../view/profile/profile.dart';
 import '../view/user/setting.dart';

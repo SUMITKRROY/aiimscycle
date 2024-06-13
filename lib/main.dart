@@ -22,10 +22,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'bloc/filter_log_cubit/filter_log_cubit.dart';
 import 'bloc/location_cubit/location_cubit.dart';
-import 'bloc/location_cubit/location_page.dart';
 import 'bloc/theme_cubit/theme.dart';
 import 'config/theamdata.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -36,8 +35,9 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  // await Geolocator.requestPermission();
   await dotenv.load(fileName: 'assets/.env');
+  // location req
+  await Permission.location.request();
   runApp(MyApp());
 }
 
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
               themeMode: _getThemeMode(themeModeOption: themeMode, context: context),
               darkTheme: darkMode,
               theme: lightMode,
-              // home: HomeScreen(),
+              // home: PaginationDemo(),
             );
           },
         ),

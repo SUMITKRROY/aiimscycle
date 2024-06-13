@@ -4,7 +4,7 @@ import 'package:aiimscycle/config/theamdata.dart';
 import 'package:aiimscycle/database/table/cycle_table.dart';
 import 'package:aiimscycle/route/route_generater.dart';
 import 'package:aiimscycle/view/Admin/admin_home_page.dart';
-import 'package:aiimscycle/view/register.dart';
+import 'package:aiimscycle/view/auth_screen/register.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:aiimscycle/view/user/cycle_detail_screen.dart';
 import 'package:aiimscycle/view/user/resetpassword.dart';
@@ -17,11 +17,11 @@ import 'package:aiimscycle/components/cutom_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer';
-import '../components/captcha.dart';
-import '../components/captchaForm.dart';
-import '../components/custom_TextFeild.dart';
-import '../utils/utils.dart';
-import 'user/exception_screen.dart';
+import '../../components/captcha.dart';
+import '../../components/captchaForm.dart';
+import '../../components/custom_TextFeild.dart';
+import '../../utils/utils.dart';
+import '../extra_screen/exception_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -208,8 +208,10 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () async {
                               bool isValid = _formKey.currentState!.validate();
                               if (isValid) {
-                                BlocProvider.of<LoginCubit>(context)
-                                    .getLogin(_employeeID.text.trim(), _password.text.trim());
+                                BlocProvider.of<LoginCubit>(context).getLogin(
+                                    userId: _employeeID.text.trim(),
+                                    password: _password.text.trim(),
+                                    isNotConvert: false);
                               } else {
                                 Utils.snackbarToast("Please fill all the details");
                               }

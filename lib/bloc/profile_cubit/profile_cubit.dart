@@ -18,7 +18,6 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       if (response.statusCode == 200) {
         User profileModal = User.fromJson(response.data['user']);
-        print("object ${profileModal.status}");
         var allRequestsJson = response.data['allRequest'] as List<dynamic>;
         final List<AllRequest> allReq = parseAllRequests(allRequestsJson);
         // print(allReq.last.status);

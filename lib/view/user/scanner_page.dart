@@ -15,7 +15,7 @@ import '../../bloc/cycle_detail/cycle_detail_cubit.dart';
 import '../../components/appbar.dart';
 import '../../utils/utils.dart';
 import 'drawer_screen.dart';
-import 'exception_screen.dart';
+import '../extra_screen/exception_screen.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});

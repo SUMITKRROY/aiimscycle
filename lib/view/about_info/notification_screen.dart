@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../bloc/logger_db_cubit/logger_db_cubit.dart';
 import '../../components/appbar.dart';
 import '../../utils/helper_text.dart';
-import '../user/exception_screen.dart';
+import '../extra_screen/exception_screen.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});

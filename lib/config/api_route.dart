@@ -13,4 +13,9 @@ class ApiRoute {
   String withdrawIssueReq = "$baseurl/user/withdrawl-issue-request";
   String makeSurenderReq = "$baseurl/user/make-surrender-request";
   String admin = "$baseurl/";
+
+  // admin
+  String cycleInvUrl = "$baseurl/admin/get-cycle-inventory";
+  String adminCycleReqUrl = "$baseurl/admin/get-cycle-issue-request";
+  String updateIssueReq = "$baseurl/admin/update-issue-request";
 }

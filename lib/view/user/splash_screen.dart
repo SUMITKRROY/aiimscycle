@@ -10,8 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../bloc/logger_db_cubit/logger_db_cubit.dart';
 import '../../components/logo_image.dart';
 import '../../database/table/cycle_table.dart';
-import 'exception_screen.dart';
-import '../login.dart';
+import '../extra_screen/exception_screen.dart';
+import '../auth_screen/login.dart';
 import 'cycle_detail_screen.dart';
 
 class SplashScreen extends StatefulWidget {

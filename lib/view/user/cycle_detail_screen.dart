@@ -1,4 +1,5 @@
 import 'package:aiimscycle/bloc/cycle_detail/cycle_detail_cubit.dart';
+import 'package:aiimscycle/bloc/cycle_detail/cycle_detail_modal.dart';
 import 'package:aiimscycle/bloc/make_issue_req_cubit/make_issue_req_cubit.dart';
 import 'package:aiimscycle/components/appbar.dart';
 import 'package:aiimscycle/components/cache_networkImage.dart';
@@ -6,11 +7,12 @@ import 'package:aiimscycle/components/loader.dart';
 import 'package:aiimscycle/database/table/cycle_table.dart';
 import 'package:aiimscycle/utils/image.dart';
 import 'package:aiimscycle/utils/utils.dart';
-import 'package:aiimscycle/view/user/exception_screen.dart';
+import 'package:aiimscycle/view/extra_screen/exception_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '../../bloc/location_cubit/location_cubit.dart';
 import '../../bloc/make_surrender_req/make_surrender_req_cubit.dart';
 import '../../bloc/profile_cubit/profile_cubit.dart';
 import 'cycle_booking_screen.dart';
@@ -35,21 +37,7 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
   bool onTap = true;
   int indexOfImage = 0;
 
-  late CycleModal cycle;
-
-  // final List<String>? imageUrlList = [
-  //   'assets/cycle/4.jpg',
-  //   'assets/cycle/1.jpg',
-  //   'assets/cycle/2.jpg',
-  //   'assets/cycle/3.jpg',
-  // ];
-  final List<String>? imageUrlList = [
-    ImagePath.cycle,
-    ImagePath.logo,
-    ImagePath.cycle,
-    ImagePath.logo,
-  ];
-  Map<String, dynamic> cycleInfo = {};
+  final String? distance = dotenv.env["distance"];
 
   @override
   void initState() {
@@ -58,7 +46,6 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
   }
 
   Future<void> _refresh() async {
-    // BlocProvider.of<CycleDetailCubit>(context).getCycleDetail('1715932804');
     BlocProvider.of<ProfileCubit>(context).getProfile();
   }
 
@@ -219,18 +206,22 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                                           onPressed: () {
                                             _showBookingDialog(
                                                 context: context,
+                                                cycleDetailModal: state.cycleModal,
                                                 onTap: () {
-                                                  BlocProvider.of<MakeIssueReqCubit>(context)
-                                                      .makeIssueReq(
-                                                          cycleDetailModal: state.cycleModal);
+                                                  context
+                                                      .read<LocationCubit>()
+                                                      .fetchLocationAndCalculateDistance(
+                                                          targetLatitude: double.parse(state
+                                                              .cycleModal.atPoint!.latitude
+                                                              .toString()),
+                                                          targetLongitude: double.parse(state
+                                                              .cycleModal.atPoint!.longitude
+                                                              .toString()))
+                                                      .then((value) => Navigator.pop(context));
+                                                  // BlocProvider.of<MakeIssueReqCubit>(context)
+                                                  //     .makeIssueReq(
+                                                  //         cycleDetailModal: state.cycleModal);
                                                 });
-                                            // cycleInfo[CycleTable.cycleId] = cycle.id;
-                                            // cycleInfo[CycleTable.name] = cycle.name;
-                                            // cycleInfo[CycleTable.category] = cycle.category;
-                                            // cycleInfo[CycleTable.status] = cycle.status;
-                                            // cycleInfo[CycleTable.requestDate] = cycle.requestDate;
-                                            // cycleInfo[CycleTable.reqId] = cycle.reqId;
-                                            // cycleInfo[CycleTable.requestStatus] = cycle.requestStatus;
                                           },
                                           child: const Text('Book Now'),
                                         )
@@ -289,60 +280,68 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
     );
   }
 
-  void _showBookingDialog({required BuildContext context, required Function()? onTap}) {
+  void _showBookingDialog(
+      {required BuildContext context,
+      required Function()? onTap,
+      required CycleDetailModal cycleDetailModal}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Book Cycle'),
-          content: Text('Are you sure you want to Book a cycle?'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('OK'),
-              onPressed: onTap,
-              // onPressed: () {
-              //   Navigator.pop(context);
-              //   CycleTable().insert(cycleInfo);
-              //   Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) => CycleDetailPageTwo(
-              //                 cycle: cycle,
-              //                 cycleId: widget.cycleId,
-              //               )));
-              // },
-            ),
-          ],
+        return BlocListener<LocationCubit, LocationState>(
+          listener: (context, state) {
+            if (state is LocationLoaded) {
+              if (state.distance != null) {
+                if (int.parse(state.distance!.toString().split('.').first) <= 50) {
+                  Navigator.pop(context);
+                  BlocProvider.of<MakeIssueReqCubit>(context)
+                      .makeIssueReq(cycleDetailModal: cycleDetailModal);
+                } else {
+                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => AlertDialog(
+                      title: Text("You are spoofing the GPS location"),
+                      content: Text("So you cannot book the cycle"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('Ok'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              }
+            }
+            if (state is LocationLoading) {
+              Utils.showLoadingProgress(context);
+            }
+            if (state is LocationError) {
+              Navigator.pop(context);
+              Utils.snackbarToast(state.error);
+            }
+          },
+          child: AlertDialog(
+            title: Text('Book Cycle'),
+            content: Text('Are you sure you want to Book a cycle?'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('OK'),
+                onPressed: onTap,
+              ),
+            ],
+          ),
         );
       },
     );
   }
-}
-
-class CycleModal {
-  final String id;
-  final String name;
-  final String category;
-  final String status;
-  final bool available;
-  final int reqId;
-  final String requestDate;
-  final String requestStatus;
-
-  CycleModal({
-    required this.id,
-    required this.name,
-    required this.category,
-    required this.status,
-    required this.available,
-    required this.reqId,
-    required this.requestDate,
-    required this.requestStatus,
-  });
 }

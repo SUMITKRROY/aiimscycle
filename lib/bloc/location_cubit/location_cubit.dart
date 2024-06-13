@@ -1,33 +1,36 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class LocationState {
-  final bool isLoading;
-  final Position? position;
-  final double? distance;
-  final String? error;
-
-  LocationState({required this.isLoading, this.position, this.distance, this.error});
-}
+part 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
-  LocationCubit() : super(LocationState(isLoading: false));
+  LocationCubit() : super(LocationInitial());
 
   Future<void> fetchLocationAndCalculateDistance(
-      double targetLatitude, double targetLongitude) async {
-    emit(LocationState(isLoading: true));
+      {required double targetLatitude, required double targetLongitude}) async {
+    emit(LocationLoading());
     try {
-      Position position =
-          await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      double distance = Geolocator.distanceBetween(
-        position.latitude,
-        position.longitude,
-        targetLatitude,
-        targetLongitude,
-      );
-      emit(LocationState(isLoading: false, position: position, distance: distance));
+      // Request location permission
+      PermissionStatus permission = await Permission.location.request();
+      if (permission.isGranted) {
+        // Location permission granted, fetch the user's location
+        Position position =
+            await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        double distance = Geolocator.distanceBetween(
+          position.latitude,
+          position.longitude,
+          targetLatitude,
+          targetLongitude,
+        );
+        emit(LocationLoaded(position: position, distance: distance));
+      } else {
+        // Location permission denied
+        emit(LocationError(error: 'Location permission denied. Please grant the permission.'));
+      }
     } catch (e) {
-      emit(LocationState(isLoading: false, error: e.toString()));
+      emit(LocationError(error: e.toString()));
     }
   }
 }

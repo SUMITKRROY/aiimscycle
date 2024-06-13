@@ -1,4 +1,5 @@
 import 'package:aiimscycle/bloc/filter_log_cubit/filter_log_cubit.dart';
+import 'package:aiimscycle/database/table/login_table.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:aiimscycle/view/user/resetpassword.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +14,7 @@ import '../../bloc/theme_cubit/theme.dart';
 import '../../components/appbar.dart';
 import '../../route/route_generater.dart';
 import '../../utils/helper_text.dart';
-import 'exception_screen.dart';
+import '../extra_screen/exception_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -23,6 +24,22 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final String screenName = 'SettingsScreen';
   int logFilterValue = 1;
+  List<Map<String, dynamic>> loginDetail = [];
+  String? userId;
+
+  Future<void> loginData() async {
+    List<Map<String, dynamic>> localData = await LoginTable().getUserData();
+
+    setState(() {
+      userId = localData.first[LoginTable.userId];
+    });
+  }
+
+  @override
+  void initState() {
+    loginData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,15 +196,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                    const Divider(color: Colors.grey),
-                    ListTile(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => ResetPasswordScreen()));
-                      },
-                      title: Text('Change Password'),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                    ),
+                    userId != null
+                        ? Column(
+                            children: [
+                              const Divider(color: Colors.grey),
+                              ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ResetPasswordScreen()));
+                                },
+                                title: Text('Change Password'),
+                                trailing: Icon(Icons.arrow_forward_ios),
+                              ),
+                            ],
+                          )
+                        : SizedBox(),
                     const Divider(color: Colors.grey),
                     GestureDetector(
                       onTap: () {

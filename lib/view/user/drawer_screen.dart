@@ -15,7 +15,7 @@ import '../../config/theamdata.dart';
 import '../../components/appbar.dart';
 import '../../utils/image.dart';
 import '../../utils/utils.dart';
-import '../login.dart';
+import '../auth_screen/login.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override

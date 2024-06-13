@@ -49,4 +49,20 @@ class LoginTable {
       // whereArgs: [noteId],
     );
   }
+
+  Future<int> updateSessionId(String userId, String newSessionId) async {
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    final db = await databaseHelper.database;
+
+    Map<String, dynamic> values = {
+      'SessionId': newSessionId,
+    };
+
+    return await db.update(
+      LOGIN_TABLE,
+      values,
+      where: 'USER_ID = ?',
+      whereArgs: [userId],
+    );
+  }
 }

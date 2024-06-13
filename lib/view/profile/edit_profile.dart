@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../components/custom_TextFeild.dart';
 import '../../database/table/user_profile.dart';
 import '../../utils/utils.dart';
-import '../user/exception_screen.dart';
+import '../extra_screen/exception_screen.dart';
 
 class ProfileEditScreen extends StatefulWidget {
   const ProfileEditScreen({super.key});
