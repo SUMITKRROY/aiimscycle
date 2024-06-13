@@ -37,7 +37,7 @@ Future<void> main() async {
   ]);
   await dotenv.load(fileName: 'assets/.env');
   // location req
-  await Permission.location.request();
+  // await Permission.location.request();
   runApp(MyApp());
 }
 

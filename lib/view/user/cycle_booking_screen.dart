@@ -4,10 +4,12 @@ import 'package:aiimscycle/bloc/withdraw-issue-request/withdraw_issue_req_cubit.
 import 'package:aiimscycle/components/loader.dart';
 import 'package:aiimscycle/utils/image.dart';
 import 'package:aiimscycle/utils/utils.dart';
+import 'package:aiimscycle/view/extra_screen/error_screen.dart';
 import 'package:aiimscycle/view/user/cycle_detail_screen.dart';
 import 'package:aiimscycle/view/user/drawer_screen.dart';
 import 'package:aiimscycle/view/extra_screen/exception_screen.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,11 +70,15 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
                 padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 20.h),
                 child: ListView(
                   children: [
-                    Image.network(
-                      GetImageFromUrl.getImage(state.getIssueReqModal.requestedFor?.image1 ?? ''),
-                      height: 300.h,
-                      width: 400.w,
-                      fit: BoxFit.cover,
+                    ClipRRect(
+                borderRadius: BorderRadius.circular(15.r),
+
+                      child: Image.network(
+                        GetImageFromUrl.getImage(state.getIssueReqModal.requestedFor?.image1 ?? ''),
+                        height: 300.h,
+                        width: 400.w,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     SizedBox(height: 15.h),
                     Padding(
@@ -116,17 +122,10 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
                               fontSize: 20.sp,
                             ),
                           ),
-                          trailing: Container(
-                            width: 100.w,
-                            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 0.w),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.green),
-                                borderRadius: BorderRadius.all(Radius.circular(30.r))),
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              cycleModal.requestedFor?.status ?? '',
-                              style: TextStyle(fontSize: 16.sp, color: Colors.green),
-                            ),
+                          trailing: Text(
+                            textAlign: TextAlign.center,
+                            cycleModal.requestedFor?.status ?? '',
+                            style: TextStyle(fontSize: 16.sp, color: Colors.green),
                           ),
                         ),
                         ListTile(
@@ -136,17 +135,10 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
                               fontSize: 20.sp,
                             ),
                           ),
-                          trailing: Container(
-                            width: 100.w,
-                            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 0.w),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.green),
-                                borderRadius: BorderRadius.all(Radius.circular(30.r))),
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              '${cycleModal.requestedFor?.available.toString().toUpperCase()}',
-                              style: TextStyle(fontSize: 16.sp, color: Colors.green),
-                            ),
+                          trailing: Text(
+                            textAlign: TextAlign.center,
+                            '${cycleModal.requestedFor?.available.toString().toUpperCase()}',
+                            style: TextStyle(fontSize: 16.sp, color: Colors.green),
                           ),
                         ),
                         Divider(),
@@ -187,26 +179,14 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
                                   fontSize: 20.sp,
                                 ),
                               ),
-                              trailing: Container(
-                                padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 24.w),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color:
-                                          state.getIssueReqModal.status?.toUpperCase() == 'PENDING'
-                                              ? Colors.amber
-                                              : Colors.green,
-                                      width: 2.sp),
-                                  borderRadius: BorderRadius.all(Radius.circular(30.r)),
-                                ),
-                                child: Text(
-                                  state.getIssueReqModal.status?.toUpperCase() ?? '',
-                                  style: TextStyle(
-                                      fontSize: 16.sp,
-                                      color:
-                                          state.getIssueReqModal.status?.toUpperCase() == 'PENDING'
-                                              ? Colors.amber
-                                              : Colors.green),
-                                ),
+                              trailing: Text(
+                                state.getIssueReqModal.status?.toUpperCase() ?? '',
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color:
+                                        state.getIssueReqModal.status?.toUpperCase() == 'PENDING'
+                                            ? Colors.amber
+                                            : Colors.green),
                               ),
                             ),
                           ],
@@ -241,8 +221,13 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
               ),
             ),
           );
-        } else if (state is GetIssueReqLoading) {
+        }
+        if (state is GetIssueReqLoading) {
           return Loader();
+        } if(state is GetIssueReqError){
+          return ErrorScreen(onPressed: (){
+            _refresh();
+          },);
         }
         return ExceptionScreen();
       },

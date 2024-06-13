@@ -1,5 +1,6 @@
 import 'package:aiimscycle/bloc/admin/admin_cycle_req/admin_cycle_req_cubit.dart';
 import 'package:aiimscycle/bloc/admin/cycle_inventory_cubit/cycle_inventory_cubit.dart';
+import 'package:aiimscycle/components/appbar.dart';
 import 'package:aiimscycle/view/Admin/admin_surrender_screen.dart';
 import 'package:aiimscycle/view/Admin/cycle_inventory.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,10 +44,11 @@ class AdminHomePage extends StatelessWidget {
               tabs: const [
                 Tab(icon: Icon(Icons.home)),
                 Tab(icon: Icon(Icons.hail)),
-                Tab(icon: Icon(Icons.stop_circle)),
+                Tab(icon: Icon(Icons.directions_bike)),
               ],
             ),
-            title: Text('Admin Screen'),
+            title: CustomAppBar(),
+            titleSpacing: 0,
           ),
           body: TabBarView(
             children: [

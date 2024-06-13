@@ -98,18 +98,18 @@ class AdminCycleDetailCard extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                           ),
-                          onPressed: () {},
-                          // onPressed: () => BlocProvider.of<UpdateIssueReqCubit>(context)
-                          //     .updateIssueReq(id: id ?? '', status: true),
+                          // onPressed: () {},
+                          onPressed: () => BlocProvider.of<UpdateIssueReqCubit>(context)
+                              .updateIssueReq(id: id ?? '', status: true),
                           child: const Text('APPROVE'),
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
                           ),
-                          onPressed: () {},
-                          // onPressed: () => BlocProvider.of<UpdateIssueReqCubit>(context)
-                          //     .updateIssueReq(id: id ?? '', status: false),
+                          // onPressed: () {},
+                          onPressed: () => BlocProvider.of<UpdateIssueReqCubit>(context)
+                              .updateIssueReq(id: id ?? '', status: false),
                           child: const Text('REJECT'),
                         ),
                       ],

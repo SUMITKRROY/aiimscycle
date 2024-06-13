@@ -3,6 +3,7 @@ import 'package:aiimscycle/bloc/admin/cycle_inventory_cubit/cycle_inventory_cubi
 import 'package:aiimscycle/components/loader.dart';
 import 'package:aiimscycle/view/Admin/admin_cycle_detail_card.dart';
 import 'package:aiimscycle/view/Admin/empty_cycle_container.dart';
+import 'package:aiimscycle/view/extra_screen/error_screen.dart';
 import 'package:aiimscycle/view/extra_screen/exception_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,12 @@ class _AdminSurrenderScreenState extends State<AdminSurrenderScreen> {
                         category: cycleModal.requestedFor?.category ?? '');
                   })
               : EmptyCycleContainer();
+        }
+        if (state is AdminCycleReqError) {
+          return ErrorScreen(onPressed: (){
+            BlocProvider.of<AdminCycleReqCubit>(context).getAdminCycleReq();
+
+          },);
         }
         return ExceptionScreen();
       },

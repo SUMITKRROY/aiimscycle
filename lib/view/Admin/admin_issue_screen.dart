@@ -4,6 +4,7 @@ import 'package:aiimscycle/bloc/admin/update_issue_req/update_issue_req_cubit.da
 import 'package:aiimscycle/components/loader.dart';
 import 'package:aiimscycle/view/Admin/admin_cycle_detail_card.dart';
 import 'package:aiimscycle/view/Admin/empty_cycle_container.dart';
+import 'package:aiimscycle/view/extra_screen/error_screen.dart';
 import 'package:aiimscycle/view/extra_screen/exception_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,12 @@ class _AdminIssueScreenState extends State<AdminIssueScreen> {
                         category: cycleModal.requestedFor?.category ?? '');
                   })
               : EmptyCycleContainer();
+        }
+        if (state is AdminCycleReqError) {
+          return ErrorScreen(onPressed: () {
+            BlocProvider.of<AdminCycleReqCubit>(context).getAdminCycleReq();
+
+          },);
         }
         return ExceptionScreen();
       },

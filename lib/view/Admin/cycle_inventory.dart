@@ -1,6 +1,7 @@
 import 'package:aiimscycle/bloc/admin/cycle_inventory_cubit/cycle_inventory_cubit.dart';
 import 'package:aiimscycle/components/loader.dart';
 import 'package:aiimscycle/view/Admin/empty_cycle_container.dart';
+import 'package:aiimscycle/view/extra_screen/error_screen.dart';
 import 'package:aiimscycle/view/extra_screen/exception_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +88,12 @@ class _CycleInventoryScreenState extends State<CycleInventoryScreen> {
                   ),
                 )
               : EmptyCycleContainer();
+        }
+        if (state is CycleInventoryError) {
+          return ErrorScreen(onPressed: (){
+            BlocProvider.of<CycleInventoryCubit>(context).getCycleInv();
+
+          },);
         }
         return ExceptionScreen();
       },

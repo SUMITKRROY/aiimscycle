@@ -7,8 +7,10 @@ import 'package:aiimscycle/components/loader.dart';
 import 'package:aiimscycle/database/table/cycle_table.dart';
 import 'package:aiimscycle/utils/image.dart';
 import 'package:aiimscycle/utils/utils.dart';
+import 'package:aiimscycle/view/extra_screen/error_screen.dart';
 import 'package:aiimscycle/view/extra_screen/exception_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -87,11 +89,13 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
                         // crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Image.network(
-                            GetImageFromUrl.getImage(state.cycleModal.image1 ?? ''),
-                            height: 300.h,
-                            width: 400.w,
-                            fit: BoxFit.cover,
+                          ClipRRect(borderRadius: BorderRadius.circular(15.r),
+                            child: Image.network(
+                              GetImageFromUrl.getImage(state.cycleModal.image2 ?? ''),
+                              height: 300.h,
+                              width: 400.w,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                           SizedBox(height: 25.h),
                           Padding(
@@ -136,17 +140,10 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                                     fontSize: 20.sp,
                                   ),
                                 ),
-                                trailing: Container(
-                                  width: 100.w,
-                                  padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 0.w),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.green),
-                                      borderRadius: BorderRadius.all(Radius.circular(30.r))),
-                                  child: Text(
-                                    textAlign: TextAlign.center,
-                                    cycle.status.toString().toUpperCase(),
-                                    style: TextStyle(fontSize: 16.sp, color: Colors.green),
-                                  ),
+                                trailing: Text(
+                                  textAlign: TextAlign.center,
+                                  cycle.status.toString().toUpperCase(),
+                                  style: TextStyle(fontSize: 16.sp, color: Colors.green),
                                 ),
                               ),
                               ListTile(
@@ -156,17 +153,10 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                                     fontSize: 20.sp,
                                   ),
                                 ),
-                                trailing: Container(
-                                  width: 100.w,
-                                  padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 0.w),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.green),
-                                      borderRadius: BorderRadius.all(Radius.circular(30.r))),
-                                  child: Text(
-                                    textAlign: TextAlign.center,
-                                    cycle.available.toString().toUpperCase(),
-                                    style: TextStyle(fontSize: 16.sp, color: Colors.green),
-                                  ),
+                                trailing: Text(
+                                  textAlign: TextAlign.center,
+                                  cycle.available.toString().toUpperCase(),
+                                  style: TextStyle(fontSize: 16.sp, color: Colors.green),
                                 ),
                               ),
                             ],
@@ -208,19 +198,19 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                                                 context: context,
                                                 cycleDetailModal: state.cycleModal,
                                                 onTap: () {
-                                                  context
-                                                      .read<LocationCubit>()
-                                                      .fetchLocationAndCalculateDistance(
-                                                          targetLatitude: double.parse(state
-                                                              .cycleModal.atPoint!.latitude
-                                                              .toString()),
-                                                          targetLongitude: double.parse(state
-                                                              .cycleModal.atPoint!.longitude
-                                                              .toString()))
-                                                      .then((value) => Navigator.pop(context));
-                                                  // BlocProvider.of<MakeIssueReqCubit>(context)
-                                                  //     .makeIssueReq(
-                                                  //         cycleDetailModal: state.cycleModal);
+                                                  // context
+                                                  //     .read<LocationCubit>()
+                                                  //     .fetchLocationAndCalculateDistance(
+                                                  //         targetLatitude: double.parse(state
+                                                  //             .cycleModal.atPoint!.latitude
+                                                  //             .toString()),
+                                                  //         targetLongitude: double.parse(state
+                                                  //             .cycleModal.atPoint!.longitude
+                                                  //             .toString()))
+                                                  //     .then((value) => Navigator.pop(context));
+                                                  BlocProvider.of<MakeIssueReqCubit>(context)
+                                                      .makeIssueReq(
+                                                          cycleDetailModal: state.cycleModal);
                                                 });
                                           },
                                           child: const Text('Book Now'),
@@ -270,7 +260,10 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
               } else if (state is CycleDetailLoading) {
                 return Loader();
               } else if (state is CycleDetailError) {
-                return ExceptionScreen();
+                return ErrorScreen(onPressed: (){
+                  BlocProvider.of<CycleDetailCubit>(context).getCycleDetail(widget.cycleId.toString());
+
+                },);
               }
               return ExceptionScreen();
             },

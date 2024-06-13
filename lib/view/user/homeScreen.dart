@@ -57,7 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state is ProfileLoading) {
           return Loader();
         }
-        return ExceptionScreen();
+        return ErrorScreen(onPressed: (){
+          BlocProvider.of<ProfileCubit>(context).getProfile();
+        },);
       },
     );
   }
