@@ -1,4 +1,5 @@
 import 'package:aiimscycle/bloc/splash_cubit/splash_cubit.dart';
+import 'package:aiimscycle/database/table/app_table.dart';
 import 'package:aiimscycle/view/Admin/admin_home_page.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,12 @@ import 'package:aiimscycle/config/theamdata.dart';
 import 'package:aiimscycle/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../bloc/logger_db_cubit/logger_db_cubit.dart';
-import '../../components/logo_image.dart';
-import '../../database/table/cycle_table.dart';
-import '../extra_screen/exception_screen.dart';
-import '../auth_screen/login.dart';
-import 'cycle_detail_screen.dart';
+import '../bloc/logger_db_cubit/logger_db_cubit.dart';
+import '../components/logo_image.dart';
+import '../database/table/cycle_table.dart';
+import 'extra_screen/exception_screen.dart';
+import 'auth_screen/login.dart';
+import 'user/cycle_detail_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,11 +24,27 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final String screenName = 'SplashScreen';
+ Map<String, dynamic> appDetailSet = {};
 
   @override
   void initState() {
-    // TODO: implement initState
+    appTableSet();
     super.initState();
+  }
+
+  void appTableSet() async{
+    try{
+      appDetailSet[AppTable.clientId] = 1;
+      appDetailSet[AppTable.theme] = "System";
+      appDetailSet[AppTable.language] = "System";
+      appDetailSet[AppTable.debugFlag] = "true";
+      appDetailSet[AppTable.logFlag] = "true";
+
+      await AppTable().insert(appDetailSet);
+    }catch(e){
+      print("error $e");
+    }
+
   }
 
   @override

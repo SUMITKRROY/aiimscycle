@@ -17,6 +17,7 @@ import 'package:aiimscycle/bloc/register/register_bloc.dart';
 import 'package:aiimscycle/route/pageroute.dart';
 import 'package:aiimscycle/route/route_generater.dart';
 import 'package:aiimscycle/utils/helper_text.dart';
+import 'package:aiimscycle/utils/theme_changer.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -80,7 +81,7 @@ class MyApp extends StatelessWidget {
               onGenerateRoute: MyRoutes.generateRoute,
               debugShowCheckedModeBanner: false,
               title: CommonText.cycle,
-              themeMode: _getThemeMode(themeModeOption: themeMode, context: context),
+              themeMode: ThemeChanger.getThemeMode(themeModeOption: themeMode, context: context),
               darkTheme: darkMode,
               theme: lightMode,
               // home: PaginationDemo(),
@@ -89,18 +90,5 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  ThemeMode _getThemeMode(
-      {required ThemeModeOption themeModeOption, required BuildContext context}) {
-    if (themeModeOption == ThemeModeOption.System) {
-      return MediaQuery.of(context).platformBrightness == Brightness.dark
-          ? ThemeMode.dark
-          : ThemeMode.light;
-    } else if (themeModeOption == ThemeModeOption.Light) {
-      return ThemeMode.light;
-    } else {
-      return ThemeMode.dark;
-    }
   }
 }

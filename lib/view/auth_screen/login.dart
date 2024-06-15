@@ -20,6 +20,7 @@ import 'dart:developer';
 import '../../components/captcha.dart';
 import '../../components/captchaForm.dart';
 import '../../components/custom_TextFeild.dart';
+import '../../database/table/app_table.dart';
 import '../../utils/utils.dart';
 import '../extra_screen/exception_screen.dart';
 
@@ -90,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                       userRole:
                           state.loginModal.authenticate?.authorities?.first.authority.toString() ??
                               '');
-
+                  AppTable().updateClientId("1", _employeeID.text.trim());
                   Navigator.of(context);
 
                   print(

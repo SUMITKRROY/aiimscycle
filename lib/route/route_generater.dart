@@ -12,7 +12,7 @@ import '../view/profile/profile.dart';
 import '../view/user/setting.dart';
 import '../view/user/version_screen.dart';
 import 'pageroute.dart';
-import '../view/user/splash_screen.dart';
+import '../view/splash_screen.dart';
 
 class MyRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {

@@ -1,4 +1,5 @@
 import 'package:aiimscycle/bloc/filter_log_cubit/filter_log_cubit.dart';
+import 'package:aiimscycle/database/table/app_table.dart';
 import 'package:aiimscycle/database/table/login_table.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:aiimscycle/view/user/resetpassword.dart';
@@ -28,17 +29,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String? userId;
 
   Future<void> loginData() async {
-    List<Map<String, dynamic>> localData = await LoginTable().getUserData();
+    try {
+      List<Map<String, dynamic>> localData = await LoginTable().getUserData();
 
-    setState(() {
-      userId = localData.first[LoginTable.userId];
-    });
+      setState(() {
+        userId = localData.first[LoginTable.userId];
+      });
+    } catch (e){
+      print('No User data');
+    }
+
   }
 
   @override
   void initState() {
     loginData();
+    appDetailFunction();
     super.initState();
+  }
+
+
+  void appDetailFunction() async {
+    List<Map<String, dynamic>> appdata = await AppTable().getAppTable();
+    String? theme = appdata.first[AppTable.theme];
+    print(" app detail $theme");
   }
 
   @override
@@ -70,7 +84,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             title: const Text('Theme'),
                             trailing: DropdownButton<ThemeModeOption>(
                               value: themeMode,
-                              onChanged: (newThemeMode) {
+                              onChanged: (newThemeMode)  {
+
                                 BlocProvider.of<ThemeCubit>(context).setTheme(newThemeMode!);
                               },
                               items: [

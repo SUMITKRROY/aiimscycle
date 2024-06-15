@@ -47,4 +47,38 @@ class AppTable {
       App_Table,
     );
   }
+
+  Future<int> updateClientId(String clientId, String newClientId) async {
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    final db = await databaseHelper.database;
+
+    Map<String, dynamic> values = {
+      'ClientId': newClientId,
+    };
+
+    return await db.update(
+      App_Table,
+      values,
+      where: 'ClientId = ?',
+      whereArgs: [clientId],
+    );
+  }
+
+  Future<int> updateThemeColor(String clientId, String theme) async {
+    DatabaseHelper databaseHelper = DatabaseHelper();
+    final db = await databaseHelper.database;
+
+    Map<String, dynamic> values = {
+      'Theme': theme,
+    };
+
+    return await db.update(
+      App_Table,
+      values,
+      where: 'ClientId = ?',
+      whereArgs: [clientId],
+    );
+  }
+
+
 }
