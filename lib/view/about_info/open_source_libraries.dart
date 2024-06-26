@@ -25,96 +25,83 @@ class LegalScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Open Source Libraries',
-                style: TextStyle(fontSize: 24.sp),
-              ),
-              SizedBox(height: 10.h),
-              Text('''
-## Open Source Licenses
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(color: Colors.black), // Define the default text style
+                  children: <TextSpan>[
+                    TextSpan(text: 'Open Source Licenses\n\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
 
-The AIIMS Cycle mobile application utilizes open source software. We are committed to acknowledging the work of the open source community and providing the necessary information and licenses. Below is a list of the open source libraries and software used in our app, along with their respective licenses.
+                    TextSpan(text: 'The AIIMS Cycle mobile application utilizes open source software. We are committed to acknowledging the work of the open source community and providing the necessary information and licenses. Below is a list of the open source libraries and software used in our app, along with their respective licenses.\n\n'),
 
-### Libraries and Licenses
+                    TextSpan(text: 'Libraries and Licenses\n\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
 
-1. *Library Name*: Retrofit
-   - *Description*: A type-safe HTTP client for Android and Java.
-   - *License*: Apache License 2.0
-   - *Link*: [Retrofit License](https://github.com/square/retrofit/blob/master/LICENSE.txt)
+                    TextSpan(text: '1. *Library Name*: Retrofit\n', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: '   - *Description*: A type-safe HTTP client for Android and Java.\n'),
+                    TextSpan(text: '   - *License*: Apache License 2.0\n'),
+                    TextSpan(text: '   - *Link*: '),
+                    TextSpan(
+                      text: 'Retrofit License\n\nhttps://github.com/square/retrofit/blob/master/LICENSE.txt',
+                      style: TextStyle(color: Colors.blue),
+                    ),
 
-2. *Library Name*: OkHttp
-   - *Description*: An HTTP & HTTP/2 client for Android and Java applications.
-   - *License*: Apache License 2.0
-   - *Link*: [OkHttp License](https://github.com/square/okhttp/blob/master/LICENSE.txt)
+                    TextSpan(text: '\n2. *Library Name*: OkHttp\n', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: '   - *Description*: An HTTP & HTTP/2 client for Android and Java applications.\n'),
+                    TextSpan(text: '   - *License*: Apache License 2.0\n'),
+                    TextSpan(text: '   - *Link*: '),
+                    TextSpan(
+                      text: 'OkHttp License\n\nhttps://github.com/square/okhttp/blob/master/LICENSE.txt',
+                      style: TextStyle(color: Colors.blue),
 
-3. *Library Name*: Glide
-   - *Description*: An image loading and caching library for Android.
-   - *License*: BSD, part MIT, and Apache License 2.0
-   - *Link*: [Glide License](https://github.com/bumptech/glide/blob/master/LICENSE)
+                    ),
 
-4. *Library Name*: Gson
-   - *Description*: A Java library that can be used to convert Java Objects into their JSON representation.
-   - *License*: Apache License 2.0
-   - *Link*: [Gson License](https://github.com/google/gson/blob/master/LICENSE)
+                    TextSpan(text: '\n3. *Library Name*: Glide\n', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: '   - *Description*: An image loading and caching library for Android.\n'),
+                    TextSpan(text: '   - *License*: BSD, part MIT, and Apache License 2.0\n'),
+                    TextSpan(text: '   - *Link*: '),
+                    TextSpan(
+                      text: 'Glide License\n\nhttps://github.com/bumptech/glide/blob/master/LICENSE',
+                      style: TextStyle(color: Colors.blue),
+                    ),
 
-5. *Library Name*: Room
-   - *Description*: The Room persistence library provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
-   - *License*: Apache License 2.0
-   - *Link*: [Room License](https://developer.android.com/jetpack/androidx/releases/room#license)
+                    TextSpan(text: '\n4. *Library Name*: Gson\n', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: '   - *Description*: A Java library that can be used to convert Java Objects into their JSON representation.\n'),
+                    TextSpan(text: '   - *License*: Apache License 2.0\n'),
+                    TextSpan(text: '   - *Link*: '),
+                    TextSpan(
+                      text: 'Gson License\n\nhttps://github.com/google/gson/blob/master/LICENSE',
+                      style: TextStyle(color: Colors.blue),
 
-### Full Text of Open Source Licenses
+                    ),
 
-#### Apache License 2.0
+                    TextSpan(text: '\n5. *Library Name*: Room\n', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: '   - *Description*: The Room persistence library provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.\n'),
+                    TextSpan(text: '   - *License*: Apache License 2.0\n'),
+                    TextSpan(text: '   - *Link*: '),
+                    TextSpan(
+                      text: 'Room License\n\nhttps://developer.android.com/jetpack/androidx/releases/room#license',
+                      style: TextStyle(color: Colors.blue),
+                    ),
 
-text
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
+                    TextSpan(text: '\nFull Text of Open Source Licenses\n\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
 
-   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+                    TextSpan(text: 'Apache License 2.0\n\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    TextSpan(text: '                    Apache License\n            Version 2.0, January 2004\n        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n      "License" shall mean the terms and conditions for use, reproduction,\n      and distribution as defined by Sections 1 through 9 of this document.\n      ...\n\n   [Full license text]\n\n'),
 
-   1. Definitions.
-      "License" shall mean the terms and conditions for use, reproduction,
-      and distribution as defined by Sections 1 through 9 of this document.
-      ...
+                    TextSpan(text: 'BSD License\n\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    TextSpan(text: 'text\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n   ...\n\n   [Full license text]\n\n'),
 
-   [Full license text]
+                    TextSpan(text: 'MIT License\n\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    TextSpan(text: 'text\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n   ...\n\n   [Full license text]\n\n'),
 
+                    TextSpan(text: 'Disclaimer\n\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                    TextSpan(text: 'AIIMS Cycle does not claim ownership of any open source libraries listed above. The licenses of these libraries are owned by their respective authors.\n\n'),
 
-#### BSD License
+                    TextSpan(text: 'Contact Us\n\n', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                    TextSpan(text: 'If you have any questions or concerns about our use of open source software, please contact us at:\n\n[Your Contact Information]\n\n'),
+                  ],
+                ),
+              )
 
-text
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-   ...
-
-   [Full license text]
-
-
-#### MIT License
-
-text
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-   ...
-
-   [Full license text]
-
-
-### Disclaimer
-
-AIIMS Cycle does not claim ownership of any open source libraries listed above. The licenses of these libraries are owned by their respective authors.
-
-### Contact Us
-
-If you have any questions or concerns about our use of open source software, please contact us at:
-
-[Your Contact Information]
-'''),
             ],
           ),
         ),

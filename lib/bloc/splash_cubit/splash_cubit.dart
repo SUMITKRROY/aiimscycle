@@ -9,12 +9,12 @@ part 'splash_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   SplashCubit() : super(SplashInitialState()) {
-    splashRunTime(const Duration(seconds: 3));
+    splashRunTime();
   }
 
-  splashRunTime(Duration duration) async {
+  splashRunTime() async {
     String? checkRole = await getLoginData();
-    await Future.delayed(duration);
+    // await Future.delayed(duration);
     emit(SplashLoadedState(checkRole: checkRole));
   }
 

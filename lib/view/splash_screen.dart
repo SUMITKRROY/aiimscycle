@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aiimscycle/bloc/splash_cubit/splash_cubit.dart';
 import 'package:aiimscycle/database/table/app_table.dart';
 import 'package:aiimscycle/view/Admin/admin_home_page.dart';
@@ -52,6 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       return BlocListener<SplashCubit, SplashState>(
         listener: (context, state) async {
+          Timer(Duration(seconds: 3), () {
           if (state is SplashLoadedState) {
             // print(state.checkRole);
             if (state.checkRole == 'ROLE_SuperAdmin' || state.checkRole == 'ROLE_Admin') {
@@ -70,6 +73,8 @@ class _SplashScreenState extends State<SplashScreen> {
           if (state is SplashErrorState) {
             // Utils.snackbarToast('Please Define Your Role');
           }
+          });
+
         },
         child: Scaffold(
           body: Padding(

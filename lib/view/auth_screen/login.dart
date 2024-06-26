@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _employeeID,
                       keyboardType: TextInputType.text,
                       validatorLabel: 'employee id',
-                      validatorFunc: Utils.employeeIdValidator(),
+                     // validatorFunc: Utils.employeeIdValidator(),
                       validator: true,
                     ),
                     Utils.getSizedBoxHeight(16.0),

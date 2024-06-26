@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     BlocProvider.of<ProfileCubit>(context).getProfile();
-    requestLocationPermission();
+    // requestLocationPermission();
 
     super.initState();
   }
