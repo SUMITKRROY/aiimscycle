@@ -16,24 +16,26 @@ class CustomTextField extends StatefulWidget {
   final dynamic suffixIcon;
   final dynamic validatorFunc;
   final dynamic maxline;
+  final bool readOnly; // New readOnly parameter
 
-  const CustomTextField(
-      {super.key,
-      required this.label,
-      this.inputFormatters,
-      this.validatorLabel,
-      this.initialValue,
-      required this.onChanged,
-      this.controller,
-      this.obscured = false,
-      this.suffixIcon,
-      this.keyboardType,
-      this.maxline,
-      required this.validator,
-      this.validatorFunc,
-      this.labelFontSize});
+  const CustomTextField({
+    super.key,
+    required this.label,
+    this.inputFormatters,
+    this.validatorLabel,
+    this.initialValue,
+    required this.onChanged,
+    this.controller,
+    this.obscured = false,
+    this.suffixIcon,
+    this.keyboardType,
+    this.maxline,
+    required this.validator,
+    this.validatorFunc,
+    this.labelFontSize,
+    this.readOnly = false, // Default to false
+  });
 
-  @override
   @override
   State<CustomTextField> createState() {
     return _CustomTextField();
@@ -59,15 +61,15 @@ class _CustomTextField extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: widget.readOnly, // Use the readOnly parameter here
       onTapOutside: (PointerDownEvent event) {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: widget.maxline,
-      // style: TextStyle(fontSize: 20.sp, color: ColorsData.darkGrayColor),
       inputFormatters: widget.inputFormatters,
       validator: widget.validatorFunc ??
-          (val) {
+              (val) {
             if (widget.validator != false) {
               if (val == null || val.isEmpty) {
                 return "Enter valid ${widget.validatorLabel}";
@@ -80,14 +82,15 @@ class _CustomTextField extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(22.h),
-          suffixIcon: widget.suffixIcon,
-          labelText: widget.label,
-          labelStyle: TextStyle(fontSize: widget.labelFontSize ?? 20.sp),
-          errorMaxLines: 2,
-          hintStyle: TextStyle(fontSize: 10.sp),
-          errorStyle: TextStyle(fontSize: 16.sp),
-          filled: true),
+        contentPadding: EdgeInsets.all(22.h),
+        suffixIcon: widget.suffixIcon,
+        labelText: widget.label,
+        labelStyle: TextStyle(fontSize: widget.labelFontSize ?? 20.sp),
+        errorMaxLines: 2,
+        hintStyle: TextStyle(fontSize: 10.sp),
+        errorStyle: TextStyle(fontSize: 16.sp),
+        filled: true,
+      ),
       obscureText: widget.obscured,
     );
   }

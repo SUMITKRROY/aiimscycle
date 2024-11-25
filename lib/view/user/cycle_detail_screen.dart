@@ -171,7 +171,6 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                                     }
                                     if (state is MakeIssueReqLoaded) {
                                       Navigator.pop(context);
-
                                       Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
@@ -198,16 +197,16 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                                                 context: context,
                                                 cycleDetailModal: state.cycleModal,
                                                 onTap: () {
-                                                  // context
-                                                  //     .read<LocationCubit>()
-                                                  //     .fetchLocationAndCalculateDistance(
-                                                  //         targetLatitude: double.parse(state
-                                                  //             .cycleModal.atPoint!.latitude
-                                                  //             .toString()),
-                                                  //         targetLongitude: double.parse(state
-                                                  //             .cycleModal.atPoint!.longitude
-                                                  //             .toString()))
-                                                  //     .then((value) => Navigator.pop(context));
+                                                  context
+                                                      .read<LocationCubit>()
+                                                      .fetchLocationAndCalculateDistance(
+                                                          targetLatitude: double.parse(state
+                                                              .cycleModal.atPoint!.latitude
+                                                              .toString()),
+                                                          targetLongitude: double.parse(state
+                                                              .cycleModal.atPoint!.longitude
+                                                              .toString()))
+                                                      .then((value) => Navigator.pop(context));
                                                   BlocProvider.of<MakeIssueReqCubit>(context)
                                                       .makeIssueReq(
                                                           cycleDetailModal: state.cycleModal);

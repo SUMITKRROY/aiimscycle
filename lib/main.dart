@@ -14,6 +14,7 @@ import 'package:aiimscycle/bloc/config_cubit/config_cubit.dart';
 import 'package:aiimscycle/bloc/device_safety_cubit/device_safety_cubit.dart';
 import 'package:aiimscycle/bloc/logger_db_cubit/logger_db_cubit.dart';
 import 'package:aiimscycle/bloc/register/register_bloc.dart';
+
 import 'package:aiimscycle/route/pageroute.dart';
 import 'package:aiimscycle/route/route_generater.dart';
 import 'package:aiimscycle/utils/helper_text.dart';
@@ -24,6 +25,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'bloc/contact_verify_cubit/verify_phone_no_bloc.dart';
 import 'bloc/filter_log_cubit/filter_log_cubit.dart';
 import 'bloc/location_cubit/location_cubit.dart';
 import 'bloc/theme_cubit/theme.dart';
@@ -69,6 +71,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<GetIssueReqCubit>(create: (_) => GetIssueReqCubit()),
         BlocProvider<WithdrawIssueReqCubit>(create: (_) => WithdrawIssueReqCubit()),
         BlocProvider<MakeSurrenderReqCubit>(create: (_) => MakeSurrenderReqCubit()),
+        BlocProvider<VerifyPhoneNoBloc>(create: (_) => VerifyPhoneNoBloc()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(414, 896),

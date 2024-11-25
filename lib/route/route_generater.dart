@@ -1,12 +1,15 @@
 import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../view/Admin/admin_home_page.dart';
 import '../view/about_info/about.dart';
 import '../view/about_info/notification_screen.dart';
 import '../view/about_info/open_source_libraries.dart';
 import '../view/about_info/privacy_policy.dart';
 import '../view/about_info/terms_of_use.dart';
 import '../view/auth_screen/login.dart';
+import '../view/auth_screen/register.dart';
+import '../view/auth_screen/verify_auth.dart';
 import '../view/profile/edit_profile.dart';
 import '../view/profile/profile.dart';
 import '../view/user/setting.dart';
@@ -36,6 +39,42 @@ class MyRoutes {
       //         ),
       //   );
 
+      /// AdminHomePage Screen
+      case RoutePath.adminHomePage:
+        return MaterialPageRoute(
+          builder: (_) => const AdminHomePage(),
+        );
+
+      /// HomeScreen Screen
+      case RoutePath.homeScreen:
+        return MaterialPageRoute(
+          builder: (_) => const HomeScreen(),
+        );
+
+      /// VerifyPhoneNo Screen
+      case RoutePath.verifyPhoneNo:
+        return MaterialPageRoute(
+          builder: (_) => const VerifyPhoneNo(),
+        );
+
+        /// VerifyPhoneNo Screen
+      case RoutePath.verifyPhoneNo:
+        return MaterialPageRoute(
+          builder: (_) => const VerifyPhoneNo(),
+        );
+
+        /// VerifyPhoneNo Screen
+      case RoutePath.registerPage:
+        return MaterialPageRoute(
+          builder: (context) {
+            final args = settings.arguments as RegisterPage;
+            return RegisterPage(
+              employeeId: args.employeeId,
+              phone: args.phone,
+            );
+          },
+        );
+
       /// Settings Screen
       case RoutePath.settingScreen:
         return MaterialPageRoute(
@@ -45,50 +84,50 @@ class MyRoutes {
       /// Profile Screen
       case RoutePath.profile:
         return MaterialPageRoute(
-          builder: (_) => ProfileScreen(),
+          builder: (_) => const ProfileScreen(),
         );
 
       /// Edit Profile Screen
       case RoutePath.editProfile:
         return MaterialPageRoute(
-          builder: (_) => ProfileEditScreen(),
+          builder: (_) => const ProfileEditScreen(),
         );
 
       /// Notification Screen
       case RoutePath.notification:
         return MaterialPageRoute(
-          builder: (_) => NotificationScreen(),
+          builder: (_) => const NotificationScreen(),
         );
 
       /// AboutUs Screen
       case RoutePath.aboutUs:
         return MaterialPageRoute(
-          builder: (_) => AboutUsScreen(),
+          builder: (_) => const AboutUsScreen(),
         );
 
       /// Terms Screen
       case RoutePath.termsAndConditions:
         return MaterialPageRoute(
-          builder: (_) => TermsConditionScreen(),
+          builder: (_) => const TermsConditionScreen(),
         );
 
       /// Version Screen
       case RoutePath.versionScreen:
         return MaterialPageRoute(
-          builder: (_) => VersionScreen(),
+          builder: (_) => const VersionScreen(),
         );
 
       /// Legal Screen
       case RoutePath.legalScreen:
         return MaterialPageRoute(
-          builder: (_) => LegalScreen(),
+          builder: (_) => const LegalScreen(),
         );
 
       /// PrivacyPolicy Screen
 
       case RoutePath.privacyPolicyScreen:
         return MaterialPageRoute(
-          builder: (_) => PrivacyPolicy(),
+          builder: (_) => const PrivacyPolicy(),
         );
       default:
         return MaterialPageRoute(
@@ -103,7 +142,9 @@ class MyRoutes {
 
   static void navigateToHome(BuildContext context) {
     Navigator.pushAndRemoveUntil(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        (route) => false);
   }
 
   static void navigateToSettingsScreen(BuildContext context) {

@@ -1,15 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:aiimscycle/config/theamdata.dart';
 
 class CustomText extends StatelessWidget {
-  final String lable;
-    CustomText({super.key, required this.lable});
+  final String label;
+  double? fontSize;
+  Color? fontColor;
+  bool alignment;
+
+  CustomText({
+    super.key,
+    required this.label,
+    this.fontSize,
+    this.fontColor,
+    this.alignment = false
+  });
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      lable,
-      style: TextStyle(fontSize: AppSizes.mediumTextSize),
+      label,
+      style: TextStyle(
+        fontSize: fontSize ?? 14,
+        // color: fontColor ?? Colors.white,
+      ),
+      textAlign: alignment ? TextAlign.center : TextAlign.start,
     );
   }
 }

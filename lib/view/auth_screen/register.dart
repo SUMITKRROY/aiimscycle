@@ -22,7 +22,10 @@ import '../../utils/utils.dart';
 import '../extra_screen/exception_screen.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  final String employeeId;
+  final String phone;
+
+  const RegisterPage({required this.employeeId, required this.phone, super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -58,9 +61,13 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     String captcha = generateCaptcha();
     print('Generated CAPTCHA: $captcha');
+
     super.initState();
     passwordVisible = true;
     _otpFocusNodes = List.generate(6, (index) => FocusNode());
+    // Pre-fill the fields with data
+    _employeeID.text = widget.employeeId;
+    _phoneController.text = widget.phone;
   }
 
   void _handleIdFrontImageSelection(File image) {
@@ -174,7 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             fontSize: 16.sp, fontWeight: FontWeight.w400, color: Colors.grey),
                       ),
                       SizedBox(height: 15.h),
-                      CustomText(lable: "Enter your full name"),
+                      CustomText(label: "Enter your full name"),
                       SizedBox(height: 15.h),
                       CustomTextField(
                         inputFormatters: [
@@ -188,9 +195,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         validator: true,
                       ),
                       SizedBox(height: 15.h),
-                      CustomText(lable: "Enter your employee id"),
+                      CustomText(label: "Enter your employee id"),
                       SizedBox(height: 15.h),
                       CustomTextField(
+                        readOnly: true,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(8),
                         ],
@@ -202,9 +210,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         validator: true,
                       ),
                       SizedBox(height: 15.h),
-                      CustomText(lable: "Enter your contact no."),
+                      CustomText(label: "Enter your contact no."),
                       SizedBox(height: 15.h),
                       CustomTextField(
+                        readOnly: true,
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(10),
                         ],
@@ -235,7 +244,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                       ),
                       SizedBox(height: 15.h),
-                      CustomText(lable: "Enter your password"),
+                      CustomText(label: "Enter your password"),
                       SizedBox(height: 15.h),
                       CustomTextField(
                         inputFormatters: [
@@ -251,7 +260,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         maxline: 1,
                       ),
                       SizedBox(height: 15.h),
-                      CustomText(lable: "Enter your conform password"),
+                      CustomText(label: "Enter your conform password"),
                       SizedBox(height: 15.h),
                       CustomTextField(
                         inputFormatters: [

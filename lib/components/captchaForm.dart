@@ -36,7 +36,7 @@ class _CaptchaFormState extends State<CaptchaForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText(lable: "Enter the Captcha"),
+          CustomText(label: "Enter the Captcha"),
           SizedBox(height: 10.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

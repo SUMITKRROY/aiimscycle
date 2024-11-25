@@ -13,6 +13,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../bloc/logger_db_cubit/logger_db_cubit.dart';
 import '../components/logo_image.dart';
 import '../database/table/cycle_table.dart';
+import '../route/pageroute.dart';
+import 'Admin/admin_home_page.dart';
 import 'extra_screen/exception_screen.dart';
 import 'auth_screen/login.dart';
 import 'user/cycle_detail_screen.dart';
@@ -58,17 +60,12 @@ class _SplashScreenState extends State<SplashScreen> {
           if (state is SplashLoadedState) {
             // print(state.checkRole);
             if (state.checkRole == 'ROLE_SuperAdmin' || state.checkRole == 'ROLE_Admin') {
-              Navigator.pushAndRemoveUntil(context,
-                  MaterialPageRoute(builder: (context) => AdminHomePage()), (route) => false);
-              // Navigator.pushReplacement(
-              //     context, MaterialPageRoute(builder: (context) => AdminHomePage()));
+              Navigator.pushReplacementNamed(context, RoutePath.adminHomePage);
             } else if (state.checkRole == 'ROLE_User') {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => HomeScreen()));
+              Navigator.pushReplacementNamed(context, RoutePath.homeScreen);
             }
           } else {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => LoginPage()));
+            Navigator.pushReplacementNamed(context, RoutePath.login);
           }
           if (state is SplashErrorState) {
             // Utils.snackbarToast('Please Define Your Role');

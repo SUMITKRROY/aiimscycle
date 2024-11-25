@@ -5,6 +5,7 @@ import 'package:aiimscycle/database/table/cycle_table.dart';
 import 'package:aiimscycle/route/route_generater.dart';
 import 'package:aiimscycle/view/Admin/admin_home_page.dart';
 import 'package:aiimscycle/view/auth_screen/register.dart';
+import 'package:aiimscycle/view/auth_screen/verify_auth.dart';
 import 'package:aiimscycle/view/user/homeScreen.dart';
 import 'package:aiimscycle/view/user/cycle_detail_screen.dart';
 import 'package:aiimscycle/view/user/resetpassword.dart';
@@ -151,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 16.sp, fontWeight: FontWeight.w400, color: Colors.grey),
                     ),
                     SizedBox(height: 15.h),
-                    CustomText(lable: "Enter your Employee Id"),
+                    CustomText(label: "Enter your Employee Id"),
                     SizedBox(height: 15.h),
                     CustomTextField(
                       inputFormatters: [
@@ -170,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomText(lable: "Enter your password"),
+                        CustomText(label: "Enter your password"),
                         sizedBox,
                         CustomTextField(
                           inputFormatters: [
@@ -235,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                                 onTap: () {
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const RegisterPage()),
+                                    MaterialPageRoute(builder: (context) => const VerifyPhoneNo()),
                                   );
                                 },
                                 child: Text(

@@ -12,6 +12,8 @@ class ApiRoute {
   String makeIssueReq = "$baseurl/user/make-issue-request";
   String withdrawIssueReq = "$baseurl/user/withdrawl-issue-request";
   String makeSurenderReq = "$baseurl/user/make-surrender-request";
+  String sendOtp = "$baseurl/send_otp";
+
   String admin = "$baseurl/";
 
   // admin

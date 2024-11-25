@@ -33,7 +33,7 @@ class DioApi {
     if (isHeader) {
       header = {
         'Content-Type': 'application/json',
-        'Cookie': 'JSESSIONID=${token}',
+         'Cookie': 'JSESSIONID=${token}',
         // 'Cookie': 'JSESSIONID=3BD8AD5EA6210826D46C142EC7F84450',
       };
     } else {
