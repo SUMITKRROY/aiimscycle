@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 15.h),
                     CustomTextField(
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(8),
+                        LengthLimitingTextInputFormatter(20),
                       ],
                       label: 'Employee Id',
                       onChanged: (val) => {},
@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomText(label: "Enter your password"),
+                        CustomText(label: "Enter your Password"),
                         sizedBox,
                         CustomTextField(
                           inputFormatters: [
@@ -250,22 +250,22 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                           SizedBox(height: 15.h),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => ResetPasswordScreen()),
-                              );
-                            },
-                            child: Text(
-                              'Did you forgot  your password ?',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 16.sp,
-                              ),
-                            ),
-                          ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(builder: (context) => ResetPasswordScreen()),
+                          //     );
+                          //   },
+                          //   child: Text(
+                          //     'Did you forgot  your password ?',
+                          //     textAlign: TextAlign.center,
+                          //     style: TextStyle(
+                          //       color: Colors.blue,
+                          //       fontSize: 16.sp,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

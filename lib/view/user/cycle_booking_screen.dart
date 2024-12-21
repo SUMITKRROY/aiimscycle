@@ -67,7 +67,7 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
                 await _refresh();
               },
               child: Padding(
-                padding: EdgeInsets.only(left: 15.w, right: 15.w, top: 20.h),
+                padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 10.h),
                 child: ListView(
                   children: [
                     ClipRRect(
@@ -75,14 +75,14 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
 
                       child: Image.network(
                         GetImageFromUrl.getImage(state.getIssueReqModal.requestedFor?.image1 ?? ''),
-                        height: 300.h,
-                        width: 400.w,
-                        fit: BoxFit.cover,
+                        height: 200.h,
+                        width: 300.w,
+                        fit: BoxFit.fill,
                       ),
                     ),
-                    SizedBox(height: 15.h),
+                    SizedBox(height: 10.h),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -94,7 +94,7 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 10.h),
+                          SizedBox(height: 05.h),
                           // Product Title
                           Text(
                             '${cycleModal.requestedFor?.name ?? ''}',
@@ -102,7 +102,7 @@ class _CycleBookingScreenState extends State<CycleBookingScreen> {
                               fontSize: 16.sp,
                             ),
                           ),
-                          SizedBox(height: 10.h),
+                           SizedBox(height: 05.h),
                           // Product Description
                           Text(
                             '${cycleModal.requestedFor?.category ?? ''}',

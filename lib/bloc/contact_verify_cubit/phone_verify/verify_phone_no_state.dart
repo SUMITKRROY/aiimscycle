@@ -12,9 +12,17 @@ class VerifyPhoneNoSuccess extends VerifyPhoneNoState {
 
   VerifyPhoneNoSuccess({required this.message});
 }
+class VerifyOtpSuccess extends VerifyPhoneNoState {
+}
+
 
 class VerifyPhoneNoError extends VerifyPhoneNoState {
   final String error;
 
   VerifyPhoneNoError({required this.error});
+}
+class VerifyOtpError extends VerifyPhoneNoState {
+  final String error;
+
+  VerifyOtpError({required this.error});
 }

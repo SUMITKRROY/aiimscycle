@@ -36,7 +36,7 @@ class _CaptchaFormState extends State<CaptchaForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText(label: "Enter the Captcha"),
+          CustomText(label: "Enter Captcha"),
           SizedBox(height: 10.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,7 +51,7 @@ class _CaptchaFormState extends State<CaptchaForm> {
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
                       ],
-                      label: 'Enter Captcha',
+                      label: 'Captcha',
                       onChanged: (val) => {},
                       controller: widget.captchaController,
                       validatorFunc: (value) {

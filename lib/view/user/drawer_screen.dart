@@ -80,7 +80,8 @@ class DrawerWidget extends StatelessWidget {
                         const SizedBox(height: 8),
                         // Add some space between avatar and text
                         Text(
-                          state.profileModal.fullname ?? '',
+                          state.profileModal.fullname ??
+                              '',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -174,14 +175,14 @@ class DrawerWidget extends StatelessWidget {
               leadingIcon: const Icon(Icons.home),
               label: 'Home',
               onTap: () => Navigator.pop(context)),
-          CustomListTile(
-            leadingIcon: const Icon(Icons.notification_important),
-            label: 'Notification',
-            onTap: () {
-              Navigator.pop(context);
-              MyRoutes.navigateToNotificationScreen(context);
-            },
-          ),
+          // CustomListTile(
+          //   leadingIcon: const Icon(Icons.notification_important),
+          //   label: 'Notification',
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //     MyRoutes.navigateToNotificationScreen(context);
+          //   },
+          // ),
           // ListTile(
           //   title: const Text('Home'),
           //   onTap: () {

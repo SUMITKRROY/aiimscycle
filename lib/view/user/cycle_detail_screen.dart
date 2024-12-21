@@ -92,9 +92,9 @@ class _CycleDetailPageState extends State<CycleDetailPage> {
                           ClipRRect(borderRadius: BorderRadius.circular(15.r),
                             child: Image.network(
                               GetImageFromUrl.getImage(state.cycleModal.image2 ?? ''),
-                              height: 300.h,
-                              width: 400.w,
-                              fit: BoxFit.cover,
+                              height: 200.h,
+                              width: 300.w,
+                              fit: BoxFit.fill,
                             ),
                           ),
                           SizedBox(height: 25.h),

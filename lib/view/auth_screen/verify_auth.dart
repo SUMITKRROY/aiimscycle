@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../bloc/contact_verify_cubit/verify_phone_no_bloc.dart';
+import '../../bloc/contact_verify_cubit/phone_verify/verify_phone_no_bloc.dart';
 
 import '../../components/appbar.dart';
 import '../../components/custom_TextFeild.dart';
@@ -11,6 +11,7 @@ import '../../components/cutom_text.dart';
 import '../../route/pageroute.dart';
 import '../../route/route_generater.dart';
 import '../../utils/utils.dart';
+import 'login.dart';
 
 class VerifyPhoneNo extends StatefulWidget {
   const VerifyPhoneNo({super.key});
@@ -46,26 +47,20 @@ class _VerifyPhoneNoState extends State<VerifyPhoneNo> {
   }
 
   void _verifyOtp() {
-    if (_otpController.text.isNotEmpty) {
-      // Mock OTP verification logic
-      if (_otpController.text == "123456") {
-        Utils.snackbarToast('OTP verified successfully!');
-        // Navigate to RegisterPage after OTP verification
-        Navigator.pushReplacementNamed(
-          context,
-          RoutePath.registerPage,
-          arguments: RegisterPage(
-            employeeId: _employeeIDController.text,
-            phone: _phoneController.text,
-          ),
-        );
-      } else {
-        Utils.snackbarToast('Invalid OTP. Please try again.');
-      }
+    if (_formKey.currentState!.validate()) {
+      // Dispatching OTP verification event to the Bloc
+      BlocProvider.of<VerifyPhoneNoBloc>(context).add(
+        VerifyOtpEvent(
+          phoneNumber: _phoneController.text.toString(),
+          userId: _employeeIDController.text.toString(),
+          otp: _otpController.text.toString(),
+        ),
+      );
     } else {
       Utils.snackbarToast('Please enter the OTP');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +101,8 @@ class _VerifyPhoneNoState extends State<VerifyPhoneNo> {
                 SizedBox(height: 15.h),
                 CustomTextField(
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(8),
+                    LengthLimitingTextInputFormatter(15),
+                    FilteringTextInputFormatter.allow(RegExp("[a-zA-Z0-9]")),
                   ],
                   label: 'Employee ID',
                   controller: _employeeIDController,
@@ -115,7 +111,7 @@ class _VerifyPhoneNoState extends State<VerifyPhoneNo> {
                   validator: true, onChanged: (String ) {  },
                 ),
                 SizedBox(height: 15.h),
-                CustomText(label: "Enter your contact no."),
+                CustomText(label: "Enter your Phone Number"),
                 SizedBox(height: 15.h),
                 // Phone Field using CustomTextField
                 CustomTextField(
@@ -149,6 +145,7 @@ class _VerifyPhoneNoState extends State<VerifyPhoneNo> {
                     child: const Text('Get OTP'),
                   ),
                 ),
+
                 if (showOtpField) ...[
                   SizedBox(height: 15.h),
                   CustomTextField(
@@ -164,21 +161,57 @@ class _VerifyPhoneNoState extends State<VerifyPhoneNo> {
                       }
                       return null;
                     },
-                    validator: true, onChanged: (String ) {  },
+                    validator: true,
+                    onChanged: (String) {},
                   ),
                   SizedBox(height: 15.h),
-                  BlocBuilder<VerifyPhoneNoBloc, VerifyPhoneNoState>(
-                    builder: (context, state) {
-                      if (state is VerifyPhoneNoLoading) {
-                        return const CircularProgressIndicator();
+                  BlocListener<VerifyPhoneNoBloc, VerifyPhoneNoState>(
+                    listener: (context, state) {
+                      if (state is VerifyOtpSuccess) {
+                        Navigator.pop(context);
+                        Utils.snackbarToast("OTP Verified Successfully!");
+                        Navigator.pushReplacementNamed(
+                          context,
+                          RoutePath.registerPage,
+                          arguments: RegisterPage(
+                            employeeId: _employeeIDController.text,
+                            phone: _phoneController.text,
+                          ),
+                        );
+                      } else if (state is VerifyOtpError) {
+                        Utils.snackbarToast(state.error);
                       }
-                      return ElevatedButton(
-                        onPressed: _verifyOtp,
-                        child: const Text('Verify OTP'),
-                      );
                     },
+                    child: ElevatedButton(
+                      onPressed: _verifyOtp,
+                      child: const Text('Verify OTP'),
+                    ),
                   ),
+
                 ],
+                SizedBox(height: 15.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Already have account? "),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                        );
+                      },
+                      child: const Text(
+                        'Log In',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
               ],
             ),
           ),

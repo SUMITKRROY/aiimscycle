@@ -13,6 +13,7 @@ class ApiRoute {
   String withdrawIssueReq = "$baseurl/user/withdrawl-issue-request";
   String makeSurenderReq = "$baseurl/user/make-surrender-request";
   String sendOtp = "$baseurl/send_otp";
+  String verifyOtp = "$baseurl/verify_otp";
 
   String admin = "$baseurl/";
 

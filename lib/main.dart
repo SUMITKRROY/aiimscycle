@@ -25,7 +25,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'bloc/contact_verify_cubit/verify_phone_no_bloc.dart';
+import 'bloc/contact_verify_cubit/phone_verify/verify_phone_no_bloc.dart';
 import 'bloc/filter_log_cubit/filter_log_cubit.dart';
 import 'bloc/location_cubit/location_cubit.dart';
 import 'bloc/theme_cubit/theme.dart';
@@ -72,6 +72,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<WithdrawIssueReqCubit>(create: (_) => WithdrawIssueReqCubit()),
         BlocProvider<MakeSurrenderReqCubit>(create: (_) => MakeSurrenderReqCubit()),
         BlocProvider<VerifyPhoneNoBloc>(create: (_) => VerifyPhoneNoBloc()),
+
       ],
       child: ScreenUtilInit(
         designSize: const Size(414, 896),
